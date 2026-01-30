@@ -17,12 +17,12 @@ export const apiService = {
       })
 
       if (response.data.token) {
-        localStorage.token = response.data.token;
+        localStorage.token = response.data.token
         auth.isUserLoggedIn = true
         return localStorage.token
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error('Error during login:', error)
       throw error
     }
   },
@@ -81,12 +81,13 @@ export const apiService = {
     if (!localStorage.token) {
       return
     }
-    const response = await axios.get(`${API_URL}/cars`, {
+    const response = await axios.get(`${API_URL}/vehicles`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.token,
       },
     })
+    console.log(response.data)
     return response.data
   },
 
@@ -94,7 +95,7 @@ export const apiService = {
     if (!localStorage.token) {
       return
     }
-    const response = await axios.get(`${API_URL}/cars/${encodeURIComponent(car_id)}`, {
+    const response = await axios.get(`${API_URL}/vehicles/${encodeURIComponent(car_id)}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.token,
@@ -125,7 +126,7 @@ export const apiService = {
     for (let car in store.vehicles) {
       car_ids.push(car.id)
     }
-    const response = await axios.get(`${API_URL}/car/images?car_id`, {
+    const response = await axios.get(`${API_URL}/vehicles/images?car_id`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.token,
@@ -138,13 +139,13 @@ export const apiService = {
     if (!localStorage.token) {
       return
     }
-    const response = await axios.post(`${API_URL}/cars`,
+    const response = await axios.post(`${API_URL}/vehicles`,
       data,
       {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': 'Bearer ' + localStorage.token,
-        }
+        },
       })
     return response
   },
@@ -153,12 +154,12 @@ export const apiService = {
     if (!localStorage.token) {
       return
     }
-    const response = await axios.delete(`${API_URL}/cars/${encodeURIComponent(vehicle_id)}`,
+    const response = await axios.delete(`${API_URL}/vehicles/${encodeURIComponent(vehicle_id)}`,
       {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': 'Bearer ' + localStorage.token,
-        }
+        },
       })
     return response
   },

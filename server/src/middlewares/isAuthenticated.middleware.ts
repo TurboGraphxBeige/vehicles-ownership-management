@@ -29,12 +29,12 @@ declare module 'jsonwebtoken' {
 // Verify if client has a valid token
 function isAuthenticated (req: Request, res: Response, next: NextFunction) {
     try {
-        console.log("isAuthenticatedisAuthenticatedisAuthenticatedisAuthenticatedisAuthenticatedisAuthenticatedisAuthenticatedisAuthenticatedisAuthenticatedisAuthenticated");
         const authHeader = req.headers.authorization;
         const token = authHeader?.split(' ')[1]
         if (!token) { return res.status(401).send('No token provided'); }
         if (!process.env.JWT_SECRET) { return }
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as jwt.JwtPayload;;
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as jwt.JwtPayload;
+        console.log(decodedToken);
         req.client_info = { username: decodedToken.username, user_id: decodedToken.userid, role_id: decodedToken.role_id };
         req.username = decodedToken.username;
         req.user_id = decodedToken.user_id;

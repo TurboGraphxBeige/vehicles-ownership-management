@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import type { Request, Response, NextFunction } from 'express';
-import { pool } from "./index.ts";
+import { pool } from "./index";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -29,20 +29,20 @@ export class Users {
     };
 
     static async login(req: Request, res: Response, next: NextFunction) {
-        console.log("inside the login model fct")
         try {
-            const { username, password } = req.body;
+            console.log('req.body', req.body.username)
+            const username = req.body.username
+            const password = req.body.password;
+
+            if (!username || !password) { res.status(401).json({ message: 'Invalid username or password' }); }
+
             const result = await pool.query('SELECT * FROM viewer.user WHERE username = $1 ', [username]);
             const storedHashedPassword = result.rows[0].password;
             const isValid = await bcrypt.compare(password, storedHashedPassword);
             console.log(password, storedHashedPassword);
             if (isValid) {
                 const token = this.signToken(result.rows[0].username, result.rows[0].user_id, result.rows[0].role_id);
-                const tokenOptions = {
-                    httpOnly: true,
-                    secure: true,
-                };
-                res.status(200).cookie("accessToken", token, tokenOptions).json({ message: 'Login successful', token });
+                res.status(200).json({ token });
             } else {
                 res.status(401).json({ message: 'Invalid username or password' });
             }

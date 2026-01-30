@@ -1,14 +1,15 @@
 import { Pool } from 'pg'; // Import from pg
 import 'dotenv/config';
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
-import { pool } from "./index.ts";
+import { pool } from "./index";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 
 const JWT_SECRET = 'your_jwt_secret_key';
 
-export class Cars {
+export class Vehicles {
     static async getBrands(req: Request, res: Response, next: NextFunction) {
         console.log("inside the getbrands model")
         try {
@@ -32,7 +33,7 @@ export class Cars {
         }
     };
 
-    static async getCars(req: Request, res: Response, next: NextFunction) {
+    static async getVehicles(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await pool.query('SELECT * FROM viewer.vehicle_data WHERE user_id = $1 OR user_id IS NULL', [req.user_id])
             res.json(result.rows);
@@ -43,7 +44,7 @@ export class Cars {
         }
     };
 
-    static async getCar(req: Request, res: Response, next: NextFunction) {
+    static async getVehicle(req: Request, res: Response, next: NextFunction) {
         try {
             console.log('getCar single', req.params)
             const result = await pool.query('SELECT * FROM viewer.car_data WHERE car_id = $1', [req.params.car_id])
@@ -56,7 +57,7 @@ export class Cars {
 
     };
 
-    static async newCar(req: Request, res: Response, next: NextFunction) {
+    static async newVehicle(req: Request, res: Response, next: NextFunction) {
         try {
             //const file = (req as any).file as Express.Multer.File | undefined
             //console.log(file.buffer)

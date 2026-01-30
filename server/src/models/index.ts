@@ -1,8 +1,13 @@
-// src/models/index.ts
+// src/models/index
 import { Pool } from "pg";
+import { Sequelize, Model } from 'sequelize-typescript';
+//const { Sequelize, Model, DataTypes } = require('sequelize');
+import path from "path";
 
-export * from './cars.ts';
-export * from './users.ts';
+
+export * from './vehicles.model';
+export * from './vehicles.model';
+export * from './users';
 
 const pool = new Pool({
     host: process.env.DB_HOST,
@@ -14,6 +19,11 @@ const pool = new Pool({
     connectionTimeoutMillis: 2000,
     maxLifetimeSeconds: 60,
 });
+
+
+
+
+//export { sequelize };
 
 
 export { pool }
