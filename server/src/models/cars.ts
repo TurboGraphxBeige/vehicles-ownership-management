@@ -1,0 +1,100 @@
+import { Pool } from 'pg'; // Import from pg
+import 'dotenv/config';
+import express, { Request, Response, NextFunction } from 'express';
+
+import { pool } from "./index.ts";
+import jwt from "jsonwebtoken";
+import multer from "multer";
+
+const JWT_SECRET = 'your_jwt_secret_key';
+
+export class Cars {
+    static async getBrands(req: Request, res: Response, next: NextFunction) {
+        console.log("inside the getbrands model")
+        try {
+
+            const result = await pool.query('SELECT * FROM viewer.brands')
+            res.json(result.rows);
+
+        } catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    };
+
+    static async getModels(req: Request, res: Response, next: NextFunction) {
+        try {
+            const result = await pool.query('SELECT * FROM viewer.model')
+            res.json(result.rows);
+        } catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    };
+
+    static async getCars(req: Request, res: Response, next: NextFunction) {
+        try {
+            const result = await pool.query('SELECT * FROM viewer.vehicle_data WHERE user_id = $1 OR user_id IS NULL', [req.user_id])
+            res.json(result.rows);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    };
+
+    static async getCar(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log('getCar single', req.params)
+            const result = await pool.query('SELECT * FROM viewer.car_data WHERE car_id = $1', [req.params.car_id])
+            res.json(result.rows);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+    };
+
+    static async newCar(req: Request, res: Response, next: NextFunction) {
+        try {
+            //const file = (req as any).file as Express.Multer.File | undefined
+            //console.log(file.buffer)
+            console.log("req.body", req.body);
+            console.log("req.body_brand", req.body.brand_id);
+            console.log("req.body_brand", req.body.model_id);
+            console.log("req.body_brand", req.body.purchase_date);
+            //console.log("req.body", req);
+            const file = (req as any).file
+            console.log('req.file', (req as any).file) // multer populates this
+
+
+            const result = await pool.query('WITH new_car AS ( INSERT INTO viewer.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id ) INSERT INTO viewer.vehicle_photo (vehicle_id, image) VALUES ((SELECT vehicle_id FROM new_car), $4)', [req.body.model_id, req.body.making_year, req.body.purchase_date, file.buffer]);
+            res.status(201).json(result.rows);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+    };
+
+    static async deleteVehicle(req: Request, res: Response, next: NextFunction) {
+        try {
+            //const file = (req as any).file as Express.Multer.File | undefined
+            //console.log(file.buffer)
+            console.log("req.body", req);
+            console.log("req.vehicle_id", req.params.vehicle_id);
+            const vehicle_id = req.params.vehicle_id;
+            //if (!vehicle_id) { return res.status(400).message('No vehicle id supplied!'); }
+            const result = await pool.query('DELETE FROM viewer.vehicle WHERE vehicle_id = $1', [req.params.vehicle_id]);
+            return res.status(200).json(result.rows);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+    };
+
+}
