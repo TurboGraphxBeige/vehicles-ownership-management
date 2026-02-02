@@ -1,9 +1,9 @@
-import { Brand } from './brand';
-import { VehicleModel } from './model';
-import { Vehicle } from './vehicle';
-import { VehiclePhoto } from './vehicle_photo';
-import { Observation } from "./observation"
-import { User } from './user';
+import { Brand } from './brand.js';
+import { VehicleModel } from './model.js';
+import { Vehicle } from './vehicle.js';
+import { VehiclePhoto } from './vehicle_photo.js';
+import { Observation } from "./observation.js"
+import { User } from './user.js';
 
 export function initAssociations() {
     Vehicle.belongsTo(VehicleModel, { foreignKey: 'model_id', as: 'model' });

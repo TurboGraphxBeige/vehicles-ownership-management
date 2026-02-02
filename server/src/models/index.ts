@@ -5,9 +5,9 @@ import { Sequelize, Model } from 'sequelize-typescript';
 import path from "path";
 
 
-export * from './vehicles.model';
-export * from './vehicles.model';
-export * from './users';
+export * from './vehicles.model.js';
+export * from './vehicles.model.js';
+export * from './users.js';
 
 const pool = new Pool({
     host: process.env.DB_HOST,

@@ -9,10 +9,10 @@ import {
   AllowNull,
   Index,
 } from 'sequelize-typescript';
-import {Vehicle} from "./vehicle";
-import {VehicleComponent} from "./vehicle_component";
-import {VehicleComponentSystem} from "./vehicle_component_system";
-import { Service } from "./service";
+import {Vehicle} from "./vehicle.js";
+import {VehicleComponent} from "./vehicle_component.js";
+import {VehicleComponentSystem} from "./vehicle_component_system.js";
+import { Service } from "./service.js";
 
 @Table({
   tableName: 'observation',

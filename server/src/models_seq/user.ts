@@ -10,8 +10,8 @@ import {
   Index,
   Unique,
 } from 'sequelize-typescript';
-import { Role } from './role';
-import { Vehicle } from "./vehicle";
+import { Role } from './role.js';
+import { Vehicle } from "./vehicle.js";
 
 @Table({
   tableName: 'user',

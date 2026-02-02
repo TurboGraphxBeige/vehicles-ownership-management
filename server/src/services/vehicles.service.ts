@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import {sequelize, Vehicle, VehiclePhoto, Brand, VehicleModel, Observation, User} from '../models_seq/index';
+import {sequelize, Vehicle, VehiclePhoto, Brand, VehicleModel, Observation, User} from '../models_seq/index.js';
 
 export class vehicleService {
 

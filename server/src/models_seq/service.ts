@@ -9,8 +9,8 @@ import {
   AllowNull,
   Index,
 } from 'sequelize-typescript';
-import { Vehicle } from "./vehicle";
-import { Contact } from "./contact";
+import { Vehicle } from "./vehicle.js";
+import { Contact } from "./contact.js";
 
 @Table({
   tableName: 'service',

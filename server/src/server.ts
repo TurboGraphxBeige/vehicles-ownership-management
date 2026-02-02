@@ -1,5 +1,5 @@
 // fileName: server
-import './models_seq/index';
+import './models_seq/index.js';
 import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
@@ -7,9 +7,9 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 
 // Import routes
-import vehicleRoutes from './routes/vehicles.route';
-import brandsRoute from './routes/brands.route';
-import authRoute from './routes/auth.route';
+import vehicleRoutes from './routes/vehicles.route.js';
+import brandsRoute from './routes/brands.route.js';
+import authRoute from './routes/auth.route.js';
 
 const app = express();
 

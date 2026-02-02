@@ -2,13 +2,13 @@
 import express from 'express';
 import 'dotenv/config';
 import multer from 'multer'
-import isAuthenticated from "../middlewares/isAuthenticated.middleware";
+import isAuthenticated from "../middlewares/isAuthenticated.middleware.js";
 import {
     getVehicles,
     getVehicle,
     newVehicle,
     deleteVehicle,
-} from "../controllers/vehicles.controller";
+} from "../controllers/vehicles.controller.js";
 
 // multer memory storage
 const upload = multer({

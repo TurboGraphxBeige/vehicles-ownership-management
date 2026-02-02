@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { Vehicles } from '../models/vehicles.model';
-import { vehicleService } from '../services/vehicles.service';
+import { Vehicles } from '../models/vehicles.model.js';
+import { vehicleService } from '../services/vehicles.service.js';
 
 export const getBrands =  async (req: Request, res: Response, next: NextFunction) => {
 

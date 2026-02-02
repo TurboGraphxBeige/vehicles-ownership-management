@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import request from 'supertest';
 import dotenv from 'dotenv';
 import path from 'path';
-import app from '../server';
+import app from '../server.js';
 
 dotenv.config({
     path: path.resolve('src/tests/.env.test'),

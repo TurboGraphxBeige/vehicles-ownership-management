@@ -9,8 +9,8 @@ import {
   Index,
   ForeignKey, BelongsTo
 } from 'sequelize-typescript';
-import {Vehicle} from "./vehicle";
-import { Brand } from "./brand";
+import {Vehicle} from "./vehicle.js";
+import { Brand } from "./brand.js";
 
 @Table({
   tableName: 'model',

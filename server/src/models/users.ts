@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import type { Request, Response, NextFunction } from 'express';
-import { pool } from "./index";
+import { pool } from "./index.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 

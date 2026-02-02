@@ -8,7 +8,7 @@ import {
   ForeignKey,
   Index,
 } from 'sequelize-typescript';
-import { VehicleComponentSystem } from './vehicle_component_system'; // adjust path as needed
+import { VehicleComponentSystem } from './vehicle_component_system.js'; // adjust path as needed
 
 @Index( 'idx_vehicle_component_system_id')
 @Index( 'idx_vehicle_component_id')

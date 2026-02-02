@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { Users } from '../models/users';
+import { Users } from '../models/users.js';
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {

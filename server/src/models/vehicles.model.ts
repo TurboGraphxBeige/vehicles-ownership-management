@@ -3,7 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 
-import { pool } from "./index";
+import { pool } from "./index.js";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 

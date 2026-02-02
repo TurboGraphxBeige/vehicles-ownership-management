@@ -11,12 +11,12 @@
     "emitDeclarationOnly": false,
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "commonjs",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": false,
-    "target": "es6",
+    "target": "ESNext",
     "types": ["mocha"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

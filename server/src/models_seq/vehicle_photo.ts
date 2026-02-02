@@ -8,7 +8,7 @@ import {
   Default,
   Index, ForeignKey, BelongsTo
 } from 'sequelize-typescript';
-import { Vehicle} from "./vehicle";
+import { Vehicle} from "./vehicle.js";
 
 @Table({
   tableName: 'vehicle_photo',

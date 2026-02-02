@@ -1,13 +1,13 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Brand } from './brand';
-import { Role } from './role';
-import { Contact } from './contact';
-import { Vehicle } from './vehicle';
-import { VehiclePhoto } from './vehicle_photo';
-import { VehicleModel } from './model';
-import { Observation } from './observation';
-import { User } from './user';
-import { initAssociations } from './models-associations';
+import { Brand } from './brand.js';
+import { Role } from './role.js';
+import { Contact } from './contact.js';
+import { Vehicle } from './vehicle.js';
+import { VehiclePhoto } from './vehicle_photo.js';
+import { VehicleModel } from './model.js';
+import { Observation } from './observation.js';
+import { User } from './user.js';
+import { initAssociations } from './models-associations.js';
 import 'dotenv/config';
 
 const DB_HOST = process.env.DB_HOST ?? (() => { throw new Error('DB_HOST missing'); })();

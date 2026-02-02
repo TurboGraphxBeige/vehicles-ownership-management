@@ -9,11 +9,11 @@ import {
   ForeignKey,
   Index, HasMany
 } from 'sequelize-typescript';
-import { Contact } from './contact';
-import { User } from './user';
-import { VehicleModel } from './model';
-import {VehiclePhoto} from "./vehicle_photo"; // if you have a model table named vehicle-model
-import { Observation } from "./observation";
+import { Contact } from './contact.js';
+import { User } from './user.js';
+import { VehicleModel } from './model.js';
+import {VehiclePhoto} from "./vehicle_photo.js"; // if you have a model table named vehicle-model
+import { Observation } from "./observation.js";
 
 @Table({
   tableName: 'vehicle',
