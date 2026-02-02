@@ -1,0 +1,37 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main  # Set the branch you want to trigger on
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '24'  # Specify your Node.js version
+
+    - name: Install dependencies
+      run: |
+        cd server  # Navigate to your Node.js server folder
+        npm install
+
+    - name: Run tests
+      run: |
+        cd server  # Navigate to your Node.js server folder
+        npm test
+
+    - name: Build application
+      run: |
+        cd server  # Navigate to your Node.js server folder
+        npm run build  # If you have a build step
