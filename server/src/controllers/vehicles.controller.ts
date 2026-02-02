@@ -12,7 +12,6 @@ export const getModels =  async (req: Request, res: Response, next: NextFunction
 };
 
 export const getVehicles =  async (req: Request, res: Response, next: NextFunction) => {
-    //Vehicles.getVehicles(req, res, next)
     vehicleService.getVehicles(req, res, next)
 };
 
