@@ -24,12 +24,12 @@ jobs:
     - name: Install dependencies
       run: |
         cd server  # Navigate to your Node.js server folder
-        npm install
+        npm ci
 
     - name: Run tests
       run: |
         cd server  # Navigate to your Node.js server folder
-        npm test
+        npx mocha --require ts-node/register src/tests/**/*.test.ts
 
     - name: Build application
       run: |
