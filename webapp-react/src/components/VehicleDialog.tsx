@@ -211,6 +211,13 @@ function VehicleDialog({isVehicleDialogOpened, onClose, setIsVehicleDialogOpened
                 </Grid>
                 <DialogActions>
                     <Button
+                        color="error"
+                        sx={{mr: 'auto'}}
+                        onClick={onClose}
+                        >
+                        Delete
+                    </Button>
+                    <Button
                         color="primary"
                         sx={{ mr: 2 }}
                         onClick={onClose}

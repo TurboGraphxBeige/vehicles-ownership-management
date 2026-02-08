@@ -22,10 +22,8 @@ function VehicleCards({vehicles, handleOpenVehicleDialog}) {
 
 
     function imageUrl(data) {
-        console.log(data);
         const byteArray = data; // Example array of byte integers
 
-        // Helper function to convert byte array to string safely
         const byteArrayToString = (byteArray) => {
             let str = '';
             for (let i = 0; i < byteArray.length; i += 65536) {
