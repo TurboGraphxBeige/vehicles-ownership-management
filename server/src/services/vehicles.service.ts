@@ -14,7 +14,6 @@ export class vehicleService {
                    { model: User, as: 'user', attributes: ['user_id', 'first_name', 'last_name'] },
                ]
            });
-            console.log('veh' , vehicles);
             return res.status(200).json(vehicles);
         } catch (err) {
             return res.status(500)
@@ -32,7 +31,6 @@ export class vehicleService {
 
                 ]
             });
-            console.log('brand' , brands);
             return res.status(200).json(brands);
         } catch (err) {
             return res.status(500)

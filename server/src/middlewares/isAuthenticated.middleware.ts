@@ -34,7 +34,6 @@ function isAuthenticated (req: Request, res: Response, next: NextFunction) {
         if (!token) { return res.status(401).send('No token provided'); }
         if (!process.env.JWT_SECRET) { return }
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as jwt.JwtPayload;
-        console.log(decodedToken);
         req.client_info = { username: decodedToken.username, user_id: decodedToken.userid, role_id: decodedToken.role_id };
         req.username = decodedToken.username;
         req.user_id = decodedToken.user_id;

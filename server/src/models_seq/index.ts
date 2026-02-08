@@ -8,7 +8,8 @@ import { VehicleModel } from './model.js';
 import { Observation } from './observation.js';
 import { User } from './user.js';
 import { initAssociations } from './models-associations.js';
-import 'dotenv/config';
+//import 'dotenv/config';
+
 
 const DB_HOST = process.env.DB_HOST ?? (() => { throw new Error('DB_HOST missing'); })();
 const DB_USER = process.env.DB_USER ?? (() => { throw new Error('DB_USER missing'); })();
@@ -23,9 +24,9 @@ export const sequelize = new Sequelize({
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
     models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, User],
-
+    logging: false
 });
-console.log(process.env.DB_HOST)
+
 initAssociations();
 
 export { Brand, Role, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, User };

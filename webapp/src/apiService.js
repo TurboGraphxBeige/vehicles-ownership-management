@@ -136,6 +136,7 @@ export const apiService = {
   },
 
   async newCar (data) {
+    console.log(data)
     if (!localStorage.token) {
       return
     }

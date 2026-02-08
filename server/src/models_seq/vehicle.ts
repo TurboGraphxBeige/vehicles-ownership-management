@@ -49,6 +49,9 @@ export class Vehicle extends Model<Vehicle> {
   @Column({ type: DataType.BLOB, field: 'invoice', allowNull: true })
   declare invoice?: Buffer;
 
+  @Column({ type: DataType.BLOB, field: 'main_picture', allowNull: true })
+  declare main_picture?: Buffer;
+
   @ForeignKey(() => User)
   @Index('idx_vehicle_user_id')
   //@Column({ type: DataType.UUID, field: 'user_id', allowNull: true })

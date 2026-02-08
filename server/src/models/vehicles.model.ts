@@ -1,5 +1,5 @@
 import { Pool } from 'pg'; // Import from pg
-import 'dotenv/config';
+//import 'dotenv/config';
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 
@@ -26,6 +26,7 @@ export class Vehicles {
     static async getModels(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await pool.query('SELECT * FROM viewer.model')
+            console.log(result.rows)
             res.json(result.rows);
         } catch (error) {
             console.error('Error fetching data from database:', error);
@@ -62,10 +63,9 @@ export class Vehicles {
             //const file = (req as any).file as Express.Multer.File | undefined
             //console.log(file.buffer)
             console.log("req.body", req.body);
-            console.log("req.body_brand", req.body.brand_id);
             console.log("req.body_brand", req.body.model_id);
             console.log("req.body_brand", req.body.purchase_date);
-            //console.log("req.body", req);
+            console.log("req.body", req);
             const file = (req as any).file
             console.log('req.file', (req as any).file) // multer populates this
 

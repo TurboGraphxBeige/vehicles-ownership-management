@@ -1,6 +1,6 @@
 // routes/members
 import express from 'express';
-import 'dotenv/config';
+//import 'dotenv/config';
 import isAuthenticated from "../middlewares/isAuthenticated.middleware.js";
 import { getModels } from "../controllers/vehicles.controller.js";
 

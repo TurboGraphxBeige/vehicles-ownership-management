@@ -4,9 +4,12 @@ import dotenv from 'dotenv';
 import path from 'path';
 import app from '../server.js';
 
+
 dotenv.config({
-    path: path.resolve('src/tests/.env.test'),
+    path: path.resolve('../.env.test'),
 });
+
+
 
 // Define the type of the response if needed
 interface LoginResponse {
@@ -30,7 +33,7 @@ interface LoginResponse {
 let token: string = '';
 
 describe('POST /login', () => {
-    before(async () => {
+    before('return status 200 and a token', async () => {
         const response = await request(app)
             .post('/v1/login') // Adjust as necessary
             .send({
@@ -44,13 +47,15 @@ describe('POST /login', () => {
         expect(token).to.not.be.null; // Optional assertion to check token was received
     });
 
-    it('should return status 200 and a token', async () => {
+    it('return a list of vehicle object', async () => {
         const res = await request(app)
             .get('/v1/vehicles')
             .set('Authorization', 'Bearer ' + token)
             .expect(200)
-            .expect('Content-Type', /json/);
-            console.log(res.body)
+            .expect('Content-Type', /json/)
+
+        expect(Array.isArray(res.body))
+        console.log(res.body.vehicles)
 
     });
 });
