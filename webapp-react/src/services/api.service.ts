@@ -121,6 +121,19 @@ const apiService = {
         return response
     },
 
+    async deleteVehicle (vehicle_id) {
+        if (!localStorage.token) {
+            return
+        }
+        const response = await axios.delete(`${API_URL}/vehicles/${encodeURIComponent(vehicle_id)}`,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + localStorage.token,
+                },
+            })
+        return response
+    },
 
 }
 

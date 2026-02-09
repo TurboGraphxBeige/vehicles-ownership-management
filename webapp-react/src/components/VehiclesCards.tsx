@@ -63,7 +63,7 @@ function VehicleCards({vehicles, handleOpenVehicleDialog}) {
 
                         </CardContent>
                         <CardActions sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button onClick={handleOpenVehicleDialog} size="small">Open</Button>
+                            <Button onClick={ () => handleOpenVehicleDialog(vehicle)} size="small">Open</Button>
                         </CardActions>
                     </Card>
                 </Grid>

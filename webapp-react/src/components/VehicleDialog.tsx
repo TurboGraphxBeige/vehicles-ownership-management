@@ -32,23 +32,9 @@ import {
 import { styled } from '@mui/material/styles';
 import apiService from "../services/api.service.ts";
 
-function VehicleDialog({isVehicleDialogOpened, onClose, setIsVehicleDialogOpened}) {
+function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle}) {
+    console.log('selectedVehicle', selectedVehicle);
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
-
-    //function handleClose() {
-    //    setOpen(false)
-    //}
     const [selectedBrand, setSelectedBrand] = React.useState('');
     const [selectedModel, setSelectedModel] = React.useState('');
     const [makingYear, setMakingYear] = React.useState('');
@@ -120,8 +106,16 @@ function VehicleDialog({isVehicleDialogOpened, onClose, setIsVehicleDialogOpened
         setSelectedFile(null);
     };
 
+    const buildDialogTitle = () => {
+        const brand_name = selectedVehicle.model.brand.brand_name
+        const model_name = selectedVehicle.model.model_name
+        const making_year = selectedVehicle.making_year
+        return brand_name + ' ' + model_name + ' ' + making_year
+    }
+
     const [selectedFile, setSelectedFile] = React.useState(null);
     return (
+        isVehicleDialogOpened &&
         <Dialog
             open={isVehicleDialogOpened}
             onClose={onClose}
@@ -131,7 +125,7 @@ function VehicleDialog({isVehicleDialogOpened, onClose, setIsVehicleDialogOpened
         >
 
 
-                <DialogTitle align={"center"}>Add New Vehicle</DialogTitle>
+                <DialogTitle align={"center"}>{buildDialogTitle()}</DialogTitle>
 
             <DialogContent>
                 <Grid sx={{padding:1}} container spacing={4}>
@@ -190,7 +184,6 @@ function VehicleDialog({isVehicleDialogOpened, onClose, setIsVehicleDialogOpened
                                 />
                             </Button>
 
-                            {/* Display selected file name */}
                             {selectedFile && (
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                     <Typography variant="body2">
@@ -213,7 +206,7 @@ function VehicleDialog({isVehicleDialogOpened, onClose, setIsVehicleDialogOpened
                     <Button
                         color="error"
                         sx={{mr: 'auto'}}
-                        onClick={onClose}
+                        onClick={ () => deleteVehicle(selectedVehicle.vehicle_id) }
                         >
                         Delete
                     </Button>
@@ -230,7 +223,7 @@ function VehicleDialog({isVehicleDialogOpened, onClose, setIsVehicleDialogOpened
                         disabled={false}
                         onClick={handleAddNewVehicle}
                     >
-                        Add New Vehicle
+                        Update
                     </Button>
                 </DialogActions>
             </DialogContent>

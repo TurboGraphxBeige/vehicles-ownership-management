@@ -15,6 +15,7 @@ function Main() {
     const [vehicles, setVehicles] = useState([])
     const [brands, setBrands] = useState([])
     const [models, setModels] = useState([])
+    const [selectedVehicle, setSelectedVehicle] = useState()
 
     async function fetchVehiclesFromAPI () {
         const api_data = await apiService.getVehicles();
@@ -51,10 +52,21 @@ function Main() {
         setIsNewVehicleDialogOpened(true);
     }
 
-    function handleOpenVehicleDialog() {
+    const handleOpenVehicleDialog = (vehicle) => {
+        setSelectedVehicle(vehicle);
         setIsVehicleDialogOpened(!isVehicleDialogOpened);
     }
 
+    const deleteVehicle = async (vehicleId: string)=> {
+        console.log('deleteVehicle', vehicleId);
+        const res = await apiService.deleteVehicle(vehicleId);
+
+        if (res.status === 200) {
+            fetchVehiclesFromAPI()
+            setIsVehicleDialogOpened(false);
+        }
+        console.log(res)
+    }
 
     return (
         <>
@@ -68,10 +80,8 @@ function Main() {
                 </Button>
             </Box>
             <VehiclesCards vehicles={vehicles} handleOpenVehicleDialog={handleOpenVehicleDialog}/>
-
-
             <NewVehicleDialog brands={brands} models={models} isNewVehicleDialogOpened={isNewVehicleDialogOpened} fetchVehiclesFromAPI={ () => fetchVehiclesFromAPI()} onClose={ () => setIsNewVehicleDialogOpened(false) } />
-            <VehicleDialog isVehicleDialogOpened={isVehicleDialogOpened} onClose={ () => setIsVehicleDialogOpened(false) } />
+            <VehicleDialog selectedVehicle={selectedVehicle} deleteVehicle={deleteVehicle} isVehicleDialogOpened={isVehicleDialogOpened} onClose={ () => setIsVehicleDialogOpened(false) } />
         </>
     )
 }

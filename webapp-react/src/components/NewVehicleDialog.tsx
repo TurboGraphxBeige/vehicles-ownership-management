@@ -32,7 +32,7 @@ import {
 import { styled } from '@mui/material/styles';
 import apiService from "../services/api.service.ts";
 
-function NewVehicleDialog({isVehicleDialogOpened, brands, models, onClose, fetchVehiclesFromAPI}) {
+function NewVehicleDialog({isNewVehicleDialogOpened, brands, models, onClose, fetchVehiclesFromAPI}) {
 
     console.log('Main', models);
 
@@ -126,7 +126,7 @@ function NewVehicleDialog({isVehicleDialogOpened, brands, models, onClose, fetch
     const [selectedFile, setSelectedFile] = React.useState(null);
     return (
         <Dialog
-            open={isVehicleDialogOpened}
+            open={isNewVehicleDialogOpened}
             onClose={onClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
