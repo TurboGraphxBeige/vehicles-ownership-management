@@ -30,6 +30,8 @@ import {
     IconButton
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import apiService from "../services/api.service.ts";
 
 function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle}) {
@@ -121,14 +123,20 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
             onClose={onClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-
+            sx={{
+                '& .MuiDialog-paper': {
+                    width: '75%',
+                    maxWidth: 'none', // Important to override default constraints
+                    margin: '0 auto'  // Centers the dialog
+                }
+            }}
         >
 
 
                 <DialogTitle align={"center"}>{buildDialogTitle()}</DialogTitle>
 
             <DialogContent>
-                <Grid sx={{padding:1}} container spacing={4}>
+                <Grid sx={{padding:0}} container spacing={4}>
 
                     <Grid size={6}>
                         <FormControl variant="outlined"  fullWidth>
@@ -168,6 +176,9 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
                         </LocalizationProvider>
 
                     </Grid>
+
+
+
                     <Grid size={12}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                             {/* File Upload Button */}
@@ -202,6 +213,11 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
                         </Box>
                     </Grid>
                 </Grid>
+                <Tabs  onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="Services" />
+                    <Tab label="Recommendations"  />
+                    <Tab label="Item Three" />
+                </Tabs>
                 <DialogActions>
                     <Button
                         color="error"
