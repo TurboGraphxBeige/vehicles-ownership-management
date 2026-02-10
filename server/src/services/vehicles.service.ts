@@ -1,11 +1,12 @@
 import type { Request, Response, NextFunction } from 'express';
 import {sequelize, Vehicle, VehiclePhoto, Brand, VehicleModel, Observation, User} from '../models_seq/index.js';
+import { pool } from "../models";
 
 export class vehicleService {
 
 
 
-   static async getVehicles(req: Request, res: Response, next: NextFunction) {
+    static async getVehicles(req: Request, res: Response, next: NextFunction) {
        try {
            const vehicles = await Vehicle.findAll({ include: [
                    { model: VehiclePhoto, as: 'photos' },
@@ -36,4 +37,7 @@ export class vehicleService {
             return res.status(500)
         }
     };
+
+
+
 }

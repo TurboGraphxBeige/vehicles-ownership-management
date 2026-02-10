@@ -23,6 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
@@ -32,9 +33,14 @@ import {
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import TabPanel from '@mui/material/Tab';
+import ImageList from '@mui/material/ImageList';
+import {ImageListItem} from "@mui/material";
+import { FaPlus } from 'react-icons/fa';
+
 import apiService from "../services/api.service.ts";
 
-function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle}) {
+function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle, fetchVehiclesFromAPI}) {
     console.log('selectedVehicle', selectedVehicle);
 
     const [selectedBrand, setSelectedBrand] = React.useState('');
@@ -108,6 +114,25 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
         setSelectedFile(null);
     };
 
+    const handleFileUpload = async () => {
+        const fd = new FormData()
+        // selectedFile.vehicle_id
+        fd.append('vehicle_id', selectedVehicle.vehicle_id)
+        fd.append('mimetype', 'image/jpeg')
+        fd.append('original_name', '')
+        fd.append('file', selectedFile)
+        console.log('handleFileUpload', fd);
+
+        const res = await apiService.uploadImage(fd)
+
+        if (res.status === 201) {
+            fetchVehiclesFromAPI()
+            setSelectedFile(null);
+            onClose
+            console.log(res)
+        }
+
+    };
     const buildDialogTitle = () => {
         const brand_name = selectedVehicle.model.brand.brand_name
         const model_name = selectedVehicle.model.model_name
@@ -116,6 +141,73 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
     }
 
     const [selectedFile, setSelectedFile] = React.useState(null);
+
+    const tabsList: string[] = ['Photos', 'Services', 'Observations']
+
+    const [selectedTab, setSelectedTab] = React.useState(tabsList[0]);
+
+    const handleTabChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+
+    const handleImageClick = (item) => {
+        console.log(item);
+    }
+
+
+
+    const itemData = [
+        {
+            img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+            title: 'Breakfast',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+            title: 'Burger',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+            title: 'Camera',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+            title: 'Coffee',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+            title: 'Hats',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+            title: 'Honey',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
+            title: 'Basketball',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+            title: 'Fern',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
+            title: 'Mushrooms',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
+            title: 'Tomato basil',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
+            title: 'Sea star',
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
+            title: 'Bike',
+        },
+    ];
+
+
     return (
         isVehicleDialogOpened &&
         <Dialog
@@ -180,44 +272,95 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
 
 
                     <Grid size={12}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            {/* File Upload Button */}
-                            <Button
-                                component="label"
-                                variant="contained"
-                                startIcon={<CloudUploadIcon />}
-                            >
-                                Main Picture
-                                <VisuallyHiddenInput
-                                    type="file"
-                                    onChange={handleFileChange}
-                                    accept="image/jpeg"
-                                />
-                            </Button>
 
-                            {selectedFile && (
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <Typography variant="body2">
-                                        {selectedFile.name}
-                                    </Typography>
-                                    <IconButton
-                                        color="error"
-                                        onClick={handleFileDelete}
-                                        size="small"
-                                    >
-                                        <DeleteIcon fontSize="small" />
-                                    </IconButton>
-                                </Box>
-                            )}
-
-                        </Box>
                     </Grid>
                 </Grid>
-                <Tabs  onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Services" />
-                    <Tab label="Recommendations"  />
-                    <Tab label="Item Three" />
-                </Tabs>
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs
+                            value={selectedTab}
+                            onChange={handleTabChange}
+                            aria-label="basic tabs example"
+                        >
+
+                                    <Tab label='Photos' value='Photos'/>
+                                    <Tab label='Services' value='Services'/>
+                                    <Tab label='Observations' value='Observations'/>
+
+
+                        </Tabs>
+                    </Box>
+
+                    {/* Tab Panels */}
+                    {selectedTab === 'Photos' && (
+                        <>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                {/* File Upload Button */}
+                                <Button
+                                    sx={{marginTop: 1}}
+                                    component="label"
+                                    variant="contained"
+                                    startIcon={<FaPlus  />}
+                                >
+                                    <Typography>Add</Typography>
+                                    <VisuallyHiddenInput
+                                        type="file"
+                                        onChange={handleFileChange}
+                                        accept="image/jpeg"
+                                    />
+                                </Button>
+
+                                {/* Display selected file name */}
+                                {selectedFile && (
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+
+                                        <IconButton
+                                            color="error"
+                                            onClick={handleFileDelete}
+                                            size="small"
+                                        >
+                                            <DeleteIcon fontSize="small" />
+                                        </IconButton>
+                                        <IconButton
+                                            color="success"
+                                            onClick={handleFileUpload}
+                                            size="small"
+                                        >
+                                            <CheckIcon fontSize="small" />
+                                        </IconButton>
+                                        <Typography variant="body2">
+                                            {selectedFile.name}
+                                        </Typography>
+                                    </Box>
+                                )}
+
+                            </Box>
+                        <ImageList sx={{ width: '100%', height: 400 }} cols={3} rowHeight={'auto'}>
+                            {itemData.map((item) => (
+                                <ImageListItem
+                                    key={item.img}
+                                    onClick={() => handleImageClick(item)}
+                                    sx={{ cursor: 'pointer'}}
+                                >
+                                    <img
+                                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                                        alt={item.title}
+                                        loading="lazy"
+
+                                    />
+                                </ImageListItem>
+                            ))}
+                        </ImageList>
+                        </>
+                    )}
+                    {selectedTab === 'Services' && (
+                        <Typography>**Content for Tab 2**</Typography>
+                    )}
+                    {selectedTab === 'Observations' && (
+                        <Typography>**Content for Tab 3**</Typography>
+                    )}
+                </Box>
                 <DialogActions>
                     <Button
                         color="error"

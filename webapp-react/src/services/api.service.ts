@@ -135,6 +135,24 @@ const apiService = {
         return response
     },
 
+    async uploadImage (data) {
+
+        if (!localStorage.token) {
+            return
+        }
+
+        const vehicle_id: string = data.get('vehicle_id')
+        const response = await axios.post(API_URL + '/vehicles/' + vehicle_id + '/images',
+            data,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + localStorage.token,
+                },
+            })
+        return response
+    },
+
 }
 
 export default apiService;

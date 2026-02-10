@@ -98,4 +98,28 @@ export class Vehicles {
 
     };
 
+    static async newVehicleImage(req: Request, res: Response, next: NextFunction) {
+        try {
+            //const file = (req as any).file as Express.Multer.File | undefined
+            //console.log(file.buffer)
+            console.log("req.body", req.body);
+            console.log("req.body_brand", req.body.model_id);
+            console.log("req.body_brand", req.body.purchase_date);
+            console.log("req.body", req);
+            const file = (req as any).file
+            console.log('req.file', (req as any).file) // multer populates this
+
+
+            const result = await pool.query('INSERT INTO viewer.vehicle_photo (vehicle_id, mimetype, original_name, image) VALUES ($1, $2, $3, $4) RETURNING *', [req.body.vehicle_id, req.body.mimetype, req.body.original_name, file.buffer]);
+            res.status(201).json(result.rows);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+    };
+
+
+
 }

@@ -16,6 +16,8 @@ function Main() {
     const [brands, setBrands] = useState([])
     const [models, setModels] = useState([])
     const [selectedVehicle, setSelectedVehicle] = useState()
+    const [isNewVehicleDialogOpened, setIsNewVehicleDialogOpened] = useState<boolean>(false);
+    const [isVehicleDialogOpened, setIsVehicleDialogOpened] = useState<boolean>(false);
 
     async function fetchVehiclesFromAPI () {
         const api_data = await apiService.getVehicles();
@@ -27,8 +29,6 @@ function Main() {
             await fetchVehiclesFromAPI();
 
         };
-
-
 
         const fetchBrands = async () => {
             const api_data = await apiService.getBrands();
@@ -45,8 +45,6 @@ function Main() {
         fetchVehicles();
     }, []);
 
-    const [isNewVehicleDialogOpened, setIsNewVehicleDialogOpened] = useState<boolean>(false);
-    const [isVehicleDialogOpened, setIsVehicleDialogOpened] = useState<boolean>(false);
 
     function handleOpenNewVehicleDialog() {
         setIsNewVehicleDialogOpened(true);
@@ -56,6 +54,7 @@ function Main() {
         setSelectedVehicle(vehicle);
         setIsVehicleDialogOpened(!isVehicleDialogOpened);
     }
+
 
     const deleteVehicle = async (vehicleId: string)=> {
         console.log('deleteVehicle', vehicleId);
@@ -81,7 +80,7 @@ function Main() {
             </Box>
             <VehiclesCards vehicles={vehicles} handleOpenVehicleDialog={handleOpenVehicleDialog}/>
             <NewVehicleDialog brands={brands} models={models} isNewVehicleDialogOpened={isNewVehicleDialogOpened} fetchVehiclesFromAPI={ () => fetchVehiclesFromAPI()} onClose={ () => setIsNewVehicleDialogOpened(false) } />
-            <VehicleDialog selectedVehicle={selectedVehicle} deleteVehicle={deleteVehicle} isVehicleDialogOpened={isVehicleDialogOpened} onClose={ () => setIsVehicleDialogOpened(false) } />
+            <VehicleDialog selectedVehicle={selectedVehicle} deleteVehicle={deleteVehicle} isVehicleDialogOpened={isVehicleDialogOpened} onClose={ () => setIsVehicleDialogOpened(false) } fetchVehiclesFromAPI={ () => fetchVehiclesFromAPI() } />
         </>
     )
 }

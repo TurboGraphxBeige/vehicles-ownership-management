@@ -8,6 +8,7 @@ import {
     getVehicle,
     newVehicle,
     deleteVehicle,
+    newVehicleImage,
 } from "../controllers/vehicles.controller.js";
 
 // multer memory storage
@@ -25,6 +26,7 @@ router.get('/vehicles', getVehicles);
 router.get('/vehicles/:vehicle_id', getVehicle);    // single
 router.post('/vehicles', upload.single('file'), newVehicle)
 router.delete('/vehicles/:vehicle_id', deleteVehicle)
+router.post('/vehicles/:vehicle_id/images', upload.single('file'), newVehicleImage)
 
 // Export the router module so that server can use it
 export default router;
