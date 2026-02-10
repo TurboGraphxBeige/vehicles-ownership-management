@@ -120,6 +120,18 @@ export class Vehicles {
 
     };
 
+    // TODO: Handle ownership of the vehicle here. You can't delete a photo that does not belong to a vehicle not associated to the user
+    static async deleteVehicleImage(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log("req.body", req);
 
+            const result = await pool.query('DELETE FROM viewer.vehicle_photo WHERE vehicle_id = $1 AND vehicle_photo_id = $2 RETURNING *', [req.params.vehicle_id, req.params.vehicle_photo_id]);
+            res.status(201).json(result.rows);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    };
 
 }

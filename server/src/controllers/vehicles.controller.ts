@@ -32,6 +32,10 @@ export const newVehicleImage =  async (req: Request, res: Response, next: NextFu
     Vehicles.newVehicleImage(req, res, next)
 };
 
+export const deleteVehicleImage =  async (req: Request, res: Response, next: NextFunction) => {
+    Vehicles.deleteVehicleImage(req, res, next)
+};
+
 //export const getVehicles = async (req: Request, res: Response, next: NextFunction) => {
 //    vehicleService.getVehicles(req, res, next)
 //};

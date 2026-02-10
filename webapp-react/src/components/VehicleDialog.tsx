@@ -37,6 +37,7 @@ import TabPanel from '@mui/material/Tab';
 import ImageList from '@mui/material/ImageList';
 import {ImageListItem} from "@mui/material";
 import { FaPlus } from 'react-icons/fa';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import apiService from "../services/api.service.ts";
 
@@ -129,10 +130,35 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
             fetchVehiclesFromAPI()
             setSelectedFile(null);
             onClose
-            console.log(res)
+            console.log('selectedVehicle.photos', res)
+            console.log(selectedVehicle.photos, selectedVehicle.photos)
+            selectedVehicle.photos.push(res.data[0])
+            console.log("after", selectedVehicle.photos)
         }
 
     };
+
+
+    const handleDeleteImage = async (photo) => {
+        const photo_id: string = photo.vehicle_photo_id;
+        const vehicle_id: string = photo.vehicle_id;
+        console.log('handleDeleteImage', photo_id);
+
+        const res = await apiService.deleteImage(vehicle_id, photo_id)
+
+        if (res.status === 201) {
+            fetchVehiclesFromAPI()
+            setSelectedFile(null);
+            onClose
+            console.log('selectedVehicle.photos', res)
+            console.log(selectedVehicle.photos, selectedVehicle.photos)
+            selectedVehicle.photos.push(res.data[0])
+            console.log("after", selectedVehicle.photos)
+        }
+
+    };
+
+
     const buildDialogTitle = () => {
         const brand_name = selectedVehicle.model.brand.brand_name
         const model_name = selectedVehicle.model.model_name
@@ -171,57 +197,6 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
         const image = `data:image/jpeg;base64,${base64String}`;
         return image;
     }
-
-    const itemData = [
-        {
-            img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-            title: 'Breakfast',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-            title: 'Burger',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-            title: 'Camera',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-            title: 'Coffee',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-            title: 'Hats',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-            title: 'Honey',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-            title: 'Basketball',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-            title: 'Fern',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-            title: 'Mushrooms',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-            title: 'Tomato basil',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-            title: 'Sea star',
-        },
-        {
-            img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-            title: 'Bike',
-        },
-    ];
 
 
     return (
@@ -309,7 +284,7 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
 
                     {/* Tab Panels */}
                     {selectedTab === 'Photos' && (
-                        <>
+                        <Box sx={{ width: '100%', height: 500 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                                 {/* File Upload Button */}
                                 <Button
@@ -329,14 +304,6 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
                                 {/* Display selected file name */}
                                 {selectedFile && (
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-
-                                        <IconButton
-                                            color="error"
-                                            onClick={handleFileDelete}
-                                            size="small"
-                                        >
-                                            <DeleteIcon fontSize="small" />
-                                        </IconButton>
                                         <IconButton
                                             color="success"
                                             onClick={handleFileUpload}
@@ -344,6 +311,15 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
                                         >
                                             <CheckIcon fontSize="small" />
                                         </IconButton>
+                                        <IconButton
+                                            color="error"
+                                            onClick={handleFileDelete}
+                                            size="small"
+
+                                        >
+                                            <ClearIcon fontSize="small" />
+                                        </IconButton>
+
                                         <Typography variant="body2">
                                             {selectedFile.name}
                                         </Typography>
@@ -351,27 +327,47 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
                                 )}
 
                             </Box>
-                        <ImageList sx={{ width: '100%', height: 400 }} cols={3} rowHeight={'auto'}>
+                        <ImageList sx={{ width: '100%', height: '85%' }} cols={3} rowHeight={'auto'}>
                             {photos.map((photo) => (
                                 <ImageListItem
                                     key={photo.vehicle_photo_id}
-                                    onClick={() => handleImageClick(photo)}
+
                                     sx={{ cursor: 'pointer'}}
                                 >
-                                    <img
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 8,
+                                            right: 8,
+                                            zIndex: 2000,
+                                            borderRadius: '50%', // Optional: round the background
+                                        }}
+                                    >
 
+                                        <Button sx={{
+                                            minWidth: 'auto',
+                                            minHeight: 'auto',
+                                            width: 'auto',
+                                            height: 'auto',
+                                            padding: 1, m:0, backgroundColor: 'black'}}
+                                                onClick={() => handleDeleteImage(photo)}
+                                        ><ClearIcon color={"error"} fontSize="small" /></Button>
+                                    </Box>
+                                    <img
                                         src={imageUrl(photo.image.data)}
                                         alt={photo.original_name}
                                         loading="lazy"
-
+                                        onClick={() => handleImageClick(photo)}
                                     />
                                 </ImageListItem>
                             ))}
                         </ImageList>
-                        </>
+                        </Box>
                     )}
                     {selectedTab === 'Services' && (
+                        <Box sx={{ width: '100%' }}>
                         <Typography>**Content for Tab 2**</Typography>
+                        </Box>
                     )}
                     {selectedTab === 'Observations' && (
                         <Typography>**Content for Tab 3**</Typography>
