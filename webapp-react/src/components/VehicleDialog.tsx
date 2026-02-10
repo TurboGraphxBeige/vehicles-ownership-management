@@ -154,7 +154,23 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
         console.log(item);
     }
 
+    const photos = selectedVehicle.photos
 
+    function imageUrl(data) {
+        const byteArray = data; // Example array of byte integers
+
+        const byteArrayToString = (byteArray) => {
+            let str = '';
+            for (let i = 0; i < byteArray.length; i += 65536) {
+                str += String.fromCharCode.apply(null, byteArray.slice(i, i + 65536));
+            }
+            return str;
+        };
+
+        const base64String = btoa(byteArrayToString(byteArray));
+        const image = `data:image/jpeg;base64,${base64String}`;
+        return image;
+    }
 
     const itemData = [
         {
@@ -336,16 +352,16 @@ function VehicleDialog({selectedVehicle, isVehicleDialogOpened, onClose, setIsVe
 
                             </Box>
                         <ImageList sx={{ width: '100%', height: 400 }} cols={3} rowHeight={'auto'}>
-                            {itemData.map((item) => (
+                            {photos.map((photo) => (
                                 <ImageListItem
-                                    key={item.img}
-                                    onClick={() => handleImageClick(item)}
+                                    key={photo.vehicle_photo_id}
+                                    onClick={() => handleImageClick(photo)}
                                     sx={{ cursor: 'pointer'}}
                                 >
                                     <img
-                                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                                        alt={item.title}
+
+                                        src={imageUrl(photo.image.data)}
+                                        alt={photo.original_name}
                                         loading="lazy"
 
                                     />

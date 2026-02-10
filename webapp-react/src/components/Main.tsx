@@ -80,7 +80,9 @@ function Main() {
             </Box>
             <VehiclesCards vehicles={vehicles} handleOpenVehicleDialog={handleOpenVehicleDialog}/>
             <NewVehicleDialog brands={brands} models={models} isNewVehicleDialogOpened={isNewVehicleDialogOpened} fetchVehiclesFromAPI={ () => fetchVehiclesFromAPI()} onClose={ () => setIsNewVehicleDialogOpened(false) } />
-            <VehicleDialog selectedVehicle={selectedVehicle} deleteVehicle={deleteVehicle} isVehicleDialogOpened={isVehicleDialogOpened} onClose={ () => setIsVehicleDialogOpened(false) } fetchVehiclesFromAPI={ () => fetchVehiclesFromAPI() } />
+            {selectedVehicle ? (
+                <VehicleDialog selectedVehicle={selectedVehicle} deleteVehicle={deleteVehicle} isVehicleDialogOpened={isVehicleDialogOpened} onClose={ () => setIsVehicleDialogOpened(false) } fetchVehiclesFromAPI={ () => fetchVehiclesFromAPI() } />
+                ) : null}
         </>
     )
 }
