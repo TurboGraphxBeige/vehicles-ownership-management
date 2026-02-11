@@ -3,6 +3,7 @@ import { VehicleModel } from './model.js';
 import { Vehicle } from './vehicle.js';
 import { VehiclePhoto } from './vehicle_photo.js';
 import { Observation } from "./observation.js"
+import { Service } from './service.js';
 import { User } from './user.js';
 
 export function initAssociations() {
@@ -17,6 +18,9 @@ export function initAssociations() {
 
     Vehicle.hasMany(VehiclePhoto, { foreignKey: 'vehicle_id', as: 'photos' });
     VehiclePhoto.belongsTo(Vehicle, { foreignKey: 'vehicle_id', as: 'vehicle' });
+
+    Vehicle.hasMany(Service, { foreignKey: 'vehicle_id', as: 'services' });
+    Service.belongsTo(Vehicle, { foreignKey: 'vehicle_id', as: 'vehicle' });
 
     Vehicle.hasMany(Observation, { foreignKey: 'vehicle_id', as: 'observations' });
     Observation.hasOne(Vehicle, { foreignKey: 'vehicle_id', as: 'observations' });

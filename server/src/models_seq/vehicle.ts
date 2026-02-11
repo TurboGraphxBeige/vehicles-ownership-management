@@ -14,6 +14,7 @@ import { User } from './user.js';
 import { VehicleModel } from './model.js';
 import {VehiclePhoto} from "./vehicle_photo.js"; // if you have a model table named vehicle-model
 import { Observation } from "./observation.js";
+import { Service} from "./service.js";
 
 @Table({
   tableName: 'vehicle',
@@ -64,6 +65,7 @@ export class Vehicle extends Model<Vehicle> {
 
 
   declare photos: VehiclePhoto[];
+  declare services: Service[];
   declare observations: Observation[];
   declare model: VehicleModel;
   declare user: User;

@@ -22,6 +22,7 @@ function VehicleCards({vehicles, handleOpenVehicleDialog}) {
 
 
     function imageUrl(data) {
+        if (!data) return;
         const byteArray = data; // Example array of byte integers
 
         const byteArrayToString = (byteArray) => {
@@ -51,7 +52,7 @@ function VehicleCards({vehicles, handleOpenVehicleDialog}) {
                                 sx={{ objectFit: "contain", maxHeight: 200 }}
                                 component="img"
 
-                                image={imageUrl(vehicle.photos[0].image.data)}
+                                image={imageUrl(vehicle.photos?.[0]?.image?.data)}
                                 title="green iguana"
                             />
                             <Typography variant="h4" component="div">

@@ -9,29 +9,27 @@ import {
   AllowNull,
   Index,
 } from 'sequelize-typescript';
-import { Vehicle } from "./vehicle.js";
 import { Contact } from "./contact.js";
+import { Vehicle } from "./vehicle.js";
 
 @Table({
   tableName: 'service',
   schema: 'viewer',
   timestamps: false,
-  indexes: [
-    { name: 'idx_service_contact_id', fields: ['contact_id'] },
-    { name: 'idx_service_vehicle_id', fields: ['vehicle_id'] },
-    { name: 'service_pkey', unique: true, fields: ['service_id'] },
-  ],
 })
+
 export class Service extends Model<Service> {
   @PrimaryKey
   @Default(DataType.UUIDV4)
-  @Column({ type: DataType.UUID, allowNull: true })
-  declare service_id?: string | null;
+  @Column({ type: DataType.UUID, allowNull: false })
+  declare service_id?: string;
 
-  @ForeignKey(() => Vehicle) // replace with actual Vehicle model when available
+  @ForeignKey(() => Vehicle) // replace with actual Vehicle model class when available
   @AllowNull(true)
   @Column({ type: DataType.UUID, allowNull: true })
   declare vehicle_id?: string | null;
+
+  declare vehicle: Vehicle;
 
   @AllowNull(true)
   @Column({ type: DataType.DATEONLY, allowNull: true })

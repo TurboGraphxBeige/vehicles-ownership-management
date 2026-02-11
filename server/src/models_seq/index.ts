@@ -7,6 +7,7 @@ import { VehiclePhoto } from './vehicle_photo.js';
 import { VehicleModel } from './model.js';
 import { Observation } from './observation.js';
 import { User } from './user.js';
+import { Service } from './service.js';
 import { initAssociations } from './models-associations.js';
 //import 'dotenv/config';
 
@@ -23,10 +24,10 @@ export const sequelize = new Sequelize({
     password: DB_PWD,
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
-    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, User],
+    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User],
     logging: false
 });
 
 initAssociations();
 
-export { Brand, Role, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, User };
+export { Brand, Role, Contact, Vehicle, Service, VehiclePhoto, VehicleModel, Observation, User };

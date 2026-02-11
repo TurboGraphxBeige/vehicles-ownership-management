@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import {sequelize, Vehicle, VehiclePhoto, Brand, VehicleModel, Observation, User} from '../models_seq/index.js';
+import {sequelize, Vehicle, VehiclePhoto, Service, Brand, VehicleModel, Observation, User} from '../models_seq/index.js';
 import { pool } from "../models";
 
 export class vehicleService {
@@ -10,6 +10,7 @@ export class vehicleService {
        try {
            const vehicles = await Vehicle.findAll({ include: [
                    { model: VehiclePhoto, as: 'photos' },
+                   { model: Service, as: 'services' },
                    { model: Observation, as: 'observations' },
                    { model: VehicleModel, as: 'model', include: [{ model: Brand, as: 'brand' }] },
                    { model: User, as: 'user', attributes: ['user_id', 'first_name', 'last_name'] },
