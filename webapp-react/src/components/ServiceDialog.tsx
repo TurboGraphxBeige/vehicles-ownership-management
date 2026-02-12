@@ -43,20 +43,15 @@ import ConfirmDelete from "./ConfirmDelete.tsx"
 import ImageCarousel from "./ImageCarousel";
 import TableList from "./TableList.tsx";
 
-function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle, fetchVehiclesFromAPI}) {
-    console.log('selectedVehicle', selectedVehicle);
+function ServiceDialog({selectedVehicle, selectedService, brands, models, isServiceDialogOpened, closeServiceDialog, setisServiceDialogOpened, deleteVehicle, fetchVehiclesFromAPI}) {
+    console.log('selectedService', selectedService);
 
-    const [selectedBrand, setSelectedBrand] = React.useState('');
-    const [selectedModel, setSelectedModel] = React.useState('');
-    const [makingYear, setMakingYear] = React.useState('');
+
     const [purchaseDate, setPurchaseDate] = React.useState('');
     const [pricePaid, setPricePaid] = React.useState('');
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
 
     useEffect(()=>  {
-        setSelectedBrand(selectedVehicle.model.brand.brand_id)
-        setSelectedModel(selectedVehicle.model.model_id)
-        setMakingYear(selectedVehicle.making_year)
         setPurchaseDate(selectedVehicle.purchase_date)
     }, []);
 
@@ -118,14 +113,14 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
 
         if (res.status === 201) {
             fetchVehiclesFromAPI()
-            onClose
+            closeServiceDialog
             console.log(res)
         }
 
     }
 
     const handleCancel = () => {
-        setIsVehicleDialogOpened
+        setisServiceDialogOpened
     }
 
     const handleFileChange = (event) => {
@@ -151,11 +146,10 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
         if (res.status === 201) {
             fetchVehiclesFromAPI()
             setSelectedFile(null);
-            onClose
-            console.log('selectedVehicle.photos', res)
-            console.log(selectedVehicle.photos, selectedVehicle.photos)
+            closeServiceDialog
+
             selectedVehicle.photos.push(res.data[0])
-            console.log("after", selectedVehicle.photos)
+
         }
 
     };
@@ -171,7 +165,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
         if (res.status === 201) {
             fetchVehiclesFromAPI()
             setSelectedFile(null);
-            onClose
+            closeServiceDialog
             selectedVehicle.photos.forEach((photo, index) => {
                 if (photo_id === photo.vehicle_photo_id) {
                     selectedVehicle.photos.splice(index, 1)
@@ -183,10 +177,8 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
 
 
     const buildDialogTitle = () => {
-        const brand_name = selectedVehicle.model.brand.brand_name
-        const model_name = selectedVehicle.model.model_name
-        const making_year = selectedVehicle.making_year
-        return brand_name + ' ' + model_name + ' ' + making_year
+        const service_date = selectedService.service_date
+        return service_date
     }
 
     const [selectedFile, setSelectedFile] = React.useState(null);
@@ -203,7 +195,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
         console.log(item);
     }
 
-    const photos = selectedVehicle.photos
+
 
     function imageUrl(data) {
         const byteArray = data; // Example array of byte integers
@@ -224,11 +216,11 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
 
     return (
 
-            isVehicleDialogOpened && (
+            isServiceDialogOpened && (
             <>
             <Dialog
-                open={isVehicleDialogOpened}
-                onClose={onClose}
+                open={isServiceDialogOpened}
+                onClose={closeServiceDialog()}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 sx={{
@@ -247,41 +239,13 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                     <Grid sx={{padding:1}} container spacing={2}>
 
                         <Grid size={6}>
-                            <FormControl variant="outlined"  fullWidth>
-                                <InputLabel id="first-select-label">Brand</InputLabel>
-                                <Select
-                                    labelId="first-select-label"
-                                    value={selectedBrand}
-                                    label="Brand"
-                                    onChange={handleChange('brand')}
-                                >
-                                    {brands.map((brand) => (
-                                        <MenuItem key={brand.brand_id} value={brand.brand_id}> {brand.brand_name}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid  size={6}>
-                            <FormControl variant="outlined"  fullWidth>
-                                <InputLabel id="first-select-label">Model</InputLabel>
-                                <Select
-                                    labelId="first-select-label"
-                                    value={selectedModel}
-                                    label="Model"
-                                    onChange={handleChange('model')}
-                                >
-                                    {models.map((model) => (
-                                        <MenuItem key={model.model_id} value={model.model_id}> {model.model_name}</MenuItem>
-                                    ))}
-                                </Select>
+                            <FormControl variant="outlined" fullWidth>
+                                <TextField value={selectedService.service_date} id="standard-basic" label="Making Year" variant="standard" onChange={ (event) => setMakingYear(event.target.value) } />
                             </FormControl>
                         </Grid>
 
                         <Grid size={6}>
-                            <FormControl variant="outlined" fullWidth>
-                                <TextField value={makingYear} id="standard-basic" label="Making Year" variant="standard" onChange={ (event) => setMakingYear(event.target.value) } />
 
-                            </FormControl>
                         </Grid>
                         <Grid size={6}>
                             <FormControl variant="outlined" fullWidth>
@@ -313,117 +277,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                         </Grid>
                     </Grid>
                     <Box sx={{ width: '100%' }}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Tabs
-                                value={selectedTab}
-                                onChange={handleTabChange}
-                                aria-label="basic tabs example"
-                            >
 
-                                        <Tab label='Photos' value='Photos'/>
-                                        <Tab label='Services' value='Services'/>
-                                        <Tab label='Observations' value='Observations'/>
-
-
-                            </Tabs>
-                        </Box>
-
-                        {/* Tab Panels */}
-                        {selectedTab === 'Photos' && (
-                            <Box sx={{ width: '100%', height: 500 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                    {/* File Upload Button */}
-                                    <Button
-                                        sx={{marginTop: 1}}
-                                        component="label"
-                                        variant="contained"
-                                        startIcon={<FaPlus  />}
-                                    >
-                                        <Typography>Add</Typography>
-                                        <VisuallyHiddenInput
-                                            type="file"
-                                            onChange={handleFileChange}
-                                            accept="image/jpeg"
-                                        />
-                                    </Button>
-
-                                    {/* Display selected file name */}
-                                    {selectedFile && (
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <IconButton
-                                                color="success"
-                                                onClick={handleFileUpload}
-                                                size="small"
-                                            >
-                                                <CheckIcon fontSize="small" />
-                                            </IconButton>
-                                            <IconButton
-                                                color="error"
-                                                onClick={handleFileDelete}
-                                                size="small"
-
-                                            >
-                                                <ClearIcon fontSize="small" />
-                                            </IconButton>
-
-                                            <Typography variant="body2">
-                                                {selectedFile.name}
-                                            </Typography>
-                                        </Box>
-                                    )}
-
-                                </Box>
-                            <ImageList sx={{ width: '100%', height: '85%' }} cols={3} rowHeight={'auto'}>
-                                {photos.map((photo) => (
-                                    <ImageListItem
-                                        key={photo.vehicle_photo_id}
-
-                                        sx={{ cursor: 'pointer'}}
-                                    >
-                                        <Box
-                                            sx={{
-                                                position: 'absolute',
-                                                top: 8,
-                                                right: 8,
-                                                zIndex: 2000,
-                                                borderRadius: '50%', // Optional: round the background
-                                            }}
-                                        >
-
-                                            <Button sx={{
-                                                minWidth: 'auto',
-                                                minHeight: 'auto',
-                                                width: 'auto',
-                                                height: 'auto',
-                                                backgroundColor: '#00000025',
-                                                borderRadius: 100,
-                                                padding: 0.5, m:0, "&:hover":{backgroundColor: '#00000065'} }}
-                                                    onClick={() => handleDeleteImage(photo)}
-                                            ><DeleteIcon sx={{color: '#950000'}}  fontSize="small" /></Button>
-                                        </Box>
-                                        <img
-                                            src={imageUrl(photo.image.data)}
-                                            alt={photo.original_name}
-                                            loading="lazy"
-                                            onClick={() => handleImageClick(photo)}
-                                        />
-                                    </ImageListItem>
-                                ))}
-                            </ImageList>
-                            </Box>
-                        )}
-                        {selectedTab === 'Services' && (
-                            <Box sx={{ width: '100%', paddingTop: 2, height: 500 }}>
-
-                            <TableList selectedVehicle={selectedVehicle}/>
-                            </Box>
-                        )}
-                        {selectedTab === 'Observations' && (
-                            <Box sx={{ width: '100%', height: 500 }}>
-                                <Typography>**Content for Tab 3**</Typography>
-
-                            </Box>
-                        )}
                     </Box>
                     <DialogActions>
                         <Button
@@ -436,7 +290,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                         <Button
                             color="primary"
                             sx={{ mr: 2 }}
-                            onClick={onClose}
+                            onClick={closeServiceDialog()}
                         >
                             Cancel
                         </Button>
@@ -472,4 +326,4 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
 
 }
 
-export default VehicleDialog
+export default ServiceDialog
