@@ -41,6 +41,7 @@ import apiService from "../services/api.service.ts";
 import {useEffect} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import ImageCarousel from "./ImageCarousel";
+import TableList from "./TableList.tsx";
 
 function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle, fetchVehiclesFromAPI}) {
     console.log('selectedVehicle', selectedVehicle);
@@ -160,9 +161,9 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
     };
 
 
-    const handleDeleteImage = async (photo) => {
-        const photo_id: string = photo.vehicle_photo_id;
-        const vehicle_id: string = photo.vehicle_id;
+    const handleDeleteImage = async (photo_to_delete) => {
+        const photo_id: string = photo_to_delete.vehicle_photo_id;
+        const vehicle_id: string = photo_to_delete.vehicle_id;
         console.log('handleDeleteImage', photo_id);
 
         const res = await apiService.deleteImage(vehicle_id, photo_id)
@@ -171,10 +172,11 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
             fetchVehiclesFromAPI()
             setSelectedFile(null);
             onClose
-            console.log('selectedVehicle.photos', res)
-            console.log(selectedVehicle.photos, selectedVehicle.photos)
-            selectedVehicle.photos.push(res.data[0])
-            console.log("after", selectedVehicle.photos)
+            selectedVehicle.photos.forEach((photo, index) => {
+                if (photo_id === photo.vehicle_photo_id) {
+                    selectedVehicle.photos.splice(index, 1)
+                }
+            })
         }
 
     };
@@ -413,7 +415,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                         {selectedTab === 'Services' && (
                             <Box sx={{ width: '100%', height: 500 }}>
                             <Typography>**Content for Tab 2**</Typography>
-
+                            <TableList selectedVehicle={selectedVehicle}/>
                             </Box>
                         )}
                         {selectedTab === 'Observations' && (
