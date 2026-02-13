@@ -39,7 +39,7 @@ function VehicleCards({vehicles, handleOpenVehicleDialog}: VehicleCardsProps) {
                                 sx={{ objectFit: "contain", maxHeight: 200 }}
                                 component="img"
 
-                                image={imageUrl(vehicle.photos?.[0]?.image?.data)}
+                                image={imageUrl(vehicle.photos?.[0]?.image?.data) ?? '../public/placeholder_image.jpg'}
                                 title="green iguana"
                             />
                             <Typography variant="h4" component="div">

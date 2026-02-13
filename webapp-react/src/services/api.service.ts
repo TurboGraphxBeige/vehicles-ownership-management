@@ -62,7 +62,7 @@ const apiService = {
     async getVehicles () {
 
         if (!localStorage.token) {
-            return
+            throw new Error('Invalid token')
         }
         const response = await axios.get(API_URL + `/vehicles`, {
             headers: {
@@ -77,7 +77,7 @@ const apiService = {
 
     async getBrands () {
         if (!localStorage.token) {
-            return
+            throw new Error('Invalid token')
         }
         const response = await axios.get(API_URL + '/brands', {
             headers: {
@@ -90,7 +90,7 @@ const apiService = {
 
     async getModels () {
         if (!localStorage.token) {
-            return
+            throw new Error('Invalid token')
         }
         const response = await axios.get(API_URL + '/models', {
             headers: {
@@ -101,10 +101,9 @@ const apiService = {
         return response.data
     },
 
-    async newCar (data: string) {
-        console.log('fdapi', data)
+    async newCar (data: FormData) {
         if (!localStorage.token) {
-            return
+            throw new Error('Invalid token')
         }
         const response = await axios.post(API_URL + '/vehicles',
             data,
@@ -119,7 +118,7 @@ const apiService = {
 
     async deleteVehicle (vehicle_id: string) {
         if (!localStorage.token) {
-            return
+            throw new Error('Invalid token')
         }
         const response = await axios.delete(`${API_URL}/vehicles/${encodeURIComponent(vehicle_id)}`,
             {
@@ -134,7 +133,7 @@ const apiService = {
     async uploadImage (data: FormData) {
 
         if (!localStorage.token || !data) {
-            return
+            throw new Error('Invalid token')
         }
 
         const vehicleIdEntry = data.get('vehicle_id');
@@ -162,7 +161,7 @@ const apiService = {
 
     async deleteImage (vehicle_id: string, photo_id: string) {
         if (!localStorage.token) {
-            return
+            throw new Error('Invalid token')
         }
 
         const response = await axios.delete(API_URL + '/vehicles/' + vehicle_id + '/images/' + photo_id,

@@ -38,13 +38,17 @@ import { FaPlus } from 'react-icons/fa';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import apiService from "../services/api.service.ts";
-import {useEffect} from "react";
+import {type SyntheticEvent, useEffect} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import ImageCarousel from "./ImageCarousel";
 import TableList from "./TableList.tsx";
 import imageUrl from "../utils/imageUrl.ts";
 
 import type {Photo} from "../types/Photo";
+import type {Model} from "../types/Model.ts";
+import type {Brand} from "../types/Brand.ts";
+import type { AxiosResponse } from 'axios';
+import type {PickerChangeHandlerContext} from "@mui/x-date-pickers";
 
 function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle, fetchVehiclesFromAPI}) {
     console.log('selectedVehicle', selectedVehicle);
@@ -97,13 +101,16 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                 break;
             case 'making_year':
                 setMakingYear(event.target.value as string);
+                break;
             default:
                 break;
         }
     };
 
-    const handleDateTimeChange = (selectedPurchaseDate) => {
-        const date = new Date(selectedPurchaseDate);
+
+
+    const handleDateTimeChange = (selectedPurchaseDate: Dayjs | null) => {
+        const date = selectedPurchaseDate?.toDate();
         const formattedDate = new Intl.DateTimeFormat('en-CA').format(date);
         setPurchaseDate(formattedDate);
         console.log('handleDateTimeChange', formattedDate);
@@ -114,8 +121,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
         fd.append('model_id', selectedModel)
         fd.append('making_year', makingYear)
         fd.append('purchase_date', purchaseDate)
-        fd.append('file', selectedFile)
-        console.log('handleAddNewVehicle', fd);
+        if (selectedFile) fd.append('file', selectedFile)
 
         const res = await apiService.newCar(fd)
 
@@ -127,29 +133,27 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
 
     }
 
-    const handleCancel = () => {
-        setIsVehicleDialogOpened
-    }
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
+        const file: File | null = event.target.files?.[0] ?? null;
+        console.log('filefilefile', file)
         setSelectedFile(file);
-        console.log('handleFileChange', file);
     };
     const handleFileDelete = () => {
         setSelectedFile(null);
     };
 
     const handleFileUpload = async () => {
+        if (!selectedFile) return;
+
         const fd = new FormData()
-        // selectedFile.vehicle_id
         fd.append('vehicle_id', selectedVehicle.vehicle_id)
         fd.append('mimetype', 'image/jpeg')
         fd.append('original_name', '')
         fd.append('file', selectedFile)
         console.log('handleFileUpload', fd);
 
-        const res = await apiService.uploadImage(fd)
+        const res: AxiosResponse = await apiService.uploadImage(fd)
 
         if (res.status === 201) {
             fetchVehiclesFromAPI()
@@ -164,18 +168,18 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
     };
 
 
-    const handleDeleteImage = async (photo_to_delete) => {
+    const handleDeleteImage = async (photo_to_delete: Photo) => {
         const photo_id: string = photo_to_delete.vehicle_photo_id;
         const vehicle_id: string = photo_to_delete.vehicle_id;
         console.log('handleDeleteImage', photo_id);
 
-        const res = await apiService.deleteImage(vehicle_id, photo_id)
+        const res: AxiosResponse = await apiService.deleteImage(vehicle_id, photo_id)
 
         if (res.status === 201) {
             fetchVehiclesFromAPI()
             setSelectedFile(null);
             onClose
-            selectedVehicle.photos.forEach((photo, index) => {
+            selectedVehicle.photos.forEach((photo: Photo, index: number) => {
                 if (photo_id === photo.vehicle_photo_id) {
                     selectedVehicle.photos.splice(index, 1)
                 }
@@ -199,13 +203,9 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
 
     const [selectedTab, setSelectedTab] = React.useState(tabsList[0]);
 
-    const handleTabChange = (event, newValue) => {
+    const handleTabChange = (_event: SyntheticEvent , newValue: string) => {
         setSelectedTab(newValue);
     };
-
-    const handleImageClick = (item) => {
-        console.log(item);
-    }
 
     const photos = selectedVehicle.photos
 
@@ -242,7 +242,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                                     label="Brand"
                                     onChange={handleChange('brand')}
                                 >
-                                    {brands.map((brand) => (
+                                    {brands.map((brand: Brand) => (
                                         <MenuItem key={brand.brand_id} value={brand.brand_id}> {brand.brand_name}</MenuItem>
                                     ))}
                                 </Select>
@@ -257,7 +257,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                                     label="Model"
                                     onChange={handleChange('model')}
                                 >
-                                    {models.map((model) => (
+                                    {models.map((model: Model) => (
                                         <MenuItem key={model.model_id} value={model.model_id}> {model.model_name}</MenuItem>
                                     ))}
                                 </Select>
@@ -392,7 +392,6 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                                             src={imageUrl(photo.image?.data)}
                                             alt={photo.original_name}
                                             loading="lazy"
-                                            onClick={() => handleImageClick(photo)}
                                         />
                                     </ImageListItem>
                                 ))}

@@ -69,8 +69,17 @@ export class Vehicles {
             const file = (req as any).file
             console.log('req.file', (req as any).file) // multer populates this
 
+            const modelId = req.body.model_id ? req.body.model_id : null;
+            const makingYear = req.body.making_year ? Number(req.body.making_year) : null;
+            const purchaseDate = req.body.purchase_date ? req.body.purchase_date : null;
 
-            const result = await pool.query('WITH new_car AS ( INSERT INTO viewer.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id ) INSERT INTO viewer.vehicle_photo (vehicle_id, image) VALUES ((SELECT vehicle_id FROM new_car), $4)', [req.body.model_id, req.body.making_year, req.body.purchase_date, file.buffer]);
+            let result: any;
+            if (file) {
+                result = await pool.query('WITH new_car AS ( INSERT INTO viewer.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id ) INSERT INTO viewer.vehicle_photo (vehicle_id, image) VALUES ((SELECT vehicle_id FROM new_car), $4)', [req.body.model_id ?? 'NULL', req.body.making_year ?? 'NULL', req.body.purchase_date ?? 'NULL', file.buffer]);
+            } else {
+                result = await pool.query('INSERT INTO viewer.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id', [modelId, makingYear, purchaseDate]);
+            }
+
             res.status(201).json(result.rows);
         }
         catch (error) {
