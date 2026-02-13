@@ -3,7 +3,6 @@ import { createStore } from 'redux';
 
 // Define the shape of the state
 export interface AuthState {
-    count: number;
     currentUser: string;
     cars: string[];
     brands: string[];
@@ -11,11 +10,9 @@ export interface AuthState {
 }
 
 // Define the initial state
-const initialState: AuthState = { count: 0, currentUser: '' };
+const initialState: AuthState = { currentUser: '', cars: [], brands: [], models: []};
 
 // Define action types
-const INCREMENT = 'INCREMENT';
-const DECREMENT = 'DECREMENT';
 const USER_LOGGED_IN = 'USER_LOGGED_IN';
 const TOKEN_VERIFIED = 'TOKEN_VERIFIED';
 const CARS_UPDATED = 'CARS_UPDATED';
@@ -23,14 +20,6 @@ const BRANDS_UPDATED = 'BRANDS_UPDATED';
 const MODELS_UPDATED = 'MODELS_UPDATED';
 
 // Define action interfaces
-interface IncrementAction {
-    type: typeof INCREMENT;
-}
-
-interface DecrementAction {
-    type: typeof DECREMENT;
-}
-
 interface UserLoginAction {
     type: typeof USER_LOGGED_IN;
     payload: {
@@ -67,20 +56,16 @@ interface ModelsUpdatedAction {
 }
 
 // Combine action types
-type CounterActionTypes = UserLoginAction | IncrementAction | DecrementAction;
+type CounterActionTypes = UserLoginAction | TokenVerifiedAction | CarsUpdatedAction | BrandsUpdatedAction | ModelsUpdatedAction;
 
 // Create a reducer function
-const counterReducer = (state = initialState, action: CounterActionTypes): CounterState => {
+const counterReducer = (state = initialState, action: CounterActionTypes): AuthState => {
     switch (action.type) {
         case USER_LOGGED_IN:
-            console.log("USER_LOGGED_IN", action.payload);
             return { ...state, currentUser: action.payload.username };
         case TOKEN_VERIFIED:
-            console.log('TOKEN VERIFIED', action.payload)
-
             return { ...state, currentUser: action.payload.username }
         case CARS_UPDATED:
-            console.log('CARS UPDATED', action.payload)
             return { ...state, cars: action.payload.cars }
         default:
             return state;

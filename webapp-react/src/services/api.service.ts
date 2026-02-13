@@ -1,10 +1,7 @@
 import axios from 'axios';
 import authStore from "../stores/components.store.ts";
-import { useSelector, useDispatch } from 'react-redux';
-import {useState} from "react";
 
 const API_URL = 'http://localhost:3001/v1'
-
 
 const buildHeader = (token: string) => {
     return {
@@ -57,7 +54,6 @@ const apiService = {
                 return true
             }
         } catch (error) {
-            console.log('Error during verifyToken:', error.response.data)
 
         }
     },
@@ -105,7 +101,7 @@ const apiService = {
         return response.data
     },
 
-    async newCar (data) {
+    async newCar (data: string) {
         console.log('fdapi', data)
         if (!localStorage.token) {
             return
@@ -121,7 +117,7 @@ const apiService = {
         return response
     },
 
-    async deleteVehicle (vehicle_id) {
+    async deleteVehicle (vehicle_id: string) {
         if (!localStorage.token) {
             return
         }
@@ -135,13 +131,23 @@ const apiService = {
         return response
     },
 
-    async uploadImage (data) {
+    async uploadImage (data: FormData) {
 
-        if (!localStorage.token) {
+        if (!localStorage.token || !data) {
             return
         }
 
-        const vehicle_id: string = data.get('vehicle_id')
+        const vehicleIdEntry = data.get('vehicle_id');
+        const vehicle_id = vehicleIdEntry instanceof File
+            ? vehicleIdEntry.name
+            : (vehicleIdEntry as string | null);
+
+        if (!vehicle_id) {
+            throw new Error('Vehicle ID is required');
+        }
+        if (!vehicle_id) {
+            throw new Error('Vehicle ID is required');
+        }
         const response = await axios.post(API_URL + '/vehicles/' + vehicle_id + '/images',
             data,
             {

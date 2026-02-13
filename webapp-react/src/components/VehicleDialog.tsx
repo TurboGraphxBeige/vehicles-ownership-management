@@ -42,6 +42,9 @@ import {useEffect} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import ImageCarousel from "./ImageCarousel";
 import TableList from "./TableList.tsx";
+import imageUrl from "../utils/imageUrl.ts";
+
+import type {Photo} from "../types/Photo";
 
 function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, onClose, setIsVehicleDialogOpened, deleteVehicle, fetchVehiclesFromAPI}) {
     console.log('selectedVehicle', selectedVehicle);
@@ -189,7 +192,8 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
         return brand_name + ' ' + model_name + ' ' + making_year
     }
 
-    const [selectedFile, setSelectedFile] = React.useState(null);
+    const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+
 
     const tabsList: string[] = ['Photos', 'Services', 'Observations']
 
@@ -204,23 +208,6 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
     }
 
     const photos = selectedVehicle.photos
-
-    function imageUrl(data) {
-        const byteArray = data; // Example array of byte integers
-
-        const byteArrayToString = (byteArray) => {
-            let str = '';
-            for (let i = 0; i < byteArray.length; i += 65536) {
-                str += String.fromCharCode.apply(null, byteArray.slice(i, i + 65536));
-            }
-            return str;
-        };
-
-        const base64String = btoa(byteArrayToString(byteArray));
-        const image = `data:image/jpeg;base64,${base64String}`;
-        return image;
-    }
-
 
     return (
 
@@ -374,7 +361,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
 
                                 </Box>
                             <ImageList sx={{ width: '100%', height: '85%' }} cols={3} rowHeight={'auto'}>
-                                {photos.map((photo) => (
+                                {photos.map((photo: Photo) => (
                                     <ImageListItem
                                         key={photo.vehicle_photo_id}
 
@@ -402,7 +389,7 @@ function VehicleDialog({selectedVehicle, brands, models, isVehicleDialogOpened, 
                                             ><DeleteIcon sx={{color: '#950000'}}  fontSize="small" /></Button>
                                         </Box>
                                         <img
-                                            src={imageUrl(photo.image.data)}
+                                            src={imageUrl(photo.image?.data)}
                                             alt={photo.original_name}
                                             loading="lazy"
                                             onClick={() => handleImageClick(photo)}
