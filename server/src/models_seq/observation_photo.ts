@@ -14,7 +14,7 @@ import { Observation } from './observation';
 @Index('idx_observation_photo_id')
 @Table({
   tableName: 'observation_photo',
-  schema: 'viewer',
+  schema: 'data',
   timestamps: false,
 })
 export class ObservationPhoto extends Model<ObservationPhoto> {

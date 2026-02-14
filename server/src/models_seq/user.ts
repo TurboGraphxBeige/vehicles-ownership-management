@@ -15,7 +15,7 @@ import { Vehicle } from "./vehicle.js";
 
 @Table({
   tableName: 'user',
-  schema: 'viewer', // use 'viewer' or 'data' depending on your DB
+  schema: 'data', // use 'viewer' or 'data' depending on your DB
   timestamps: false,
   indexes: [
     { name: 'idx_user_role_id', fields: ['role_id'] },

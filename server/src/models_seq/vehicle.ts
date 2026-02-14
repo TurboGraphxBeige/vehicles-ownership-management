@@ -18,7 +18,7 @@ import { Service} from "./service.js";
 
 @Table({
   tableName: 'vehicle',
-  schema: 'viewer', // change to 'data' if that is the correct schema
+  schema: 'data', // change to 'data' if that is the correct schema
   timestamps: false,
   indexes: [
     { name: 'idx_vehicle_contact_id', fields: ['contact_id'] },
@@ -55,14 +55,18 @@ export class Vehicle extends Model<Vehicle> {
 
   @ForeignKey(() => User)
   @Index('idx_vehicle_user_id')
-  //@Column({ type: DataType.UUID, field: 'user_id', allowNull: true })
-  //declare user_id?: string;
+  @Column({ type: DataType.UUID, field: 'user_id', allowNull: true })
+  declare user_id?: string;
 
   @ForeignKey(() => Contact)
   @Index('idx_vehicle_contact_id')
   @Column({ type: DataType.UUID, field: 'contact_id', allowNull: true })
   declare contact_id?: string;
 
+  @ForeignKey(() => Contact)
+  @Index('idx_vehicle_model_id')
+  @Column({ type: DataType.UUID, field: 'model_id', allowNull: true })
+  declare model_id?: string;
 
   declare photos: VehiclePhoto[];
   declare services: Service[];

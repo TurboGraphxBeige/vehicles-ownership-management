@@ -12,7 +12,7 @@ import {
 @Table({
   tableName: 'role',
   timestamps: false,
-  schema: 'viewer'
+  schema: 'data'
 })
 
 export class Role extends Model<Role> {

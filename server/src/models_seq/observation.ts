@@ -16,7 +16,7 @@ import { Service } from "./service.js";
 
 @Table({
   tableName: 'observation',
-  schema: 'viewer',
+  schema: 'data',
   timestamps: false,
 
 })

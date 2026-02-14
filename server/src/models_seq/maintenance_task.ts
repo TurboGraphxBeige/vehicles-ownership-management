@@ -6,7 +6,7 @@ import { Table, Column, Model, DataType, Index } from 'sequelize-typescript';
 
 @Table({
   tableName: 'maintenance_task',
-  schema: 'viewer', // or 'viewer' depending on which block you want; original final block used 'data'
+  schema: 'data', // or 'viewer' depending on which block you want; original final block used 'data'
   timestamps: false,
 })
 export class MaintenanceTask extends Model<MaintenanceTask> {

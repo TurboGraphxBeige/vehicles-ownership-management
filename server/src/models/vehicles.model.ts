@@ -25,7 +25,7 @@ export class Vehicles {
 
     static async getModels(req: Request, res: Response, next: NextFunction) {
         try {
-            const result = await pool.query('SELECT * FROM viewer.model')
+            const result = await pool.query('SELECT * FROM data.model')
             console.log(result.rows)
             res.json(result.rows);
         } catch (error) {
@@ -75,9 +75,9 @@ export class Vehicles {
 
             let result: any;
             if (file) {
-                result = await pool.query('WITH new_car AS ( INSERT INTO viewer.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id ) INSERT INTO viewer.vehicle_photo (vehicle_id, image) VALUES ((SELECT vehicle_id FROM new_car), $4)', [req.body.model_id ?? 'NULL', req.body.making_year ?? 'NULL', req.body.purchase_date ?? 'NULL', file.buffer]);
+                result = await pool.query('WITH new_car AS ( INSERT INTO data.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id ) INSERT INTO data.vehicle_photo (vehicle_id, image) VALUES ((SELECT vehicle_id FROM new_car), $4)', [req.body.model_id ?? 'NULL', req.body.making_year ?? 'NULL', req.body.purchase_date ?? 'NULL', file.buffer]);
             } else {
-                result = await pool.query('INSERT INTO viewer.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id', [modelId, makingYear, purchaseDate]);
+                result = await pool.query('INSERT INTO data.vehicle (model_id, making_year, purchase_date) VALUES ($1, $2, $3) RETURNING vehicle_id', [modelId, makingYear, purchaseDate]);
             }
 
             res.status(201).json(result.rows);

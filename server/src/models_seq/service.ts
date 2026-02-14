@@ -14,7 +14,7 @@ import { Vehicle } from "./vehicle.js";
 
 @Table({
   tableName: 'service',
-  schema: 'viewer',
+  schema: 'data',
   timestamps: false,
 })
 

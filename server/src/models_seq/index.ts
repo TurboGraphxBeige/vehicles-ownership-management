@@ -28,6 +28,40 @@ export const sequelize = new Sequelize({
     logging: false
 });
 
+async function initialize() {
+    try {
+        // Create schema
+        await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
+
+        // Authenticate connection
+        await sequelize.authenticate();
+        console.log('Database connection established');
+
+        // // Load models
+        // User = defineUser();
+        // Vehicle = defineVehicle();
+
+        // Synchronize models
+        await sequelize.sync({
+            schema: 'data',
+            alter: true
+        });
+
+        console.log('Models synchronized');
+    } catch (error) {
+        console.error('Database initialization error:', error);
+        throw error;
+    }
+}
+
+await initialize();
+
+await sequelize.sync({
+    force: false, // Set to true to drop and recreate tables
+    alter: true   // Safely alter existing tables
+});
+
+
 initAssociations();
 
-export { Brand, Role, Contact, Vehicle, Service, VehiclePhoto, VehicleModel, Observation, User };
+export { Brand, Role, Contact, Service, VehiclePhoto, VehicleModel, Observation, User, Vehicle };

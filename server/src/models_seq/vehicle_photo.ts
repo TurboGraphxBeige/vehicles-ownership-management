@@ -12,7 +12,7 @@ import { Vehicle} from "./vehicle.js";
 
 @Table({
   tableName: 'vehicle_photo',
-  schema: 'viewer', // change to 'data' if you want that schema instead
+  schema: 'data', // change to 'data' if you want that schema instead
   timestamps: false,
   indexes: [
     {

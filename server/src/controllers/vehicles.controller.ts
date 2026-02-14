@@ -8,7 +8,8 @@ export const getBrands =  async (req: Request, res: Response, next: NextFunction
 };
 
 export const getModels =  async (req: Request, res: Response, next: NextFunction) => {
-    Vehicles.getModels(req, res, next)
+    // Vehicles.getModels(req, res, next)
+    vehicleService.getModels(req, res, next)
 };
 
 export const getVehicles =  async (req: Request, res: Response, next: NextFunction) => {
@@ -20,7 +21,8 @@ export const getVehicle =  async (req: Request, res: Response, next: NextFunctio
 };
 
 export const newVehicle =  async (req: Request, res: Response, next: NextFunction) => {
-    Vehicles.newVehicle(req, res, next)
+    //Vehicles.newVehicle(req, res, next)
+    vehicleService.newVehicle(req, res, next)
 };
 
 export const deleteVehicle =  async (req: Request, res: Response, next: NextFunction) => {

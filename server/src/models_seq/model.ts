@@ -14,7 +14,7 @@ import { Brand } from "./brand.js";
 
 @Table({
   tableName: 'model',
-  schema: 'viewer', // change to 'viewer' if that's the correct schema
+  schema: 'data', // change to 'viewer' if that's the correct schema
   timestamps: false,
 
 })
@@ -34,5 +34,5 @@ export class VehicleModel extends Model<VehicleModel> {
 
   //@BelongsTo(() => Brand)
   declare brand: Brand;
-  declare vehicle: Vehicle;
+  //declare vehicle: Vehicle;
 }

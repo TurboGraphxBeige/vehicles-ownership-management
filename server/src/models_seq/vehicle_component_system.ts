@@ -11,7 +11,7 @@ import {
 @Index('vehicle_component_system_id')
 @Table({
   tableName: 'vehicle_component_system',
-  schema: 'viewer',
+  schema: 'data',
   timestamps: false,
 })
 export class VehicleComponentSystem extends Model<VehicleComponentSystem> {

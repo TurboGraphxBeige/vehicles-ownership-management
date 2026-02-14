@@ -14,7 +14,7 @@ import { VehicleComponentSystem } from './vehicle_component_system.js'; // adjus
 @Index( 'idx_vehicle_component_id')
 @Table({
   tableName: 'vehicle_component',
-  schema: 'viewer',
+  schema: 'data',
   timestamps: false,
 })
 export class VehicleComponent extends Model<VehicleComponent> {

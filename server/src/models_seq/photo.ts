@@ -11,7 +11,7 @@ import {
 
 @Table({
   tableName: 'photo',
-  schema: 'viewer', // change to 'data' if needed
+  schema: 'data', // change to 'data' if needed
   timestamps: false,
 })
 export class Photo extends Model<Photo> {

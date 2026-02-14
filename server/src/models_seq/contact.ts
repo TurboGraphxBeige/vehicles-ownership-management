@@ -11,7 +11,7 @@ import {
 
 @Table({
   tableName: 'contact',
-  schema: 'viewer',    // change to 'data' if you meant the other snippet
+  schema: 'data',    // change to 'data' if you meant the other snippet
   timestamps: false,
   indexes: [
     {
