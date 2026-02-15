@@ -96,7 +96,7 @@ export class Vehicles {
 
             console.log("req.vehicle_id", req.params.vehicle_id);
             const vehicle_id = req.params.vehicle_id;
-            if (!vehicle_id) { return res.status(400).message('No vehicle id supplied!'); }
+            if (!vehicle_id) { return res.status(400); }
             const result = await pool.query('DELETE FROM viewer.vehicle WHERE vehicle_id = $1', [vehicle_id]);
             return res.status(200).json(result.rows);
         }

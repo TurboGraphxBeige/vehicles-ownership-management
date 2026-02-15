@@ -30,12 +30,18 @@ export const deleteVehicle =  async (req: Request, res: Response, next: NextFunc
     Vehicles.deleteVehicle(req, res, next)
 };
 
+export const getVehicleImages =  async (req: Request, res: Response, next: NextFunction) => {
+    vehicleService.getVehicleImages(req, res, next)
+};
+
 export const newVehicleImage =  async (req: Request, res: Response, next: NextFunction) => {
-    Vehicles.newVehicleImage(req, res, next)
+    //Vehicles.newVehicleImage(req, res, next)
+    vehicleService.newVehicleImage(req, res, next)
 };
 
 export const deleteVehicleImage =  async (req: Request, res: Response, next: NextFunction) => {
-    Vehicles.deleteVehicleImage(req, res, next)
+    //Vehicles.deleteVehicleImage(req, res, next)
+    vehicleService.deleteVehicleImage(req, res, next)
 };
 
 //export const getVehicles = async (req: Request, res: Response, next: NextFunction) => {

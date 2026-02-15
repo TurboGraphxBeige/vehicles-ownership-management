@@ -26,7 +26,7 @@ import { Vehicle} from "./vehicle.js";
     },
   ],
 })
-export class VehiclePhoto extends Model<VehiclePhoto> {
+export class VehiclePhoto extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column({

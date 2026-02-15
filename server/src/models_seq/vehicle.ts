@@ -27,14 +27,14 @@ import { Service} from "./service.js";
     { name: 'vehicle_pkey', unique: true, fields: ['vehicle_id'] },
   ],
 })
-export class Vehicle extends Model<Vehicle> {
+export class Vehicle extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column({ type: DataType.UUID, field: 'vehicle_id', allowNull: true })
   declare vehicle_id?: string;
 
-  @ForeignKey(() => VehicleModel)
-  @Index('idx_vehicle_model_id')
+  //@ForeignKey(() => VehicleModel)
+  //@Index('idx_vehicle_model_id')
   //@Column({ type: DataType.UUID, field: 'model_id', allowNull: true })
   //declare model_id?: string;
 
@@ -50,8 +50,9 @@ export class Vehicle extends Model<Vehicle> {
   @Column({ type: DataType.BLOB, field: 'invoice', allowNull: true })
   declare invoice?: Buffer;
 
-  @Column({ type: DataType.BLOB, field: 'main_picture', allowNull: true })
-  declare main_picture?: Buffer;
+  @ForeignKey(() => VehiclePhoto)
+  @Column({ type: DataType.UUID, field: 'main_picture', allowNull: true })
+  declare main_picture?: string;
 
   @ForeignKey(() => User)
   @Index('idx_vehicle_user_id')
@@ -63,7 +64,7 @@ export class Vehicle extends Model<Vehicle> {
   @Column({ type: DataType.UUID, field: 'contact_id', allowNull: true })
   declare contact_id?: string;
 
-  @ForeignKey(() => Contact)
+  @ForeignKey(() => VehicleModel)
   @Index('idx_vehicle_model_id')
   @Column({ type: DataType.UUID, field: 'model_id', allowNull: true })
   declare model_id?: string;
