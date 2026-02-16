@@ -1,7 +1,8 @@
 // routes/members
 import  express from 'express'
 //import 'dotenv/config';
-import { login, logout, verifyToken } from "../controllers/login.js";
+import { logout } from "../controllers/login.js";
+import { login, verifyToken } from '../controllers/auth.controller.js'
 
 
 const router = express.Router();

@@ -23,10 +23,10 @@ import { Vehicle } from "./vehicle.js";
     { name: 'user_username_key', unique: true, fields: ['username'] },
   ],
 })
-export class User extends Model<User> {
+export class User extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
-  @Column({ type: DataType.UUID, field: 'user_id', allowNull: true })
+  @Column({ type: DataType.UUID, field: 'user_id', allowNull: false })
   declare user_id?: string;
 
   @AllowNull(true)
