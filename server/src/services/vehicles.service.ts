@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
 import {sequelize, Vehicle, VehiclePhoto, Service, Brand, VehicleModel, Observation, User} from '../models_seq/index.js';
-import { pool } from "../models";
 
 export class vehicleService {
     static async getVehicles(req: Request, res: Response, next: NextFunction) {
@@ -16,6 +15,32 @@ export class vehicleService {
             return res.status(200).json(vehicles);
         } catch (err) {
             return res.status(500)
+        }
+    };
+
+    static async getVehicle(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log('getCar single', req.params)
+            //const result = await pool.query('SELECT * FROM viewer.car_data WHERE car_id = $1', [req.params.car_id])
+            const vehicle: Vehicle | null = await Vehicle.findOne({ where: { vehicle_id: req.params.vehicle_id } });
+            res.json(vehicle);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    };
+
+    static async deleteVehicle(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log('getCar single', req.params)
+            //const result = await pool.query('SELECT * FROM viewer.car_data WHERE car_id = $1', [req.params.car_id])
+            const vehicle: number = await Vehicle.destroy({ where: { vehicle_id: req.params.vehicle_id } });
+            res.json(vehicle);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     };
 

@@ -5,6 +5,11 @@ export const login =  async (req: Request, res: Response, next: NextFunction) =>
     authService.login(req, res, next)
 };
 
+export const logout =  async (req: Request, res: Response, next: NextFunction) => {
+    authService.logout(req, res, next)
+};
+
+
 export const verifyToken =  async (req: Request, res: Response, next: NextFunction) => {
     authService.verifyToken(req, res, next)
 };

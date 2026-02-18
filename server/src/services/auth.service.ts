@@ -1,10 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import {sequelize, User, Role} from '../models_seq/index.js';
-import {pool} from "../models";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-fallback-secret-key';
+const JWT_SECRET: string = process.env.JWT_SECRET || '' ;
 const tokenBlacklist = new Set();
 
 export class authService {
@@ -65,6 +64,24 @@ export class authService {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     };
+
+    static async logout(req: Request, res: Response, next: NextFunction) {
+        console.log('logout model called');
+        console.log(req.headers)
+        try {
+            const token = req.headers.authorization;
+            if (token) {
+                tokenBlacklist.add(token);
+                res.status(200).json({ message: 'Logged out successfully' });
+            } else {
+                res.status(400).json({ error: 'No token provided' });
+            }
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
 
 
 }
