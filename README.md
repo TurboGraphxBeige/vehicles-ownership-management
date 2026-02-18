@@ -20,7 +20,5 @@ todo
 
 # Development
 Run the frontend with
-<code>
-npm run dev
-</code>
+<code>npm run dev</code>
 
