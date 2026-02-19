@@ -1,23 +1,27 @@
 import { Sequelize } from 'sequelize';
 import fs from 'fs';
 import path from 'path'
+import dotenv from 'dotenv';
+
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import dotenv from 'dotenv';
+
+export const __filename = fileURLToPath(import.meta.url);
+export const __dirname = dirname(__filename);
+
 
 if (!process.env.CI) {
     dotenv.config({
-        path: path.resolve('../.env.test'),
+        path: path.resolve(__dirname, '../.env'),
+        override: true,
     });
+    console.log('process.env DB INITY', process.env)
 }
 
 
-// Get the directory name
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 // Initialize Sequelize
 const sequelize = new Sequelize(process.env.DB_NAME || '', process.env.DB_USER || '', process.env.DB_PWD || '', {
+    port: Number(process.env.DB_PORT) || 5432,
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres', // or 'postgres', 'sqlite', etc.
 });
