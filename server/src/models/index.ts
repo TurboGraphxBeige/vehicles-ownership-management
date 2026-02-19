@@ -12,10 +12,17 @@ import { initAssociations } from './models-associations.js';
 import dotenv from "dotenv";
 import path from "path";
 //import 'dotenv/config';
-console.log('Environment Variables:', process.env);
-console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+
+
 const envFile = process.env.NODE_ENV === 'test' ? '.env.test' : '.env.dev';
-dotenv.config({ path: envFile });
+
+if (!process.env.CI) {
+    dotenv.config({ path: envFile });
+}
+
+
+
+
 
 const DB_HOST = process.env.DB_HOST ?? (() => { throw new Error('DB_HOST missing'); })();
 const DB_USER = process.env.DB_USER ?? (() => { throw new Error('DB_USER missing'); })();
