@@ -5,10 +5,11 @@ import path from 'path';
 import app from '../server.js';
 
 
-dotenv.config({
-    path: path.resolve('../.env.test'),
-});
-
+if (!process.env.CI) {
+    dotenv.config({
+        path: path.resolve('../.env.test'),
+    });
+}
 
 
 // Define the type of the response if needed
