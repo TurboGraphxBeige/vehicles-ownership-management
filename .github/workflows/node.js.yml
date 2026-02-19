@@ -31,7 +31,7 @@ jobs:
         cd server  # Navigate to your Node.js server folder
         npm run build
         cd dist
-        DB_HOST=${{ secrets.DB_HOST }} npx mocha --exit  tests/**/*.test.js
+        DB_HOST=${{ secrets.DB_HOST }} DB_USER=${{ secrets.DB_USER }} DB_PWD=${{ secrets.DB_PWD }} DB_HOST=${{ secrets.DB_HOST }} DB_PORT=${{ secrets.DB_PORT }} DB_NAME=${{ secrets.DB_NAME }} API_PASSWORD=${{ secrets.API_PASSWORD }} API_USERNAME=${{ secrets.API_USERNAME }} npx mocha --exit  tests/**/*.test.js
 
     - name: Build application
       run: |
