@@ -41,11 +41,11 @@ jobs:
         cd server  # Navigate to your Node.js server folder
         npm install
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          for i in {1..10}; do 
-            psql -h 127.0.0.1 -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -c "SELECT 1;" && break || sleep 5; 
-          done        
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        for i in {1..10}; do 
+          psql -h 127.0.0.1 -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -c "SELECT 1;" && break || sleep 5; 
+        done        
 
     - name: Run tests
       run: |
