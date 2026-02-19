@@ -49,7 +49,7 @@ jobs:
 
     - name: Run tests
       run: |
-        cd server  # Navigate to your Node.js server folder
+        cd server  # Navigate to your Node.js server folderx
         npm run build
         cp -R src/tests/*.sql dist/tests/
         cd dist
