@@ -3,8 +3,6 @@ import request from 'supertest';
 import dotenv from 'dotenv';
 import path from 'path';
 import app from '../server.js';
-
-
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -18,7 +16,6 @@ if (!process.env.CI) {
     });
     console.log( 'pathresolve', path.resolve(__dirname, '../.env') )
 }
-
 
 // Define the type of the response if needed
 interface LoginResponse {
