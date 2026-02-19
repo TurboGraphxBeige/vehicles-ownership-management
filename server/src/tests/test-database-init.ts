@@ -28,13 +28,7 @@ async function syncDatabase() {
         await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
         await sequelize.sync({ force: true }); // Use force: true with caution; it drops tables
         console.log("TEST Database & tables synchronized!");
-        // Execute the SQL script
-        const sqlFilePath = path.join(__dirname, 'sb_init_data_import.sql');
-        var sql_string = fs.readFileSync(sqlFilePath, 'utf8');
 
-
-        await sequelize.query(sql_string);
-        console.log("Test data inserted!");
     } catch (error) {
         console.error("Unable to sync database:", error);
     } finally {
@@ -42,5 +36,21 @@ async function syncDatabase() {
     }
 }
 
+async function insertTestData() {
+    try {
+        // Execute the SQL script
+        const sqlFilePath = path.join(__dirname, 'sb_init_data_import.sql');
+        var sql_string = fs.readFileSync(sqlFilePath, 'utf8');
+
+
+        await sequelize.query(sql_string);
+        console.log("Test data inserted!");
+    }
+    catch (error) {
+        console.error("Unable to insert test data in database:", error);
+    }
+}
+
 // Run the sync function
 syncDatabase();
+insertTestData();
