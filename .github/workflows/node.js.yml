@@ -12,6 +12,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: postgres:latest  # Use the appropriate PostgreSQL version
+        env:
+          POSTGRES_DB: ${{ secrets.DB_NAME }}         # Name of the test database
+          POSTGRES_USER: ${{ secrets.DB_USER }}        # Your database username
+          POSTGRES_PASSWORD: ${{ secrets.DB_PWD }} # Your database password
+        ports:
+          - 5432:5432
+        options: >
+          --health-cmd="pg_isready -U your_db_user" 
+          --health-interval=10s 
+          --health-timeout=5s 
+          --health-retries=5 
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -26,12 +41,18 @@ jobs:
         cd server  # Navigate to your Node.js server folder
         npm install
 
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          for i in {1..10}; do 
+            psql -h 127.0.0.1 -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -c "SELECT 1;" && break || sleep 5; 
+          done        
+
     - name: Run tests
       run: |
         cd server  # Navigate to your Node.js server folder
         npm run build
         cd dist
-        DB_HOST=${{ secrets.DB_HOST }} DB_USER=${{ secrets.DB_USER }} DB_PWD=${{ secrets.DB_PWD }} DB_HOST=${{ secrets.DB_HOST }} DB_PORT=${{ secrets.DB_PORT }} DB_NAME=${{ secrets.DB_NAME }} API_PASSWORD=${{ secrets.API_PASSWORD }} API_USERNAME=${{ secrets.API_USERNAME }} npx mocha --exit  tests/**/*.test.js
+        NODE_ENV=test DB_HOST=${{ secrets.DB_HOST }} DB_USER=${{ secrets.DB_USER }} DB_PWD=${{ secrets.DB_PWD }} DB_HOST=${{ secrets.DB_HOST }} DB_PORT=5432 DB_NAME=${{ secrets.DB_NAME }} API_PASSWORD=${{ secrets.API_PASSWORD }} API_USERNAME=${{ secrets.API_USERNAME }} npx mocha --exit  tests/**/*.test.js
 
     - name: Build application
       run: |
