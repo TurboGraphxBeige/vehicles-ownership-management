@@ -5,9 +5,12 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
 
-dotenv.config({
-    path: path.resolve('../.env.test'),
-});
+if (!process.env.CI) {
+    dotenv.config({
+        path: path.resolve('../.env.test'),
+    });
+}
+
 
 // Get the directory name
 const __filename = fileURLToPath(import.meta.url);
