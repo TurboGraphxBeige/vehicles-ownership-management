@@ -31,8 +31,7 @@ jobs:
         cd server  # Navigate to your Node.js server folder
         npm run build
         cd dist
-        npox mocha --exit  tests/**/*.test.js
-        #npx mocha --require ts-node/register src/tests/**/*.test.ts
+        npx mocha --exit  tests/**/*.test.js
 
     - name: Build application
       run: |
