@@ -1,6 +1,6 @@
 // fileName: server
 import 'dotenv/config';
-import './models_seq/index.js';
+import './models/index.js';
 import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import cors from 'cors';

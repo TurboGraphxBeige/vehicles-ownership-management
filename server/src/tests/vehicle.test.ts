@@ -58,4 +58,20 @@ describe('POST /login', () => {
         console.log(res.body.vehicles)
 
     });
+
+    it('return an array of brands object, containing an array of models object', async () => {
+        const res = await request(app)
+            .get('/v1/brands')
+            .set('Authorization', 'Bearer ' + token)
+            .expect(200)
+            .expect('Content-Type', /json/)
+
+        expect(Array.isArray(res.body))
+        expect(Array.isArray(res.body[0].models))
+        console.log(res.body)
+
+    });
+
 });
+
+

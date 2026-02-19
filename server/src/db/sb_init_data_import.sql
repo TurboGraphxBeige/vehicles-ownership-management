@@ -3,7 +3,8 @@
 -- This script is idempotent (won't create duplicates for the same brand/model)
 -- and will create a Toyota -> Prius C model and a car record: Toyota Prius C 2015 purchased 2020-08-01.
 
-BEGIN;
+--BEGIN;
+await sequelize.query('create extension if not exists pgcrypto;')
 INSERT INTO data.role (role_name) VALUES ('admin');
 INSERT INTO data."user" (username, password, role_id)
 VALUES (
@@ -58,7 +59,7 @@ WHERE NOT EXISTS (
   AND c.purchase_date = '2020-08-01'::date
     );
 
-COMMIT;
+--COMMIT;
 
 -- You can verify what was created with:
 -- SELECT * FROM data.brand WHERE brand_name = 'Toyota';

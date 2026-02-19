@@ -31,15 +31,12 @@ export const sequelize = new Sequelize({
 async function initialize() {
     try {
         // Create schema
+
         await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
 
         // Authenticate connection
         await sequelize.authenticate();
         console.log('Database connection established');
-
-        // // Load models
-        // User = defineUser();
-        // Vehicle = defineVehicle();
 
         // Synchronize models
         await sequelize.sync({

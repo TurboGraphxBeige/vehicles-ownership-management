@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import {sequelize, User, Role} from '../models_seq/index.js';
+import {sequelize, User, Role} from '../models/index.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
