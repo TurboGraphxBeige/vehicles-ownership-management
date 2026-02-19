@@ -25,7 +25,8 @@ const sequelize = new Sequelize(process.env.DB_NAME || '', process.env.DB_USER |
 // Sync function
 async function syncDatabase() {
     try {
-        await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
+        //await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
+        await sequelize.createSchema('data',{})
         await sequelize.sync({ force: true }); // Use force: true with caution; it drops tables
         console.log("TEST Database & tables synchronized!");
 

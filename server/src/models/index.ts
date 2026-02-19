@@ -46,15 +46,12 @@ export const sequelize = new Sequelize({
 
 async function initialize() {
     try {
-        // Create schema
-
-        await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
-
         // Authenticate connection
         await sequelize.authenticate();
         console.log('Database connection established');
 
         // Synchronize models
+        await sequelize.createSchema('data',{})
         await sequelize.sync({
             schema: 'data',
             alter: true
