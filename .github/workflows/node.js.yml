@@ -51,7 +51,9 @@ jobs:
       run: |
         cd server  # Navigate to your Node.js server folder
         npm run build
+        cp -R src/tests/*.sql dist/tests/
         cd dist
+        NODE_ENV=test DB_HOST=127.0.0.1 DB_USER=postgres DB_PWD=postgres DB_PORT=5432 DB_NAME=postgres API_PASSWORD=${{ secrets.API_PASSWORD }} API_USERNAME=${{ secrets.API_USERNAME }} node tests/test-database-init.js
         NODE_ENV=test DB_HOST=127.0.0.1 DB_USER=postgres DB_PWD=postgres DB_PORT=5432 DB_NAME=postgres API_PASSWORD=${{ secrets.API_PASSWORD }} API_USERNAME=${{ secrets.API_USERNAME }} npx mocha --exit  tests/**/*.test.js
 
     - name: Build application
