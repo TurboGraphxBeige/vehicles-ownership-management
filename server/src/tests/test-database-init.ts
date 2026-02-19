@@ -27,7 +27,10 @@ async function syncDatabase() {
     try {
         //await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
         await sequelize.createSchema('data',{})
-        await sequelize.sync({ force: true }); // Use force: true with caution; it drops tables
+        await sequelize.sync({
+            schema: 'data',
+            force: true
+        }); // Use force: true with caution; it drops tables
         console.log("TEST Database & tables synchronized!");
 
     } catch (error) {
