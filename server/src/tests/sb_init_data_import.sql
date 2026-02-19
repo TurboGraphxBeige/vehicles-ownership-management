@@ -4,7 +4,7 @@
 -- and will create a Toyota -> Prius C model and a car record: Toyota Prius C 2015 purchased 2020-08-01.
 
 --BEGIN;
-CREATE SCHEMA IF NOT EXISTS data
+CREATE SCHEMA IF NOT EXISTS data;
 create extension if not exists pgcrypto;
 INSERT INTO data.role (role_id, role_name) VALUES (uuidv4(), 'admin');
 INSERT INTO data."user" (user_id, username, password, role_id)
