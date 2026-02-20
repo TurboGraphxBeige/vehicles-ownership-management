@@ -57,6 +57,8 @@ jobs:
       env:
         API_PASSWORD: ${{ secrets.API_PASSWORD }}
         API_USERNAME: ${{ secrets.API_USERNAME }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_TOKEN_EXP: ${{ secrets.JWT_TOKEN_EXP }}
       run: |
         cd server  # Navigate to your Node.js server folderx
         npm run build
