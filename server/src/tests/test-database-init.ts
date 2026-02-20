@@ -32,8 +32,10 @@ async function syncDatabase() {
             force: true
         }); // Use force: true with caution; it drops tables
         console.log("TEST Database & tables synchronized!");
-        await sequelize.query('SELECT schema_name FROM information_schema.schemata;')
-        await sequelize.query('SELECT table_schema,table_name FROM information_schema.tables;')
+        const [results, metadata] = await sequelize.query('SELECT schema_name FROM information_schema.schemata;')
+        console.log(results);
+        const [results2, metadata2] = await sequelize.query('SELECT table_schema,table_name FROM information_schema.tables;')
+        console.log(results2);
     } catch (error) {
         console.error("Unable to sync database:", error);
     } finally {
