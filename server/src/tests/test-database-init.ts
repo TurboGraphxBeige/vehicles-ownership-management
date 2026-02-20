@@ -38,23 +38,23 @@ const DB_PWD = process.env.DB_PWD ?? (() => { throw new Error('DB_PASS missing')
 const DB_NAME = process.env.DB_NAME ?? (() => { throw new Error('DB_NAME missing'); })();
 
 
-export const sequelize = new Sequelize({
-    dialect: 'postgres',
-    host: DB_HOST,
-    username: DB_USER,
-    password: DB_PWD,
-    database: DB_NAME,
-    port: Number(process.env.DB_PORT) || 5432,
-    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User],
-    logging: false
-});
+// export const sequelize = new Sequelize({
+//     dialect: 'postgres',
+//     host: DB_HOST,
+//     username: DB_USER,
+//     password: DB_PWD,
+//     database: DB_NAME,
+//     port: Number(process.env.DB_PORT) || 5432,
+//     models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User],
+//     logging: false
+// });
 
 
 // Sync function
-async function syncDatabase() {
+async function syncDatabase(sequelize: Sequelize): Promise<void> {
     try {
         //await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
-        await sequelize.createSchema('data',{})
+        //await sequelize.createSchema('data',{})
         await sequelize.sync({
             schema: 'data',
             force: true
@@ -66,17 +66,14 @@ async function syncDatabase() {
         console.log(results2);
     } catch (error) {
         console.error("Unable to sync database:", error);
-    } finally {
-        await sequelize.close();
     }
 }
 
-async function insertTestData() {
+async function insertTestData(sequelize: Sequelize) {
     try {
         // Execute the SQL script
         const sqlFilePath = path.join(__dirname, 'sb_init_data_import.sql');
         var sql_string = fs.readFileSync(sqlFilePath, 'utf8');
-
 
         await sequelize.query(sql_string);
         console.log("Test data inserted!");
@@ -88,8 +85,20 @@ async function insertTestData() {
 
 // Run the sync function
 async function createDatabase() {
-    await syncDatabase();
-    await insertTestData();
+    const sequelize = new Sequelize({
+        dialect: 'postgres',
+        host: DB_HOST,
+        username: DB_USER,
+        password: DB_PWD,
+        database: DB_NAME,
+        port: Number(process.env.DB_PORT) || 5432,
+        models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User],
+        logging: false
+    });
+
+    await syncDatabase(sequelize);
+    await insertTestData(sequelize);
+    await sequelize.close();
 }
 
 createDatabase()
