@@ -79,6 +79,8 @@ async function insertTestData(sequelize: Sequelize) {
 
         await sequelize.query(sql_string);
         console.log("Test data inserted!");
+        const [results, metadata] = await sequelize.query('SELECT * FROM data.user;')
+        console.log(results);
     }
     catch (error) {
         console.error("Unable to insert test data in database:", error);
