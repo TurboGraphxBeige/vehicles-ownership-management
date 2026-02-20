@@ -40,13 +40,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd server  # Navigate to your Node.js server folder
-        npm install
-
-    - name: Wait for PostgreSQL to be ready
-      run: |
-        for i in {1..10}; do 
-          PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d postgres -c "SELECT 1;" && break || sleep 5; 
-        done        
+        npm install   
 
     - name: Run tests
       env:
