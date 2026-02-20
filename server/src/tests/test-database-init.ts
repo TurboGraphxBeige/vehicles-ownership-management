@@ -54,7 +54,7 @@ const DB_NAME = process.env.DB_NAME ?? (() => { throw new Error('DB_NAME missing
 async function syncDatabase(sequelize: Sequelize): Promise<void> {
     try {
         //await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
-        //await sequelize.createSchema('data',{})
+        await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;')
         await sequelize.sync({
             schema: 'data',
             force: true
@@ -74,6 +74,7 @@ async function insertTestData(sequelize: Sequelize) {
         // Execute the SQL script
         const sqlFilePath = path.join(__dirname, 'sb_init_data_import.sql');
         var sql_string = fs.readFileSync(sqlFilePath, 'utf8');
+
 
         await sequelize.query(sql_string);
         console.log("Test data inserted!");
