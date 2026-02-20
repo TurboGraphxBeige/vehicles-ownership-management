@@ -17,9 +17,9 @@ jobs:
       db:
         image: postgres:latest  # Use the appropriate PostgreSQL version
         env:
-          POSTGRES_DB: postgres         # Name of the test database
-          POSTGRES_USER: postgres        # Your database username
-          POSTGRES_PASSWORD: postgres # Your database password
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PWD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}        
         ports:
           - 5432:5432
         options: >
