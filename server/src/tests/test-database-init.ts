@@ -55,6 +55,7 @@ async function syncDatabase(sequelize: Sequelize): Promise<void> {
     try {
         //await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;');
         await sequelize.query('CREATE SCHEMA IF NOT EXISTS data;')
+        await sequelize.query('create extension if not exists pgcrypto;')
         await sequelize.sync({
             schema: 'data',
             force: true
