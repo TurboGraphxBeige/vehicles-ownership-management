@@ -14,7 +14,6 @@ if (!process.env.CI) {
         path: path.resolve(__dirname, '../.env'),
         override: true,
     });
-    console.log( 'pathresolve', path.resolve(__dirname, '../.env') )
 }
 
 // Define the type of the response if needed
@@ -22,20 +21,6 @@ interface LoginResponse {
     token: string;
 }
 
-/*describe('POST /login', () => {
-    it('should return status 200 and a token', async () => {
-        const res = await request(app)
-            .post('/v1/login')
-            .send({
-                username: process.env.API_USERNAME,
-                password: process.env.API_PASSWORD
-            })
-            .expect(200)
-            .expect('Content-Type', /json/);
-
-        expect(res.body.token).not.to.be.null;
-    });
-});*/
 let token: string = '';
 
 describe('POST /login', () => {

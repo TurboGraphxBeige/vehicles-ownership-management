@@ -17,16 +17,12 @@ import { dirname } from 'path';
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
 
-
 if (!process.env.CI) {
     dotenv.config({
         path: path.resolve(__dirname, '../.env'),
         override: true,
     });
-
 }
-
-
 
 const DB_HOST = process.env.DB_HOST ?? (() => { throw new Error('DB_HOST missing'); })();
 const DB_USER = process.env.DB_USER ?? (() => { throw new Error('DB_USER missing'); })();
