@@ -28,12 +28,7 @@ jobs:
           --health-timeout=5s 
           --health-retries=5 
 
-    steps:
-    - name: Debug Environment Variables
-      run: |
-        echo "API_USERNAME available: ${API_USERNAME:+yes}"
-        echo "API_PASSWORD available: ${API_PASSWORD:+yes}"
-    
+    steps:  
     - name: Checkout repository
       uses: actions/checkout@v2
 
@@ -59,13 +54,19 @@ jobs:
         API_USERNAME: ${{ secrets.API_USERNAME }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         JWT_TOKEN_EXP: ${{ secrets.JWT_TOKEN_EXP }}
+        NODE_ENV: test
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PWD: ${{ secrets.DB_PWD }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
       run: |
         cd server  # Navigate to your Node.js server folderx
         npm run build
         cp -R src/tests/*.sql dist/tests/
         cd dist
-        NODE_ENV=test DB_HOST=127.0.0.1 DB_USER=postgres DB_PWD=postgres DB_PORT=5432 DB_NAME=postgres node tests/test-database-init.js
-        NODE_ENV=test DB_HOST=127.0.0.1 DB_USER=postgres DB_PWD=postgres DB_PORT=5432 DB_NAME=postgres npx mocha --exit  tests/**/*.test.js
+        node tests/test-database-init.js
+        npx mocha --exit  tests/**/*.test.js
 
     - name: Build application
       run: |
