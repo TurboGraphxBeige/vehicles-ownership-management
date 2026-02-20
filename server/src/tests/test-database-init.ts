@@ -59,5 +59,8 @@ async function insertTestData() {
 }
 
 // Run the sync function
-syncDatabase();
-//insertTestData();
+async function createDatabase() {
+    syncDatabase();
+    insertTestData();
+}
+
