@@ -28,6 +28,11 @@ jobs:
           --health-retries=5 
 
     steps:
+    - name: Debug Environment Variables
+      run: |
+        echo "API_USERNAME available: ${API_USERNAME:+yes}"
+        echo "API_PASSWORD available: ${API_PASSWORD:+yes}"
+    
     - name: Checkout repository
       uses: actions/checkout@v2
 
