@@ -58,6 +58,8 @@ async function initialize() {
         });
 
         console.log('Models synchronized');
+        await sequelize.query('SELECT schema_name FROM information_schema.schemata;')
+        await sequelize.query('SELECT table_schema,table_name FROM information_schema.tables;')
     } catch (error) {
         console.error('Database initialization error:', error);
         throw error;
