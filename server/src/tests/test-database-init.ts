@@ -60,8 +60,8 @@ async function insertTestData() {
 
 // Run the sync function
 async function createDatabase() {
-    syncDatabase();
-    insertTestData();
+    await syncDatabase();
+    await insertTestData();
 }
 
 createDatabase()
