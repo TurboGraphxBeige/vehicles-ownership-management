@@ -18,11 +18,22 @@ export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
 
 if (!process.env.CI) {
+    let env_file_path: string = path.resolve(__dirname, '../.env')
+    if (process.env.NODE_ENV === 'dev') {
+
+        console.log(process.env.NODE_ENV);
+        env_file_path = path.resolve(__dirname, '../../.env.dev')
+        console.log('Loading environment variables from:', env_file_path);
+
+    }
     dotenv.config({
-        path: path.resolve(__dirname, '../.env'),
+        path: env_file_path,
         override: true,
     });
 }
+
+console.log(process.env.NODE_ENV, process.env.DB_HOST);
+console.log(process.env)
 
 const DB_HOST = process.env.DB_HOST ?? (() => { throw new Error('DB_HOST missing'); })();
 const DB_USER = process.env.DB_USER ?? (() => { throw new Error('DB_USER missing'); })();

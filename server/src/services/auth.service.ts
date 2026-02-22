@@ -34,7 +34,7 @@ export class authService {
 
     static async login(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('req.body', req.body.username)
+            console.log('req.body', req.body)
             const username = req.body.username as string
             const password = req.body.password;
 

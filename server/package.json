@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "tsc",
+    "start": "node server.js",
+    "build": "tsc && cp .env dist/.env",
     "test": "NODE_ENV=test npm run build && cd ../docker && docker-compose -f docker-compose.test.yml up --build -d && cd ../server && cp .env.test dist/.env && cp -R src/tests/*.sql dist/tests/ && cd dist && NODE_ENV=test node tests/test-database-init.js && NODE_ENV=test mocha --exit  tests/**/*.test.js && docker-compose -f ../../docker/docker-compose.test.yml down"
   },
   "mocha": {
