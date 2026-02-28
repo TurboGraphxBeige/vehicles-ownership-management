@@ -8,6 +8,7 @@ import { VehicleModel } from './model.js';
 import { Observation } from './observation.js';
 import { User } from './user.js';
 import { Service } from './service.js';
+import { OdometerReading } from "./odometer_reading";
 import { initAssociations } from './models-associations.js';
 import dotenv from "dotenv";
 import path from "path";
@@ -47,7 +48,7 @@ export const sequelize = new Sequelize({
     password: DB_PWD,
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
-    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User],
+    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading],
     logging: false
 });
 
