@@ -30,6 +30,7 @@ const DB_USER = process.env.DB_USER ?? (() => { throw new Error('DB_USER missing
 const DB_PWD = process.env.DB_PWD ?? (() => { throw new Error('DB_PASS missing'); })();
 const DB_NAME = process.env.DB_NAME ?? (() => { throw new Error('DB_NAME missing'); })();
 
+
 export const sequelize = new Sequelize({
     dialect: 'postgres',
     host: DB_HOST,
@@ -74,6 +75,20 @@ async function insertTestData() {
 
 // Run the sync function
 async function createDatabase() {
+    const max_attemps: number = 3
+    let attemps: number = 0;
+    while (attemps < max_attemps) {
+        try {
+            await sequelize.authenticate();
+            break;
+        }
+        catch {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            attemps++
+            console.log('Retrying in 1 seconds...');
+        }
+
+    }
     await syncDatabase();
     await insertTestData();
     await sequelize.close();

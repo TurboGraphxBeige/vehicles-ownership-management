@@ -46,7 +46,7 @@ describe('POST /login', () => {
             .expect('Content-Type', /json/)
 
         expect(Array.isArray(res.body))
-        console.log(res.body.vehicles)
+        //console.log(res.body.vehicles)
 
     });
 
@@ -59,9 +59,30 @@ describe('POST /login', () => {
 
         expect(Array.isArray(res.body))
         expect(Array.isArray(res.body[0].models))
-        console.log(res.body)
-
+        //console.log(res.body)
     });
+
+    it('return an array of models object', async () => {
+        const res = await request(app)
+            .get('/v1/models')
+            .set('Authorization', 'Bearer ' + token)
+            .expect(200)
+            .expect('Content-Type', /json/)
+
+        expect(Array.isArray(res.body))
+        console.log(res.body)
+    });
+
+    // it('return an array of models object', async () => {
+    //     const res = await request(app)
+    //         .get('/v1/models')
+    //         .set('Authorization', 'Bearer ' + token)
+    //         .expect(200)
+    //         .expect('Content-Type', /json/)
+    //
+    //     expect(Array.isArray(res.body))
+    //     console.log(res.body)
+    // });
 
 });
 
