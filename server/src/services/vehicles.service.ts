@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import {sequelize, Vehicle, VehiclePhoto, Service, Brand, VehicleModel, Observation, User} from '../models/index.js';
+import {OdometerReading} from "../models/odometer_reading";
 
 export class vehicleService {
     static async getVehicles(req: Request, res: Response, next: NextFunction) {
@@ -8,8 +9,10 @@ export class vehicleService {
                    { model: VehiclePhoto, as: 'photos' },
                    { model: Service, as: 'services' },
                    { model: Observation, as: 'observations' },
+                   { model: OdometerReading, as: 'odometer_readings' },
                    { model: VehicleModel, as: 'model', include: [{ model: Brand, as: 'brand' }] },
                    { model: User, as: 'user', attributes: ['user_id', 'first_name', 'last_name'] },
+
                ]
            });
             return res.status(200).json(vehicles);
@@ -78,7 +81,7 @@ export class vehicleService {
             const modelId: string | undefined = req.body.model_id ? req.body.model_id : undefined;
             const makingYear: number | undefined = req.body.making_year ? Number(req.body.making_year) : undefined;
             const purchaseDate: string | undefined = req.body.purchase_date ? req.body.purchase_date : undefined;
-
+            const odometerReading: number | undefined = req.body.odometer_reading ? Number(req.body.odometer_reading) : undefined;
             const transaction = await sequelize.transaction();
 
             const newPhoto = await VehiclePhoto.create(
@@ -99,6 +102,12 @@ export class vehicleService {
                 }, {transaction}
             );
 
+            const newOdometerReading: OdometerReading = await OdometerReading.create(
+                {
+                    vehicle_id: newVehicle ? newVehicle.vehicle_id : undefined,
+                    reading: odometerReading
+                }, {transaction}
+            );
 
             await newPhoto.update(
                 { vehicle_id: String(newVehicle.vehicle_id) },

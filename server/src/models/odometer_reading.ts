@@ -5,9 +5,10 @@ import {
     DataType,
     PrimaryKey,
     Default,
-    Unique, HasOne, HasMany, ForeignKey
+    Unique, HasOne, HasMany, ForeignKey, AllowNull
 } from 'sequelize-typescript';
 import { VehicleModel } from './model'
+import { Vehicle } from "./vehicle";
 
 @Table({
     tableName: 'odometer_reading',
@@ -33,5 +34,10 @@ export class OdometerReading extends Model {
     declare reading: number;
 
 
-    declare models: VehicleModel[];
+    @ForeignKey(() => Vehicle) // replace with actual Vehicle model class when available
+    @AllowNull(true)
+    @Column({ type: DataType.UUID, allowNull: true })
+    declare vehicle_id?: string | null;
+
+    declare vehicle: Vehicle;
 }
