@@ -82,6 +82,7 @@ export class vehicleService {
             const makingYear: number | undefined = req.body.making_year ? Number(req.body.making_year) : undefined;
             const purchaseDate: string | undefined = req.body.purchase_date ? req.body.purchase_date : undefined;
             const odometerReading: number | undefined = req.body.odometer_reading ? Number(req.body.odometer_reading) : undefined;
+            const pricePaid: number | undefined = req.body.price_paid ? Number(req.body.price_paid) : undefined;
             const transaction = await sequelize.transaction();
 
             const newPhoto = await VehiclePhoto.create(
@@ -99,13 +100,14 @@ export class vehicleService {
                     making_year: makingYear ? makingYear : undefined,
                     purchase_date: purchaseDate ? purchaseDate : undefined,
                     main_picture: newPhoto ? newPhoto.vehicle_photo_id : undefined,
+                    price_paid: pricePaid ? pricePaid : undefined,
                 }, {transaction}
             );
 
             const newOdometerReading: OdometerReading = await OdometerReading.create(
                 {
                     vehicle_id: newVehicle ? newVehicle.vehicle_id : undefined,
-                    reading: odometerReading
+                    reading: odometerReading ? odometerReading: undefined
                 }, {transaction}
             );
 

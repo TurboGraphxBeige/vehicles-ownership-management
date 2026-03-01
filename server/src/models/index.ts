@@ -33,9 +33,6 @@ if (!process.env.CI) {
     });
 }
 
-console.log(process.env.NODE_ENV, process.env.DB_HOST);
-console.log(process.env)
-
 const DB_HOST = process.env.DB_HOST ?? (() => { throw new Error('DB_HOST missing'); })();
 const DB_USER = process.env.DB_USER ?? (() => { throw new Error('DB_USER missing'); })();
 const DB_PWD = process.env.DB_PWD ?? (() => { throw new Error('DB_PASS missing'); })();
@@ -83,4 +80,4 @@ await sequelize.sync({
 
 initAssociations();
 
-export { Brand, Role, Contact, Service, VehiclePhoto, VehicleModel, Observation, User, Vehicle };
+export { Brand, Role, Contact, Service, VehiclePhoto, VehicleModel, Observation, User, OdometerReading, Vehicle };
