@@ -15,7 +15,7 @@ import { VehicleModel } from './model.js';
 import {VehiclePhoto} from "./vehicle_photo.js"; // if you have a model table named vehicle-model
 import { Observation } from "./observation.js";
 import { Service} from "./service.js";
-import {OdometerReading} from "./odometer_reading";
+import {OdometerReading} from "./odometer_reading.js";
 
 @Table({
   tableName: 'vehicle',

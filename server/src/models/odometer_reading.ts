@@ -8,7 +8,7 @@ import {
     Unique, HasOne, HasMany, ForeignKey, AllowNull
 } from 'sequelize-typescript';
 import { VehicleModel } from './model'
-import { Vehicle } from "./vehicle";
+import { Vehicle } from "./vehicle.js";
 
 @Table({
     tableName: 'odometer_reading',
