@@ -7,7 +7,7 @@ import {
   PrimaryKey,
   Default,
   Index,
-  ForeignKey, BelongsTo
+  ForeignKey, BelongsTo, HasOne
 } from 'sequelize-typescript';
 import {Vehicle} from "./vehicle.js";
 import { Brand } from "./brand.js";
@@ -28,11 +28,11 @@ export class VehicleModel extends Model<VehicleModel> {
   @Column({ type: DataType.UUID, field: 'brand_id', allowNull: true })
   declare brand_id?: string;
 
+  declare brand: Brand;
+
   @AllowNull(false)
   @Column({ type: DataType.STRING(255), field: 'model_name' })
   declare model_name: string;
 
-  //@BelongsTo(() => Brand)
-  declare brand: Brand;
-  //declare vehicle: Vehicle;
+
 }

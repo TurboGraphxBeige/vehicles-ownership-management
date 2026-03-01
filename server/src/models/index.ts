@@ -8,7 +8,7 @@ import { VehicleModel } from './model.js';
 import { Observation } from './observation.js';
 import { User } from './user.js';
 import { Service } from './service.js';
-import { OdometerReading } from "./odometer_reading";
+import { OdometerReading } from "./odometer_reading.js";
 import { initAssociations } from './models-associations.js';
 import dotenv from "dotenv";
 import path from "path";

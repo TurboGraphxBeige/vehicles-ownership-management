@@ -49,7 +49,6 @@ export class vehicleService {
             const brands = await Brand.findAll({
                 include: [
                     { model: VehicleModel, as: 'models' },
-
                 ]
             });
             return res.status(200).json(brands);
@@ -61,7 +60,9 @@ export class vehicleService {
     static async getModels(req: Request, res: Response, next: NextFunction) {
         try {
             const models = await VehicleModel.findAll({
-             //where: {deletedAt: null, topicId: req.params.id}
+                include: [
+                    { model: Brand, as: 'brand' },
+                ]
             });
 
             return res.status(200).json(models);

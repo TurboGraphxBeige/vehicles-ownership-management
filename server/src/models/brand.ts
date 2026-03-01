@@ -32,8 +32,5 @@ export class Brand extends Model<Brand> {
     })
     declare brand_name: string;
 
-
-
-    //@HasMany(() => VehicleModel)
     declare models: VehicleModel[];
 }
