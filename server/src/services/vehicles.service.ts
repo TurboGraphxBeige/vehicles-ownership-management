@@ -125,6 +125,39 @@ export class vehicleService {
         }
     }
 
+
+    static async updateVehicle (req: Request, res: Response, next: NextFunction) {
+        try {
+            let modelId: string | undefined;
+            let makingYear: number | undefined;
+            let purchaseDate: string | undefined;
+            let pricePaid: number | undefined;
+
+            if (req.body?.model_id) { modelId = req.body.model_id ? req.body.model_id : undefined }
+            if (req.body?.making_year) { makingYear = req.body.making_year ? Number(req.body.making_year) : undefined }
+            if (req.body?.purchase_date) { purchaseDate = req.body.purchase_date ? req.body.purchase_date : undefined }
+
+            if (req.body?.price_paid) { pricePaid = req.body.price_paid ? Number(req.body.price_paid) : undefined }
+            const transaction = await sequelize.transaction();
+
+            const updates: any = {};
+            if (modelId) updates.model_id = modelId;
+            if (makingYear) updates.making_year = makingYear;
+            if (purchaseDate) updates.purchase_date = purchaseDate;
+            if (pricePaid) updates.price_paid = pricePaid;
+
+            const vehicle: Vehicle | null = await Vehicle.findOne({ where: { vehicle_id: req.params.vehicle_id }, transaction });
+            await vehicle?.update(updates, { transaction });
+
+            await transaction.commit();
+            res.status(201).json(vehicle);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
     static async getVehicleImages ( req: Request, res: Response, next: NextFunction) {
         try {
             console.log("todo")

@@ -17,6 +17,10 @@ export const getVehicle =  async (req: Request, res: Response, next: NextFunctio
     vehicleService.getVehicle(req, res, next)
 };
 
+export const updateVehicle =  async (req: Request, res: Response, next: NextFunction) => {
+    vehicleService.updateVehicle(req, res, next)
+};
+
 export const newVehicle =  async (req: Request, res: Response, next: NextFunction) => {
     vehicleService.newVehicle(req, res, next)
 };

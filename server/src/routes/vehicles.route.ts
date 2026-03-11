@@ -8,7 +8,7 @@ import {
     getVehicle,
     newVehicle,
     deleteVehicle,
-    newVehicleImage, deleteVehicleImage, getVehicleImages
+    newVehicleImage, deleteVehicleImage, getVehicleImages, updateVehicle
 } from "../controllers/vehicles.controller.js";
 
 // multer memory storage
@@ -23,7 +23,8 @@ router.use('/vehicles', isAuthenticated);
 // Routes definition
 
 router.get('/vehicles', getVehicles);
-router.get('/vehicles/:vehicle_id', getVehicle);    // single
+router.get('/vehicles/:vehicle_id', getVehicle);
+router.put('/vehicles/:vehicle_id', updateVehicle);
 router.post('/vehicles', upload.single('file'), newVehicle)
 router.delete('/vehicles/:vehicle_id', deleteVehicle)
 router.post('/vehicles/:vehicle_id/images', upload.single('file'), newVehicleImage)

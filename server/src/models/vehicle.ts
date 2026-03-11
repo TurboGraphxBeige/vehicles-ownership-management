@@ -46,7 +46,7 @@ export class Vehicle extends Model {
   declare purchase_date?: string;
 
   @Column({ type: DataType.DECIMAL, field: 'price_paid', allowNull: true })
-  declare price_paid?: string;
+  declare price_paid?: number;
 
   @Column({ type: DataType.BLOB, field: 'invoice', allowNull: true })
   declare invoice?: Buffer;
