@@ -24,7 +24,7 @@ export class Service extends Model<Service> {
   @Column({ type: DataType.UUID, allowNull: false })
   declare service_id?: string;
 
-  @ForeignKey(() => Vehicle) // replace with actual Vehicle model class when available
+  @ForeignKey(() => Vehicle)
   @AllowNull(true)
   @Column({ type: DataType.UUID, allowNull: true })
   declare vehicle_id?: string | null;
@@ -39,7 +39,7 @@ export class Service extends Model<Service> {
   @Column({ type: DataType.TEXT, allowNull: true })
   declare service_request_description?: string | null;
 
-  @ForeignKey(() => Contact) // replace with actual Contact model when available
+  @ForeignKey(() => Contact)
   @AllowNull(true)
   @Column({ type: DataType.UUID, allowNull: true })
   declare contact_id?: string | null;
