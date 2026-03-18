@@ -1,0 +1,83 @@
+import Grid from '@mui/material/Grid';
+import type { GridProps } from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
+import CardMedia from '@mui/material/CardMedia';
+import type {Vehicle} from "../types/Vehicle";
+import type {Photo} from '../types/Photo';
+import imageUrl from "../utils/imageUrl.ts";
+
+interface VehicleCardsProps {
+    vehicles: Vehicle[];
+    handleOpenVehicleDialog: (vehicle: Vehicle) => void;
+}
+
+function VehicleCards({vehicles, handleOpenVehicleDialog}: VehicleCardsProps) {
+
+
+    const containerProps: GridProps = {
+        container: true,
+        spacing: 4
+    };
+
+    const gridItemProps: GridProps = {
+
+    };
+
+    function getVehicleCardPlaceholderImage() {
+        if (import.meta.env.VITE_NODE_ENV === 'dev') {
+            return '../public/placeholder_image.jpg'
+        }
+        return '/images/placeholder_image.jpg'
+    }
+
+    const getMainPicture = (vehicle: Vehicle) => {
+        const mainPictureId = vehicle.main_picture;
+        const mainPhoto = vehicle.photos?.find(
+            (photo: Photo) => photo.vehicle_photo_id === mainPictureId
+        );
+
+        return mainPhoto?.image?.data;
+    }
+
+    return (
+
+        <Grid {...containerProps}>
+            {vehicles.map((vehicle: Vehicle, index: number) => (
+                <Grid
+                    {...gridItemProps}
+                    key={vehicle.vehicle_id || index}
+                >
+                    <Card raised sx={{ minWidth: 200 }} component="div">
+                        <CardContent>
+                            <CardMedia
+                                sx={{ objectFit: "contain", maxHeight: 200 }}
+                                component="img"
+
+                                image={imageUrl( getMainPicture(vehicle) ) ?? getVehicleCardPlaceholderImage()}
+                                title="green iguana"
+                            />
+                            <Typography variant="h4" component="div">
+                                {vehicle.model?.brand?.brand_name ?? ''} {vehicle.model?.model_name ?? ''}
+                            </Typography>
+                            <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>
+                                {vehicle.making_year}
+                            </Typography>
+
+                        </CardContent>
+                        <CardActions sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                            <Button onClick={ () => handleOpenVehicleDialog(vehicle)} size="small">Open</Button>
+                        </CardActions>
+                    </Card>
+                </Grid>
+            ))}
+
+        </Grid>
+
+    )
+}
+
+export default VehicleCards
