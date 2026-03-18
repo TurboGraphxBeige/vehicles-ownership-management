@@ -83,6 +83,19 @@ export class authService {
         }
     }
 
+    static async getUsers(req: Request, res: Response, next: NextFunction) {
+        try {
+            const users = await User.findAll({
+                attributes: ['user_id', 'first_name', 'last_name'],
+            });
+            res.status(200).json(users);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
 
 }
 

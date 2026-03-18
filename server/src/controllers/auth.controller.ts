@@ -9,7 +9,10 @@ export const logout =  async (req: Request, res: Response, next: NextFunction) =
     authService.logout(req, res, next)
 };
 
-
 export const verifyToken =  async (req: Request, res: Response, next: NextFunction) => {
     authService.verifyToken(req, res, next)
+};
+
+export const getUsers =  async (req: Request, res: Response, next: NextFunction) => {
+    authService.getUsers(req, res, next)
 };

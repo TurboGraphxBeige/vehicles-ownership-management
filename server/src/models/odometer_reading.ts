@@ -34,7 +34,7 @@ export class OdometerReading extends Model {
     declare reading: number;
 
 
-    @ForeignKey(() => Vehicle) // replace with actual Vehicle model class when available
+    @ForeignKey(() => Vehicle)
     @AllowNull(true)
     @Column({ type: DataType.UUID, allowNull: true })
     declare vehicle_id?: string | null;
