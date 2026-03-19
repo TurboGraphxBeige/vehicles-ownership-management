@@ -482,7 +482,7 @@ function VehicleDialog(props: VehicleDialogProps) {
 
                                 </Button>
                                 {/* Services table for a selected vehicle*/}
-                                <TableList selectedService={selectedService} setSelectedService={ setSelectedService} isServiceDialogOpened={isServiceDialogOpened} selectedVehicle={selectedVehicle} setIsServiceDialogOpened={setIsServiceDialogOpened} onClose={ closeServiceDialog } />
+                                <TableList contacts={contacts} selectedService={selectedService} setSelectedService={ setSelectedService} isServiceDialogOpened={isServiceDialogOpened} selectedVehicle={selectedVehicle} setIsServiceDialogOpened={setIsServiceDialogOpened} onClose={ closeServiceDialog } />
                             </Box>
                         )}
                         {selectedTab === 'Observations' && (
@@ -523,7 +523,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                     </DialogActions>
                 </DialogContent>
             </Dialog>
-            <ServiceDialog models={models} selectedService={selectedService} setSelectedService={() => setSelectedService} isServiceDialogOpened={isServiceDialogOpened} onClose={closeServiceDialog}/>
+            <ServiceDialog contacts={contacts} selectedService={selectedService} setSelectedService={() => setSelectedService} isServiceDialogOpened={isServiceDialogOpened} onClose={closeServiceDialog}/>
             <ConfirmDelete
                 isConfirmDeleteOpened={isConfirmDeleteOpened}
                 handleCancelConfirmDelete={handleCancelConfirmDelete}

@@ -20,6 +20,7 @@ interface selectedVehicleProps {
     isServiceDialogOpened: boolean;
     setSelectedService: () => void;
     selectedService: Service;
+
 }
 
 function TableList(props: selectedVehicleProps) {
@@ -29,20 +30,16 @@ function TableList(props: selectedVehicleProps) {
         setIsServiceDialogOpened,
         isServiceDialogOpened,
         setSelectedService,
-        selectedService
+        selectedService,
+
     } = props;
 
     const firstService: Service = selectedVehicle.services?.[0];
     const headers: (keyof Service)[] = firstService ? (Object.keys(firstService) as (keyof Service)[]) : ([] as (keyof Service)[]);
 
-    //headers.unshift('')
     const formatHeader = (header: string) => {
         return header.split('_').join(' ');
     };
-
-    // const closeServiceDialog = () => {
-    //     setIsServiceDialogOpened(false)
-    // }
 
     const handleButtonClick = (row: Service) => {
         console.log('row', row)
@@ -94,9 +91,7 @@ function TableList(props: selectedVehicleProps) {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {selectedService ? (
-                <ServiceDialog selectedService={selectedService} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog={ closeServiceDialog}/>
-            ) : null}
+
         </>
     );
 }

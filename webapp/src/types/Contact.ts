@@ -1,4 +1,4 @@
-export interface User {
+export interface Contact {
     contact_id: string;
     contact_name: string | null;
     address: string | null;

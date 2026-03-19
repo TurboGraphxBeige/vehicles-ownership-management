@@ -18,8 +18,9 @@ import FormControl from "@mui/material/FormControl";
 import {TextField} from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
-import type {Model} from "../types/Model.ts";
+import type {Contact} from "../types/Contact.ts";
 import MenuItem from "@mui/material/MenuItem";
+import type {User} from "../types/User.ts";
 
 //selectedVehicle={selectedVehicle} selectedService={selectedService} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
@@ -28,7 +29,7 @@ interface ServiceDialogProps {
     setSelectedService: (service: Service) => void;
     isServiceDialogOpened: boolean;
     onClose: () => void;
-    models: Model[];
+    contacts: Contact[];
 
 }
 
@@ -38,7 +39,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
         selectedService,
         isServiceDialogOpened,
         onClose,
-        models
+        contacts,
     } = props;
 
     console.log('selectedService', selectedService);
@@ -46,9 +47,11 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const [serviceDate, setServiceDate] = React.useState<string>('');
+    const [selectedContact, setSelectedContact] = React.useState<string>('');
 
     useEffect(()=>  {
         setServiceDate(selectedService?.service_date);
+        setSelectedContact(selectedService?.contact_id);
         console.log('selectedService', selectedService);
     }, [selectedService]);
 
@@ -80,7 +83,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
         return service_date
     }
 
-
+    console.log('CONTACTS', contacts)
     return (
 
             isServiceDialogOpened && (
@@ -104,13 +107,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
                 <DialogContent>
                     <Grid sx={{padding:1}} container spacing={2}>
-
-
-
-
                         <Grid size={6}>
-
-
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DatePicker']}>
                                     {/*<DateTimePicker label="Purchase Date" onChange={handleDateTimeChange}/>*/}
@@ -124,18 +121,19 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                 </DemoContainer>
                             </LocalizationProvider>
 
-
                         </Grid>
-                        <Grid  size={6}>
+                        <Grid size={6}>
                             <FormControl variant="outlined"  fullWidth>
-                                <InputLabel id="first-select-label">Model</InputLabel>
+                                <InputLabel id="first-select-label">Contact</InputLabel>
                                 <Select
                                     labelId="first-select-label"
-                                    value={"asd"}
-                                    label="Model"
-
+                                    value={selectedContact}
+                                    label="Contact"
+                                    //onChange={handleContactChange}
                                 >
-
+                                    {contacts.map((contact: Contact) => (
+                                        <MenuItem key={contact.contact_id} value={contact.contact_id}> {contact.contact_name ?? contact.contact_id}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
