@@ -222,7 +222,20 @@ const apiService = {
             },
         })
         return response.data
+    },
+
+    async getContacts () {
+        if (!localStorage.token) {
+            throw new Error('Invalid token')
+        }
+        const response = await axios.get(getAPIUrl() + '/contacts/', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.token,
+            },
+        })
+        return response.data
     }
+
 
 }
 

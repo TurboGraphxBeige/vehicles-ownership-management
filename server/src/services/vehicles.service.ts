@@ -134,9 +134,11 @@ export class vehicleService {
             let purchaseDate: string | undefined;
             let pricePaid: number | undefined;
             let userId: string | undefined;
+            let contactId: string | undefined;
 
             if (req.body?.model_id) { modelId = req.body.model_id ? req.body.model_id : undefined }
             if (req.body?.user_id) { userId = req.body.user_id ? req.body.user_id : undefined }
+            if (req.body?.contact_id) { contactId = req.body.contact_id ? req.body.contact_id : undefined }
             if (req.body?.making_year) { makingYear = req.body.making_year ? Number(req.body.making_year) : undefined }
             if (req.body?.purchase_date) { purchaseDate = req.body.purchase_date ? req.body.purchase_date : undefined }
 
@@ -146,6 +148,7 @@ export class vehicleService {
             const updates: any = {};
             if (modelId) updates.model_id = modelId;
             if (userId) updates.user_id = userId;
+            if (contactId) updates.contact_id = contactId;
             if (makingYear) updates.making_year = makingYear;
             if (purchaseDate) updates.purchase_date = purchaseDate;
             if (pricePaid) updates.price_paid = pricePaid;

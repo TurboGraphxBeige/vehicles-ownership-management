@@ -39,6 +39,7 @@ import type {Photo} from "../types/Photo";
 import type {Model} from "../types/Model.ts";
 import type {Brand} from "../types/Brand.ts";
 import type {User} from "../types/User.ts";
+import type {Contact} from "../types/Contact.ts";
 import type { AxiosResponse } from 'axios';
 import type { Vehicle } from "../types/Vehicle";
 import ServiceDialog from "./ServiceDialog.tsx";
@@ -53,6 +54,7 @@ interface VehicleDialogProps {
     deleteVehicle: (id: string) => Promise<void> | void;
     fetchVehiclesFromAPI: () => Promise<void> | void;
     users: User[];
+    contacts: Contact[];
 }
 
 
@@ -66,6 +68,7 @@ function VehicleDialog(props: VehicleDialogProps) {
         deleteVehicle,
         fetchVehiclesFromAPI,
         users,
+        contacts,
     } = props;
 
     console.log('selectedVehicle', selectedVehicle);
@@ -74,6 +77,7 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [selectedModel, setSelectedModel] = React.useState('');
     const [makingYear, setMakingYear] = React.useState('');
     const [selectedUser, setSelectedUser] = React.useState<string | null>('');
+    const [selectedContact, setSelectedContact] = React.useState<string | null>('');
     const [purchaseDate, setPurchaseDate] = React.useState('');
     const [pricePaid, setPricePaid] = React.useState('');
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
@@ -88,6 +92,7 @@ function VehicleDialog(props: VehicleDialogProps) {
             setPurchaseDate(selectedVehicle.purchase_date);
             setPricePaid(selectedVehicle.price_paid);
             setSelectedUser(selectedVehicle.user_id);
+            setSelectedContact(selectedVehicle.contact_id);
         }
         console.log('State changed to:', users);
     }, [selectedVehicle, isServiceDialogOpened]);
@@ -129,6 +134,9 @@ function VehicleDialog(props: VehicleDialogProps) {
             case 'user':
                 setSelectedUser(event.target.value as string);
                 break;
+            case 'contact':
+                setSelectedContact(event.target.value as string);
+                break;
             default:
                 break;
         }
@@ -149,6 +157,7 @@ function VehicleDialog(props: VehicleDialogProps) {
         if (purchaseDate) { data.purchase_date = purchaseDate }
         if (pricePaid) { data.price_paid = pricePaid }
         if (selectedUser) { data.user_id = selectedUser; console.log('selectedUser.user_id', selectedUser) }
+        if (selectedContact) { data.contact_id = selectedContact; console.log('selectedContact.contact_id', selectedContact) }
         const res = await apiService.updateVehicle(selectedVehicle.vehicle_id, data)
 
         if (res.status === 201) {
@@ -351,12 +360,12 @@ function VehicleDialog(props: VehicleDialogProps) {
                                 <InputLabel id="first-select-label">Seller</InputLabel>
                                 <Select
                                     labelId="first-select-label"
-                                    value={selectedBrand}
+                                    value={selectedContact}
                                     label="Seller"
-                                    onChange={handleChange('brand')}
+                                    onChange={handleChange('contact')}
                                 >
-                                    {brands.map((brand: Brand) => (
-                                        <MenuItem key={brand.brand_id} value={brand.brand_id}> {brand.brand_name}</MenuItem>
+                                    {contacts.map((contact: Contact) => (
+                                        <MenuItem key={contact.contact_id} value={contact.contact_id}> {contact.contact_name}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>

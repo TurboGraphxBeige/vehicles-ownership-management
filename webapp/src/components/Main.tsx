@@ -16,6 +16,7 @@ function Main() {
     const [brands, setBrands] = useState([])
     const [models, setModels] = useState([])
     const [users, setUsers] = useState([])
+    const [contacts, setContacts] = useState([])
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null)
     const [isNewVehicleDialogOpened, setIsNewVehicleDialogOpened] = useState<boolean>(false);
     const [isVehicleDialogOpened, setIsVehicleDialogOpened] = useState<boolean>(false);
@@ -47,11 +48,17 @@ function Main() {
             console.log('api_data', api_data);
             setUsers(api_data);
         };
+        const fetchContacts = async () => {
+            const api_data = await apiService.getContacts();
+            console.log('api contacts', api_data);
+            setContacts(api_data);
+        };
 
         fetchModels();
         fetchBrands();
         fetchVehicles();
         fetchUsers();
+        fetchContacts();
     }, []);
 
 
@@ -91,6 +98,7 @@ function Main() {
             <NewVehicleDialog brands={brands} models={models} isNewVehicleDialogOpened={isNewVehicleDialogOpened} fetchVehiclesFromAPI={ () => fetchVehiclesFromAPI()} onClose={ () => setIsNewVehicleDialogOpened(false) } />
             {selectedVehicle ? (
                 <VehicleDialog
+                    contacts={contacts}
                     brands={brands}
                     models={models}
                     selectedVehicle={selectedVehicle}

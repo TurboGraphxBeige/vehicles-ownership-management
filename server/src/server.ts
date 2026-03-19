@@ -12,6 +12,7 @@ import vehicleRoutes from './routes/vehicles.route.js';
 import brandsRoute from './routes/brands.route.js';
 import authRoute from './routes/auth.route.js';
 import modelsRoute from './routes/models.route.js';
+import contactsRoute from './routes/contacts.route.js';
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use('/v1', vehicleRoutes);
 app.use('/v1', brandsRoute);
 app.use('/v1', modelsRoute);
 app.use('/v1', authRoute);
+app.use('/v1', contactsRoute);
 
 
 // Specify the port to listen on
