@@ -50,14 +50,17 @@ function ServiceDialog(props: ServiceDialogProps ) {
     console.log('serviceDialog', props)
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
-    const [serviceDate, setServiceDate] = React.useState<string>('');
+    const [serviceDate, setServiceDate] = React.useState<Dayjs>();
+    const [totalCost, setTotalCost] = React.useState<string>('');
     const [selectedContact, setSelectedContact] = React.useState<string>('');
     const [notes, setNotes] = React.useState<string>('');
     const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string>('');
 
     useEffect(()=>  {
-        setServiceDate(selectedService?.service_date);
+        setServiceDate(selectedService ? selectedService.service_date : undefined ); // should default to today's date
         setSelectedContact(selectedService?.contact_id);
+        setTotalCost(selectedService?.total_cost);
+        setNotes(selectedService?.notes);
         setServiceRequestDescription(selectedService?.service_request_description);
         setNotes(selectedService?.notes);
         console.log('selectedService', selectedService);
@@ -104,12 +107,14 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
     const handleAddButon = async () => {
         const fd = new FormData();
-        console.log('selectedVehicle22222222222222222222', selectedVehicle);
+        console.log('selectedContact22222222222222222222', selectedContact);
         if (selectedVehicle) { fd.append('vehicle_id', selectedVehicle.vehicle_id) }
-        // if (makingYear) { fd.append('making_year', makingYear) }
+        if (selectedContact) { fd.append('contact_id', selectedContact) }
+        if (serviceRequestDescription) { fd.append('service_request_description', serviceRequestDescription) }
+        if (notes) { fd.append('notes', notes) }
         if (serviceDate) { fd.append('service_date', serviceDate) }
         // if (odometerReading) {fd.append('odometer_reading', odometerReading) }
-        // if (pricePaid) { fd.append('price_paid', pricePaid) }
+        if (totalCost) { fd.append('total_cost', totalCost) }
         // if (selectedFile) fd.append('file', selectedFile)
 
         const res = await apiService.newService(fd)
@@ -150,7 +155,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                     {/*<DateTimePicker label="Purchase Date" onChange={handleDateTimeChange}/>*/}
                                     <DatePicker
                                         label="Service Date"
-                                        value={dayjs(serviceDate)}
+                                        value={serviceDate }
                                         onChange={handleDateTimeChange}
                                         format="YYYY-MM-DD"
                                         views={['year', 'month', 'day']}
@@ -166,7 +171,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                     labelId="first-select-label"
                                     value={selectedContact}
                                     label="Contact"
-                                    onChange={handleContactChange}
+                                    onChange={ (event) => setSelectedContact(event.target.value) }
                                 >
                                     {contacts.map((contact: Contact) => (
                                         <MenuItem key={contact.contact_id} value={contact.contact_id}> {contact.contact_name ?? contact.contact_id}</MenuItem>
@@ -179,6 +184,11 @@ function ServiceDialog(props: ServiceDialogProps ) {
                             <FormControl variant="outlined" fullWidth>
                                 <TextField value={serviceRequestDescription} id="standard-basic" label="Service Request Description" variant="standard" onChange={ (event) => setServiceRequestDescription(event.target.value) } />
 
+                            </FormControl>
+                        </Grid>
+                        <Grid size={6}>
+                            <FormControl variant="outlined" fullWidth>
+                                <TextField value={totalCost} id="standard-basic" label="Total Cost" variant="standard" onChange={ (event) => setTotalCost(event.target.value) } />
                             </FormControl>
                         </Grid>
                         <Grid size={12}>

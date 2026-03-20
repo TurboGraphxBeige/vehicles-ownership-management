@@ -231,7 +231,13 @@ export class vehicleService {
             const service: Service = await Service.create({
                 vehicle_id: req.body.vehicle_id,
                 service_date: req.body.service_date,
+                total_cost: req.body.total_cost,
+                contact_id: req.body.contact_id,
+                service_request_description: req.body.service_request_description,
+                notes: req.body.notes,
+                //invoice: req.body.invoice,
             })
+            res.status(201).json(service.dataValues);
         }
         catch (error) {
             console.error('Error fetching data from database:', error);
