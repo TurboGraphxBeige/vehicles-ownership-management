@@ -523,7 +523,13 @@ function VehicleDialog(props: VehicleDialogProps) {
                     </DialogActions>
                 </DialogContent>
             </Dialog>
-            <ServiceDialog contacts={contacts} selectedService={selectedService} setSelectedService={() => setSelectedService} isServiceDialogOpened={isServiceDialogOpened} onClose={closeServiceDialog}/>
+            <ServiceDialog
+                selectedVehicle={selectedVehicle}
+                contacts={contacts}
+                selectedService={selectedService}
+                setSelectedService={() => setSelectedService}
+                isServiceDialogOpened={isServiceDialogOpened}
+                onClose={closeServiceDialog}/>
             <ConfirmDelete
                 isConfirmDeleteOpened={isConfirmDeleteOpened}
                 handleCancelConfirmDelete={handleCancelConfirmDelete}

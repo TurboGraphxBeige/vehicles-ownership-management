@@ -11,20 +11,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import type {Service} from "../types/Service.ts";
 import FormControl from "@mui/material/FormControl";
 import {TextField} from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
+import Select, {type SelectChangeEvent} from "@mui/material/Select";
 import type {Contact} from "../types/Contact.ts";
 import MenuItem from "@mui/material/MenuItem";
 import type {User} from "../types/User.ts";
+import apiService from "../services/api.service.ts";
+import type {Vehicle} from "../types/Vehicle.ts";
 
 //selectedVehicle={selectedVehicle} selectedService={selectedService} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
 interface ServiceDialogProps {
+    selectedVehicle: Vehicle;
     selectedService: Service;
     setSelectedService: (service: Service) => void;
     isServiceDialogOpened: boolean;
@@ -36,6 +39,7 @@ interface ServiceDialogProps {
 function ServiceDialog(props: ServiceDialogProps ) {
 
     const {
+        selectedVehicle,
         selectedService,
         isServiceDialogOpened,
         onClose,
@@ -48,10 +52,14 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const [serviceDate, setServiceDate] = React.useState<string>('');
     const [selectedContact, setSelectedContact] = React.useState<string>('');
+    const [notes, setNotes] = React.useState<string>('');
+    const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string>('');
 
     useEffect(()=>  {
         setServiceDate(selectedService?.service_date);
         setSelectedContact(selectedService?.contact_id);
+        setServiceRequestDescription(selectedService?.service_request_description);
+        setNotes(selectedService?.notes);
         console.log('selectedService', selectedService);
     }, [selectedService]);
 
@@ -81,6 +89,35 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const buildDialogTitle = () => {
         const service_date = selectedService?.service_date || undefined
         return service_date
+    }
+
+    // const handleContactChange = () => {
+    //     const selected_contact = selectedContact?.contact_id || undefined
+    //     console.log('selected_contactselected_contactselected_contact', selected_contact)
+    //     setSelectedContact(selected_contact)
+    // }
+
+    const handleContactChange = () => (event: SelectChangeEvent) => {
+        console.log('asd')
+        setSelectedContact(event.target.value as string);
+    };
+
+    const handleAddButon = async () => {
+        const fd = new FormData();
+        console.log('selectedVehicle22222222222222222222', selectedVehicle);
+        if (selectedVehicle) { fd.append('vehicle_id', selectedVehicle.vehicle_id) }
+        // if (makingYear) { fd.append('making_year', makingYear) }
+        if (serviceDate) { fd.append('service_date', serviceDate) }
+        // if (odometerReading) {fd.append('odometer_reading', odometerReading) }
+        // if (pricePaid) { fd.append('price_paid', pricePaid) }
+        // if (selectedFile) fd.append('file', selectedFile)
+
+        const res = await apiService.newService(fd)
+
+        if (res.status === 201) {
+            //fetchVehiclesFromAPI()
+            onClose()
+        }
     }
 
     console.log('CONTACTS', contacts)
@@ -129,7 +166,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                     labelId="first-select-label"
                                     value={selectedContact}
                                     label="Contact"
-                                    //onChange={handleContactChange}
+                                    onChange={handleContactChange}
                                 >
                                     {contacts.map((contact: Contact) => (
                                         <MenuItem key={contact.contact_id} value={contact.contact_id}> {contact.contact_name ?? contact.contact_id}</MenuItem>
@@ -140,13 +177,13 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
                         <Grid size={12}>
                             <FormControl variant="outlined" fullWidth>
-                                <TextField value={selectedService?.service_request_description} id="standard-basic" label="Service Request Description" variant="standard" onChange={ (event) => setMakingYear(event.target.value) } />
+                                <TextField value={serviceRequestDescription} id="standard-basic" label="Service Request Description" variant="standard" onChange={ (event) => setServiceRequestDescription(event.target.value) } />
 
                             </FormControl>
                         </Grid>
                         <Grid size={12}>
                             <FormControl variant="outlined" fullWidth>
-                                <TextField value={selectedService?.notes} id="standard-basic" label="Notes" variant="standard" onChange={ (event) => setMakingYear(event.target.value) } />
+                                <TextField value={notes} id="standard-basic" label="Notes" variant="standard" onChange={ (event) => setNotes(event.target.value) } />
 
                             </FormControl>
                         </Grid>
@@ -187,7 +224,10 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                 Update
                             </Button>
                         ) : (
-                            <Button variant="contained">Add</Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleAddButon}
+                            >Add</Button>
                         )}
 
                     </DialogActions>

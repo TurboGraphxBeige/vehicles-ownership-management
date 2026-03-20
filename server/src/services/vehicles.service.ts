@@ -225,6 +225,20 @@ export class vehicleService {
         }
     };
 
+    static async newService(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log("service req.body", req.body);
+            const service: Service = await Service.create({
+                vehicle_id: req.body.vehicle_id,
+                service_date: req.body.service_date,
+            })
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
 }
 
 

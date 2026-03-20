@@ -234,7 +234,22 @@ const apiService = {
             },
         })
         return response.data
-    }
+    },
+
+    async newService (data: FormData) {
+        if (!localStorage.token) {
+            throw new Error('Invalid token')
+        }
+        const response = await axios.post(`${getAPIUrl()}/vehicles/${encodeURIComponent(data.vehicle_id)}/services`,
+            data,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + localStorage.token,
+                },
+            })
+        return response
+    },
 
 
 }
