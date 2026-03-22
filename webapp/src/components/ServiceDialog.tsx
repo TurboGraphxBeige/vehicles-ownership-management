@@ -57,7 +57,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string>('');
 
     useEffect(()=>  {
-        setServiceDate(selectedService ? selectedService.service_date : undefined ); // should default to today's date
+        setServiceDate(selectedService?.service_date ? dayjs(selectedService.service_date) : dayjs() ); // should default to today's date
         setSelectedContact(selectedService?.contact_id);
         setTotalCost(selectedService?.total_cost);
         setNotes(selectedService?.notes);
@@ -84,7 +84,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
         const date = selectedServiceDate?.toDate();
         const formattedDate = new Intl.DateTimeFormat('en-CA').format(date);
         setServiceDate(formattedDate);
-        console.log('handleDateTimeChange', formattedDate);
+        console.log('handleDateTimeChange', selectedServiceDate?.toDate(), formattedDate);
     }
 
 
