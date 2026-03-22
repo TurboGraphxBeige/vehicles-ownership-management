@@ -47,9 +47,6 @@ function TableList(props: selectedVehicleProps) {
         setIsServiceDialogOpened(true);
     }
 
-    //const [isServiceDialogOpened, setIsServiceDialogOpened] = React.useState(false);
-//    const [selectedService, setselectedService] = React.useState<Service | null>( null );
-
 
     return (
         <>

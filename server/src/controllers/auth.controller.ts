@@ -13,6 +13,10 @@ export const verifyToken =  async (req: Request, res: Response, next: NextFuncti
     authService.verifyToken(req, res, next)
 };
 
+export const refreshToken =  async (req: Request, res: Response, next: NextFunction) => {
+    authService.refreshToken(req, res, next)
+};
+
 export const getUsers =  async (req: Request, res: Response, next: NextFunction) => {
     authService.getUsers(req, res, next)
 };

@@ -20,6 +20,7 @@ function Login() {
         console.log('res', res)
         if (res.token) {
             localStorage.setItem('token', res.token)
+            localStorage.setItem('refreshToken', res.refreshToken)
             authStore.dispatch({
                 type: "USER_LOGGED_IN",
                 payload: { username: res.username }

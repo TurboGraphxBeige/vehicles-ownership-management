@@ -4,15 +4,40 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET: string = process.env.JWT_SECRET || '' ;
+const REFRESH_JWT_SECRET: string = process.env.REFRESH_JWT_SECRET || '';
 const tokenBlacklist = new Set();
 
 export class authService {
 
     static signToken = (username: string, user_id: string, role_id: string): string => {
-        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: '1d' });
+        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: '1m' });
+    };
+
+    static signRefreshToken = (username: string, user_id: string, role_id: string): string => {
+        return jwt.sign({ username, user_id, role_id }, REFRESH_JWT_SECRET, { expiresIn: '10d' });
     };
 
     static verifyToken = (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const authHeader = req.headers.authorization;
+            const token = authHeader?.split(' ')[1]
+            if (!token) {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+            const decoded = jwt.verify(token, JWT_SECRET)
+            res.status(200).json(decoded)
+        } catch (error) {
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({message: 'token expired', expired: true})
+            }
+            else {
+                console.error('Token verification failed:', error);
+                return null;
+            }
+        }
+    };
+
+    static refreshToken = (req: Request, res: Response, next: NextFunction) => {
         try {
             const authHeader = req.headers.authorization;
             const token = authHeader?.split(' ')[1]
@@ -55,7 +80,9 @@ export class authService {
                 const storedUserID: string = user!.dataValues.user_id
                 const storedRoleID: string = user!.dataValues.role_id
                 const token = this.signToken(storedUsername, storedUserID, storedRoleID);
-                res.status(200).json({ token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID });
+                const refreshToken = this.signRefreshToken(storedUsername, storedUserID, storedRoleID);
+
+                res.status(200).json({ token, refreshToken, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID });
             } else {
                 res.status(401).json({ message: 'Invalid username or password' });
             }

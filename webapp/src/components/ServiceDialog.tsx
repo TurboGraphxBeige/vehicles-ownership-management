@@ -76,7 +76,6 @@ function ServiceDialog(props: ServiceDialogProps ) {
     }
 
     const handleConfirmDelete = () => {
-//        deleteVehicle(selectedVehicle.vehicle_id)
         console.log('handleConfirmDelete')
     }
 
@@ -87,23 +86,10 @@ function ServiceDialog(props: ServiceDialogProps ) {
         console.log('handleDateTimeChange', selectedServiceDate?.toDate(), formattedDate);
     }
 
-
-
     const buildDialogTitle = () => {
         const service_date = selectedService?.service_date || undefined
         return service_date
     }
-
-    // const handleContactChange = () => {
-    //     const selected_contact = selectedContact?.contact_id || undefined
-    //     console.log('selected_contactselected_contactselected_contact', selected_contact)
-    //     setSelectedContact(selected_contact)
-    // }
-
-    const handleContactChange = () => (event: SelectChangeEvent) => {
-        console.log('asd')
-        setSelectedContact(event.target.value as string);
-    };
 
     const handleAddButon = async () => {
         const fd = new FormData();
