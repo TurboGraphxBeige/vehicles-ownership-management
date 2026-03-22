@@ -23,6 +23,7 @@ import MenuItem from "@mui/material/MenuItem";
 import type {User} from "../types/User.ts";
 import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
+import TableList from "./TableList.tsx";
 
 //selectedVehicle={selectedVehicle} selectedService={selectedService} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
@@ -186,6 +187,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
 
                         <Grid size={12}>
+                            <TableList  selectedService={selectedService}  isServiceDialogOpened={isServiceDialogOpened} selectedVehicle={selectedVehicle} />
 
                         </Grid>
                     </Grid>

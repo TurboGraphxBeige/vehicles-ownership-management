@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 import { Contact } from "./contact.js";
 import { Vehicle } from "./vehicle.js";
+import { Observation } from "./observation.js";
 
 @Table({
   tableName: 'service',
@@ -56,5 +57,6 @@ export class Service extends Model<Service> {
   @Column({ type: DataType.TEXT, allowNull: true })
   declare notes?: string | null;
 
+  declare observations: Observation[];
 
 }
