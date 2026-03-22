@@ -14,6 +14,7 @@ function App() {
     const currentUser = useSelector((state: AuthState) => state.currentUser)
     const [initializing, setInitializing] = useState(true); // Step 1: Initializing state
     const token: string | null = localStorage.getItem('token')
+    const refreshToken: string | null = localStorage.getItem('refreshToken')
 
     useEffect( () => {
         const verifyToken = async () => {
@@ -31,7 +32,7 @@ function App() {
             setInitializing(false);
         }
         verifyToken()
-    }, [token])
+    }, [])
 
     if (initializing) {
        return <div>Loading...</div>

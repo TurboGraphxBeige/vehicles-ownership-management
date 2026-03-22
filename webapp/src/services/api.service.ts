@@ -1,6 +1,6 @@
 import axios from 'axios';
 import authStore from "../stores/components.store.ts";
-
+import startRefreshTimer from "../utils/refreshTokenTimer.ts"; '../utils/refreshTokens.ts';
 
 function getAPIUrl() {
     if (import.meta.env.VITE_NODE_ENV === 'dev') {
@@ -28,6 +28,7 @@ const apiService = {
             })
 
             if (response.data.token) {
+                startRefreshTimer();
                 return response.data
             }
         } catch (error) {
@@ -59,6 +60,41 @@ const apiService = {
                     type: 'TOKEN_VERIFIED',
                     payload: { username: response.data.username },
                 })
+                startRefreshTimer();
+                return true
+            }
+        } catch (error) {
+
+        }
+    },
+
+
+    async refreshToken () {
+        console.log('refreshToken called')
+        try {
+            const token = localStorage.getItem('refreshToken');
+            const response = await axios.post(
+                getAPIUrl() + '/refreshtoken',
+                {},
+                {
+                    headers: buildHeader(token),
+                })
+            console.log('refreshtoken response', response)
+            if (response.status !== 200) {
+                localStorage.removeItem('token')
+                authStore.dispatch({
+                    type: 'TOKEN_VERIFIED',
+                    payload: { username: '' },
+                })
+                return false
+            } else {
+                localStorage.setItem('token', response.data.new_token)
+                authStore.dispatch({
+                    type: 'TOKEN_VERIFIED',
+                    payload: { username: response.data.username },
+                })
+                startRefreshTimer();
+                console.log('refreshtoken response userbnane', response.data.username)
                 return true
             }
         } catch (error) {

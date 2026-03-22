@@ -10,7 +10,7 @@ const tokenBlacklist = new Set();
 export class authService {
 
     static signToken = (username: string, user_id: string, role_id: string): string => {
-        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: '1m' });
+        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: '2m' });
     };
 
     static signRefreshToken = (username: string, user_id: string, role_id: string): string => {
@@ -18,20 +18,22 @@ export class authService {
     };
 
     static verifyToken = (req: Request, res: Response, next: NextFunction) => {
+        const authHeader = req.headers.authorization;
         try {
-            const authHeader = req.headers.authorization;
+
             const token = authHeader?.split(' ')[1]
             if (!token) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
             const decoded = jwt.verify(token, JWT_SECRET)
+            console.log('decoded', decoded)
             res.status(200).json(decoded)
         } catch (error) {
             if (error instanceof jwt.TokenExpiredError) {
                 return res.status(401).json({message: 'token expired', expired: true})
             }
             else {
-                console.error('Token verification failed:', error);
+                console.error('Token verification failed33:', authHeader, error);
                 return null;
             }
         }
@@ -40,18 +42,29 @@ export class authService {
     static refreshToken = (req: Request, res: Response, next: NextFunction) => {
         try {
             const authHeader = req.headers.authorization;
+            console.log('authHeader', authHeader);
             const token = authHeader?.split(' ')[1]
             if (!token) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-            const decoded = jwt.verify(token, JWT_SECRET)
-            res.status(200).json(decoded)
+            console.log('tokentokentokentoken:', token);
+            const decoded = jwt.verify(token, REFRESH_JWT_SECRET)
+            if (decoded) {
+                console.log('decodeddecodeddecoded', decoded)
+                const new_token= authService.signToken(decoded.username, decoded.user_id, decoded.role_id)
+                console.log('new_token', new_token)
+                //const new_token = jwt.sign({ }, JWT_SECRET, { expiresIn: '1m' });
+                //res.status(200).json(new_token)
+                res.status(200).json({ new_token, 'username': decoded.username, 'user_id': decoded.user_id, 'role_id': decoded.role_id });
+
+            }
+
         } catch (error) {
             if (error instanceof jwt.TokenExpiredError) {
                 return res.status(401).json({message: 'token expired', expired: true})
             }
             else {
-                console.error('Token verification failed:', error);
+                console.error('Token refresh verification failed:', error);
                 return null;
             }
         }
