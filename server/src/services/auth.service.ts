@@ -10,7 +10,7 @@ const tokenBlacklist = new Set();
 export class authService {
 
     static signToken = (username: string, user_id: string, role_id: string): string => {
-        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: '2m' });
+        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: '15s' });
     };
 
     static signRefreshToken = (username: string, user_id: string, role_id: string): string => {
@@ -52,11 +52,16 @@ export class authService {
             if (decoded) {
                 console.log('decodeddecodeddecoded', decoded)
                 const new_token= authService.signToken(decoded.username, decoded.user_id, decoded.role_id)
+                const new_refresh_token= authService.signRefreshToken(decoded.username, decoded.user_id, decoded.role_id)
+
+                const decodedtoken = jwt.verify(new_token, JWT_SECRET)
+                const decodedRefreshToken = jwt.verify(new_refresh_token, REFRESH_JWT_SECRET)
                 console.log('new_token', new_token)
                 //const new_token = jwt.sign({ }, JWT_SECRET, { expiresIn: '1m' });
                 //res.status(200).json(new_token)
-                res.status(200).json({ new_token, 'username': decoded.username, 'user_id': decoded.user_id, 'role_id': decoded.role_id });
-
+                //res.status(200).json({ 'token': new_token, 'username': decoded.username, 'user_id': decoded.user_id, 'role_id': decoded.role_id });
+                console.log({ 'access_token': { 'token': new_token, 'username': decodedtoken.username, 'user_id': decodedtoken.user_id, 'role_id': decodedtoken.role_id, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': decodedRefreshToken, 'exp': decodedRefreshToken.exp } })
+                res.status(200).json({ 'access_token': { 'token': new_token, 'username': decodedtoken.username, 'user_id': decodedtoken.user_id, 'role_id': decodedtoken.role_id, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': decodedRefreshToken, 'exp': decodedRefreshToken.exp } });
             }
 
         } catch (error) {
@@ -92,9 +97,11 @@ export class authService {
                 const refreshToken = this.signRefreshToken(storedUsername, storedUserID, storedRoleID);
                 const decodedtoken = jwt.verify(token, JWT_SECRET)
                 const decodedRefreshToken = jwt.verify(refreshToken, REFRESH_JWT_SECRET)
-                console.log('decodedtoken', decodedtoken)
-                console.log('decodedRefreshToken', decodedRefreshToken)
-                res.status(200).json({ token, refreshToken, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID });
+                //console.log('decodedtoken', decodedtoken)
+                //console.log('decodedRefreshToken', decodedRefreshToken)
+                //console.log( { 'access_token': { 'token': token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': refreshToken, 'exp': decodedRefreshToken.exp } } )
+                //res.status(200).json({ 'access_token': { token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID }, 'refresh_token': {refreshToken } } );
+                res.status(200).json( { 'access_token': { 'token': token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': refreshToken, 'exp': decodedRefreshToken.exp } } );
             } else {
                 res.status(401).json({ message: 'Invalid username or password' });
             }

@@ -26,8 +26,8 @@ const apiService = {
                 username,
                 password,
             })
-
-            if (response.data.token) {
+            console.log('response', response)
+            if (response.data) {
                 startRefreshTimer();
                 return response.data
             }
@@ -38,7 +38,9 @@ const apiService = {
     },
 
 
+
     async verifyToken (token: string) {
+        console.log('response.statusresponse.status')
         try {
             const response = await axios.post(
                 getAPIUrl() + '/verifytoken',
@@ -47,13 +49,22 @@ const apiService = {
                     headers: buildHeader(token),
                 })
             console.log('response', response)
+
             if (response.status !== 200) {
+
+                //const refreshToken = await this.refreshToken()
+                console.log('refreshTokenrefreshToken', 'refreshToken')
+                if (refreshToken) {
+                    return true;
+                }
+
                 localStorage.removeItem('token')
                 authStore.dispatch({
                     type: 'TOKEN_VERIFIED',
                     payload: { username: '' },
                 })
                 return false
+
             } else {
                 localStorage.token = token
                 authStore.dispatch({
@@ -64,7 +75,7 @@ const apiService = {
                 return true
             }
         } catch (error) {
-
+            console.log(error)
         }
     },
 
@@ -88,13 +99,13 @@ const apiService = {
                 })
                 return false
             } else {
-                localStorage.setItem('token', response.data.new_token)
+                localStorage.setItem('token', response.data.access_token.token)
                 authStore.dispatch({
                     type: 'TOKEN_VERIFIED',
-                    payload: { username: response.data.username },
+                    payload: { username: response.data.access_token.username },
                 })
                 startRefreshTimer();
-                console.log('refreshtoken response userbnane', response.data.username)
+                console.log('refreshtoken response userbnane', response.data)
                 return true
             }
         } catch (error) {

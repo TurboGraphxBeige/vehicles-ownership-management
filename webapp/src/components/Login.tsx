@@ -17,13 +17,13 @@ function Login() {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const res = await apiService.doLogin(login, password)
-        console.log('res', res)
-        if (res.token) {
-            localStorage.setItem('token', res.token)
-            localStorage.setItem('refreshToken', res.refreshToken)
+        console.log('res', res.access_token.token)
+        if (res.access_token) {
+            localStorage.setItem('token', res.access_token.token)
+            localStorage.setItem('refreshToken', res.refresh_token.token)
             authStore.dispatch({
                 type: "USER_LOGGED_IN",
-                payload: { username: res.username }
+                payload: { username: res.access_token.username }
             });
         }
     }
