@@ -72,29 +72,28 @@ export class authService {
 
     static async login(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('req.body', req.body)
             const username = req.body.username as string
             const password = req.body.password;
 
             if (!username || !password) { res.status(401).json({ message: 'Invalid username or password' }); }
 
-            //const result = await pool.query('SELECT * FROM viewer.user WHERE username = $1 ', [username]);
             const user: User | null = await User.findOne({
                 where: {
                     username: username
                 }
             })
-            console.log('useruseruser', user)
             const storedHashedPassword = user?.dataValues.password ? user.dataValues.password : null ;
             const isValid = await bcrypt.compare(password, storedHashedPassword);
-            console.log(password, storedHashedPassword);
             if (isValid) {
                 const storedUsername: string = user!.dataValues.username
                 const storedUserID: string = user!.dataValues.user_id
                 const storedRoleID: string = user!.dataValues.role_id
                 const token = this.signToken(storedUsername, storedUserID, storedRoleID);
                 const refreshToken = this.signRefreshToken(storedUsername, storedUserID, storedRoleID);
-
+                const decodedtoken = jwt.verify(token, JWT_SECRET)
+                const decodedRefreshToken = jwt.verify(refreshToken, REFRESH_JWT_SECRET)
+                console.log('decodedtoken', decodedtoken)
+                console.log('decodedRefreshToken', decodedRefreshToken)
                 res.status(200).json({ token, refreshToken, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID });
             } else {
                 res.status(401).json({ message: 'Invalid username or password' });
