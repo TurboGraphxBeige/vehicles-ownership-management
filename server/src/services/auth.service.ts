@@ -5,16 +5,18 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET: string = process.env.JWT_SECRET || '' ;
 const REFRESH_JWT_SECRET: string = process.env.REFRESH_JWT_SECRET || '';
+const JWT_TOKEN_EXP: string = process.env.JWT_TOKEN_EXP || '' ;
+const REFRESH_JWT_EXP: string = process.env.REFRESH_JWT_EXP || '';
 const tokenBlacklist = new Set();
 
 export class authService {
 
     static signToken = (username: string, user_id: string, role_id: string): string => {
-        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: '15s' });
+        return jwt.sign({ username, user_id, role_id }, JWT_SECRET, { expiresIn: JWT_TOKEN_EXP });
     };
 
     static signRefreshToken = (username: string, user_id: string, role_id: string): string => {
-        return jwt.sign({ username, user_id, role_id }, REFRESH_JWT_SECRET, { expiresIn: '10d' });
+        return jwt.sign({ username, user_id, role_id }, REFRESH_JWT_SECRET, { expiresIn: REFRESH_JWT_EXP });
     };
 
     static verifyToken = (req: Request, res: Response, next: NextFunction) => {
@@ -44,7 +46,7 @@ export class authService {
             const authHeader = req.headers.authorization;
             const token = authHeader?.split(' ')[1]
             if (!token) {
-                return res.status(401).json({ error: '77Unauthorized' });
+                return res.status(401).json({ error: 'Unauthorized' });
             }
 
             const decoded = jwt.verify(token, REFRESH_JWT_SECRET)
@@ -54,7 +56,7 @@ export class authService {
 
                 const decodedtoken = jwt.verify(new_token, JWT_SECRET)
                 const decodedRefreshToken = jwt.verify(new_refresh_token, REFRESH_JWT_SECRET)
-                res.status(200).json({ 'access_token': { 'token': new_token, 'username': decodedtoken.username, 'user_id': decodedtoken.user_id, 'role_id': decodedtoken.role_id, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': decodedRefreshToken, 'exp': decodedRefreshToken.exp } });
+                res.status(200).json({ 'access_token': { 'token': new_token, 'username': decodedtoken.username, 'user_id': decodedtoken.user_id, 'role_id': decodedtoken.role_id, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': new_refresh_token, 'username': decodedRefreshToken.username, 'user_id': decodedRefreshToken.user_id, 'role_id': decodedRefreshToken.role_id, 'exp': decodedRefreshToken.exp } });
             }
 
         } catch (error) {

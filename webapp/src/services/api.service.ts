@@ -39,7 +39,6 @@ const apiService = {
 
 
     async verifyToken (token: string) {
-        console.log('response.statusresponse.status')
         try {
             const response = await axios.post(
                 getAPIUrl() + '/verifytoken',
@@ -47,7 +46,6 @@ const apiService = {
                 {
                     headers: buildHeader(token),
                 })
-            console.log('response', response.status)
 
             if (response.status !== 200) {
                 if (refreshToken) {
@@ -99,17 +97,20 @@ const apiService = {
                 })
                 return false
             } else {
+                localStorage.setItem('refreshToken', response.data.refresh_token.token)
                 localStorage.setItem('token', response.data.access_token.token)
                 authStore.dispatch({
                     type: 'TOKEN_VERIFIED',
                     payload: { username: response.data.access_token.username },
                 })
                 startRefreshTimer();
-                console.log('refreshtoken response userbnane', response.data)
                 return true
             }
         } catch (error) {
-
+            const res = error?.response;
+            if (res?.status === 401 && res.data?.expired === true) {
+                this.refreshToken();
+            }
         }
     },
 
