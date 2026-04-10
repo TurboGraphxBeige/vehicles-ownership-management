@@ -107,10 +107,7 @@ const apiService = {
                 return true
             }
         } catch (error) {
-            const res = error?.response;
-            if (res?.status === 401 && res.data?.expired === true) {
-                this.refreshToken();
-            }
+            console.log(error)
         }
     },
 
