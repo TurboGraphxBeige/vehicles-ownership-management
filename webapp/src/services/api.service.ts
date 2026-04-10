@@ -38,7 +38,6 @@ const apiService = {
     },
 
 
-
     async verifyToken (token: string) {
         console.log('response.statusresponse.status')
         try {
@@ -48,12 +47,9 @@ const apiService = {
                 {
                     headers: buildHeader(token),
                 })
-            console.log('response', response)
+            console.log('response', response.status)
 
             if (response.status !== 200) {
-
-                //const refreshToken = await this.refreshToken()
-                console.log('refreshTokenrefreshToken', 'refreshToken')
                 if (refreshToken) {
                     return true;
                 }
@@ -75,6 +71,10 @@ const apiService = {
                 return true
             }
         } catch (error) {
+            const res = error?.response;
+            if (res?.status === 401 && res.data?.expired === true) {
+                this.refreshToken();
+            }
             console.log(error)
         }
     },

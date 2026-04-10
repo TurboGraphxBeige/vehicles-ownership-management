@@ -42,13 +42,15 @@ export class authService {
     static refreshToken = (req: Request, res: Response, next: NextFunction) => {
         try {
             const authHeader = req.headers.authorization;
-            console.log('authHeader', authHeader);
+            console.log('authHeader in refreshToken', authHeader);
             const token = authHeader?.split(' ')[1]
+            console.log('token received in refreshToken:', token);
             if (!token) {
-                return res.status(401).json({ error: 'Unauthorized' });
+                return res.status(401).json({ error: '77Unauthorized' });
             }
-            console.log('tokentokentokentoken:', token);
+
             const decoded = jwt.verify(token, REFRESH_JWT_SECRET)
+            console.log('decodeddecodeddecoded', decoded)
             if (decoded) {
                 console.log('decodeddecodeddecoded', decoded)
                 const new_token= authService.signToken(decoded.username, decoded.user_id, decoded.role_id)
