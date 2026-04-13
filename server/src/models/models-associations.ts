@@ -3,6 +3,7 @@ import { VehicleModel } from './model.js';
 import { Vehicle } from './vehicle.js';
 import { VehiclePhoto } from './vehicle_photo.js';
 import { Observation } from "./observation.js"
+import { MaintenanceTask } from "./maintenance_task.js"
 import { Service } from './service.js';
 import { User } from './user.js';
 import { OdometerReading } from "./odometer_reading.js";
@@ -25,6 +26,9 @@ export function initAssociations() {
 
     Vehicle.hasMany(Observation, { foreignKey: 'vehicle_id', as: 'observations' });
     Observation.hasOne(Vehicle, { foreignKey: 'vehicle_id', as: 'observations' });
+
+    Vehicle.hasMany(MaintenanceTask, { foreignKey: 'vehicle_id', as: 'maintenances' });
+    MaintenanceTask.hasOne(Vehicle, { foreignKey: 'vehicle_id', as: 'maintenances' });
 
     Vehicle.hasMany(OdometerReading, { foreignKey: 'vehicle_id', as: 'odometer_readings' });
     OdometerReading.hasOne(Vehicle, { foreignKey: 'vehicle_id', as: 'odometer_readings' });

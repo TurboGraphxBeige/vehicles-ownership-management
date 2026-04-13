@@ -14,6 +14,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import {MaintenanceTask} from "./maintenance_task";
 
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -45,7 +46,7 @@ export const sequelize = new Sequelize({
     password: DB_PWD,
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
-    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading],
+    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask],
     logging: false
 });
 

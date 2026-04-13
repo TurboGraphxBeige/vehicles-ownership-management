@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, Index } from 'sequelize-typescript';
+import {Table, Column, Model, DataType, Index, PrimaryKey, Default} from 'sequelize-typescript';
 
 @Index('idx_maintenance_task_service_id')
 @Index('idx_maintenance_task_vehicle_id')
@@ -9,41 +9,39 @@ import { Table, Column, Model, DataType, Index } from 'sequelize-typescript';
   schema: 'data', // or 'viewer' depending on which block you want; original final block used 'data'
   timestamps: false,
 })
-export class MaintenanceTask extends Model<MaintenanceTask> {
-  @Column({
-    type: DataType.UUID,
-    allowNull: true,
-    field: 'maintenance_task_id',
-  })
-  maintenanceTaskId?: string;
+export class MaintenanceTask extends Model {
+  @PrimaryKey
+  @Default(DataType.UUIDV4)
+  @Column({ type: DataType.UUID, allowNull: false })
+  declare maintenance_task_id?: string;
 
   @Column({
     type: DataType.UUID,
     allowNull: true,
     field: 'service_id',
   })
-  serviceId?: string;
+  service_id?: string;
 
   @Column({
     type: DataType.UUID,
     allowNull: true,
     field: 'vehicle_id',
   })
-  vehicleId?: string;
+  vehicle_id?: string;
 
   @Column({
     type: DataType.UUID,
     allowNull: true,
     field: 'vehicle_component_id',
   })
-  vehicleComponentId?: string;
+  vehicle_component_id?: string;
 
   @Column({
     type: DataType.UUID,
     allowNull: true,
     field: 'vehicle_component_system_id',
   })
-  vehicleComponentSystemId?: string;
+  vehicle_component_system_id?: string;
 
   @Column({
     type: DataType.TEXT,
@@ -64,7 +62,7 @@ export class MaintenanceTask extends Model<MaintenanceTask> {
     allowNull: true,
     field: 'maintenance_task_type',
   })
-  maintenanceTaskType?: string;
+  maintenance_task_type?: string;
 
   @Column({
     type: DataType.TEXT,

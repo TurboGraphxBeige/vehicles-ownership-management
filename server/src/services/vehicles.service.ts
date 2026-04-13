@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import {sequelize, Vehicle, VehiclePhoto, Service, Brand, VehicleModel, Observation, User} from '../models/index.js';
 import {OdometerReading} from "../models/odometer_reading.js";
+import {MaintenanceTask} from "../models/maintenance_task";
 
 export class vehicleService {
     static async getVehicles(req: Request, res: Response, next: NextFunction) {
@@ -9,6 +10,7 @@ export class vehicleService {
                    { model: VehiclePhoto, as: 'photos' },
                    { model: Service, as: 'services' },
                    { model: Observation, as: 'observations' },
+                   { model: MaintenanceTask, as: 'maintenances' },
                    { model: OdometerReading, as: 'odometer_readings' },
                    { model: VehicleModel, as: 'model', include: [{ model: Brand, as: 'brand' }] },
                    { model: User, as: 'user', attributes: ['user_id', 'first_name', 'last_name'] },

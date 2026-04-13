@@ -1,0 +1,100 @@
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Typography from "@mui/material/Typography";
+import {IconButton} from "@mui/material";
+import LaunchIcon from '@mui/icons-material/Launch';
+import * as React from "react";
+import ServiceDialog from "./ServiceDialog.tsx";
+import type {Service} from "../types/Service.ts";
+import type {Maintenance} from "../types/Maintenance.ts";
+import type {Vehicle} from "../types/Vehicle.ts";
+
+interface selectedMaintenanceProps {
+    selectedService: Service;
+    closeMaintenanceDialog: () => void;
+    setIsMaintennaceDialogOpened: ()=> void;
+    isMaintenanceDialogOpened: boolean;
+    setSelectedMaintenance: () => void;
+    selectedMaintenance: Maintenance;
+    selectedVehicle: Vehicle;
+
+}
+
+function MaintenancesList(props: selectedMaintenanceProps) {
+    const {
+        selectedService,
+        closeMaintenanceDialog,
+        setIsMaintennaceDialogOpened,
+        isMaintenanceDialogOpened,
+        setSelectedMaintenance,
+        selectedMaintenance,
+        selectedVehicle,
+
+    } = props;
+
+    const firstMaintenance: Maintenance = selectedVehicle.maintenances?.[0];
+    const headers: (keyof Maintenance)[] = firstMaintenance ? (Object.keys(firstMaintenance) as (keyof Maintenance)[]) : ([] as (keyof Maintenance)[]);
+
+    const formatHeader = (header: string) => {
+        return header.split('_').join(' ');
+    };
+
+    const handleButtonClick = (row: Maintenance) => {
+        console.log('row', row)
+        setSelectedMaintenance(row);
+        setIsMaintennaceDialogOpened(true);
+    }
+
+    const filteredMaintenances: Maintenance[] = selectedVehicle.maintenances.filter(maintenance => maintenance.service_id === selectedService.service_id);
+    console.log('filteredMaintenances', selectedService.service_id, filteredMaintenances, selectedVehicle.maintenances);
+    return (
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>
+
+                            </TableCell>
+                            {headers.map((header) => (
+                                header.includes('id') ? null : (
+                                    <TableCell align={"center"}>
+                                        <Typography variant="button">{formatHeader(header)}</Typography>
+                                    </TableCell>
+                                )
+                            ))}
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {filteredMaintenances ? filteredMaintenances.map((row: Service) => (
+                            <TableRow key={row.service_id}>
+                                <TableCell>
+                                    <IconButton
+
+                                        onClick={() => handleButtonClick(row)}
+                                        size="small"
+                                    >
+                                        <LaunchIcon fontSize="small" />
+                                    </IconButton>
+                                </TableCell>
+                                {headers.map((header: string) => (
+                                    header.includes('id') ? null : (<TableCell align={"center"} key={header}>{row[header as keyof Maintenance]}</TableCell>)
+                                ))}
+
+                            </TableRow>
+                        )) : null}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+        </>
+    );
+}
+
+export default MaintenancesList

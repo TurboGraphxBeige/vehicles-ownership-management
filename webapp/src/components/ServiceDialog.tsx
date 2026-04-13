@@ -11,11 +11,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {useEffect, useState} from "react";
+import {type SyntheticEvent, useEffect, useState} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import type {Service} from "../types/Service.ts";
 import FormControl from "@mui/material/FormControl";
-import {TextField} from "@mui/material";
+import {IconButton, ImageListItem, TextField} from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import Select, {type SelectChangeEvent} from "@mui/material/Select";
 import type {Contact} from "../types/Contact.ts";
@@ -24,6 +24,17 @@ import type {User} from "../types/User.ts";
 import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
 import TableList from "./TableList.tsx";
+import MaintenancesList from "./MaintenancesList.tsx";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import {FaPlus} from "react-icons/fa";
+import Typography from "@mui/material/Typography";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import ImageList from "@mui/material/ImageList";
+import type {Photo} from "../types/Photo.ts";
+import DeleteIcon from "@mui/icons-material/Delete";
+import imageUrl from "../utils/imageUrl.ts";
 
 //selectedVehicle={selectedVehicle} selectedService={selectedService} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
@@ -36,6 +47,8 @@ interface ServiceDialogProps {
     contacts: Contact[];
 
 }
+
+
 
 function ServiceDialog(props: ServiceDialogProps ) {
 
@@ -56,6 +69,8 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const [selectedContact, setSelectedContact] = React.useState<string>('');
     const [notes, setNotes] = React.useState<string>('');
     const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string>('');
+    const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
+    const [selectedMaintenance, setSelectedMaintenance] = React.useState<Service | null>( null );
 
     useEffect(()=>  {
         setServiceDate(selectedService?.service_date ? dayjs(selectedService.service_date) : dayjs() ); // should default to today's date
@@ -67,6 +82,17 @@ function ServiceDialog(props: ServiceDialogProps ) {
         console.log('selectedService', selectedService);
     }, [selectedService]);
 
+
+    const tabsList: string[] = ['Observations', 'Maintenances']
+    const [selectedTab, setSelectedTab] = React.useState(tabsList[0]);
+
+    const closeMaintenanceDialog = () => {
+        setIsMaintenanceDialogOpened(false);
+        setSelectedMaintenance(null);
+    }
+    const handleTabChange = (_event: SyntheticEvent , newValue: string) => {
+        setSelectedTab(newValue);
+    };
 
     const handleCancelConfirmDelete = () => {
         onClose();
@@ -187,7 +213,34 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
 
                         <Grid size={12}>
-                            <TableList  selectedService={selectedService}  isServiceDialogOpened={isServiceDialogOpened} selectedVehicle={selectedVehicle} />
+                            <Box sx={{ width: '100%' }}>
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                    <Tabs
+                                        value={selectedTab}
+                                        onChange={handleTabChange}
+                                        aria-label="basic tabs example"
+                                    >
+
+                                        <Tab label='Observations' value='Observations'/>
+                                        <Tab label='Maintenances' value='Maintenances'/>
+                                    </Tabs>
+                                </Box>
+
+                                {/* Tab Panels */}
+
+
+                                {selectedTab === 'Observations' && (
+                                    <Box sx={{ width: '100%', height: 500 }}>
+                                        <Typography>**Content for Tab 3**</Typography>
+
+                                    </Box>
+                                )}
+                                {selectedTab === 'Maintenances' && (
+                                    <Box sx={{ width: '100%', height: 500 }}>
+                                        <MaintenancesList selectedService={selectedService} selectedMaintenance={selectedMaintenance} setSelectedMaintenance={ setSelectedMaintenance } isMaintenanceDialogOpened={isMaintenanceDialogOpened} selectedVehicle={selectedVehicle} setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened} onClose={ closeMaintenanceDialog } />
+                                    </Box>
+                                )}
+                            </Box>
 
                         </Grid>
                     </Grid>

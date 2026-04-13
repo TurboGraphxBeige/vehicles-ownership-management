@@ -248,7 +248,6 @@ function VehicleDialog(props: VehicleDialogProps) {
     const closeServiceDialog = () => {
         setIsServiceDialogOpened(false);
         setSelectedService(null);
-        console.log("WWWWWWWWWWWWWWWWWWWWWWWWW")
     }
 
     return (
@@ -319,7 +318,6 @@ function VehicleDialog(props: VehicleDialogProps) {
                         </Grid>
                         <Grid size={6}>
 
-
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DatePicker']}>
                                     {/*<DateTimePicker label="Purchase Date" onChange={handleDateTimeChange}/>*/}
@@ -334,8 +332,6 @@ function VehicleDialog(props: VehicleDialogProps) {
                             </LocalizationProvider>
 
                         </Grid>
-
-
 
                         <Grid size={12}>
 

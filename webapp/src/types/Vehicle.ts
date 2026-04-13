@@ -11,6 +11,7 @@ export interface Vehicle {
     price_paid: number;
     photos?: Photo[] | null;
     observations: Observation[];
+    maintenances: Maintenance[];
     model: Model;
     making_year: string;
     // main_picture, which type exactly?
