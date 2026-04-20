@@ -25,7 +25,7 @@ const apiService = {
             const response = await axios.post(getAPIUrl() + '/login', {
                 username,
                 password,
-            })
+            }, { withCredentials: true })
             console.log('response', response)
             if (response.data) {
                 startRefreshTimer();
@@ -85,9 +85,7 @@ const apiService = {
             const response = await axios.post(
                 getAPIUrl() + '/refreshtoken',
                 {},
-                {
-                    headers: buildHeader(token),
-                })
+                { withCredentials: true })
             console.log('refreshtoken response', response)
             if (response.status !== 200) {
                 localStorage.removeItem('token')
@@ -97,7 +95,6 @@ const apiService = {
                 })
                 return false
             } else {
-                //localStorage.setItem('refreshToken', response.data.refresh_token.token)
                 localStorage.setItem('token', response.data.access_token.token)
                 authStore.dispatch({
                     type: 'TOKEN_VERIFIED',

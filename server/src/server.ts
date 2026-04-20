@@ -6,6 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
 
 // Import routes
 import vehicleRoutes from './routes/vehicles.route.js';
@@ -45,6 +46,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
+app.use(cookieParser());
 
 // Routes
 const router = express.Router();

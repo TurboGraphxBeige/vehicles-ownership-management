@@ -2,7 +2,6 @@ import type { Request, Response, NextFunction } from 'express';
 import {sequelize, User, Role} from '../models/index.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
 
 const JWT_SECRET: string = process.env.JWT_SECRET || '' ;
 const REFRESH_JWT_SECRET: string = process.env.REFRESH_JWT_SECRET || '';
@@ -45,7 +44,7 @@ export class authService {
     static refreshToken = (req: Request, res: Response, next: NextFunction) => {
         try {
             const authHeader = req.headers.authorization;
-            const token = authHeader?.split(' ')[1]
+            const token = req.cookies?.refresh_token
             if (!token) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
@@ -57,7 +56,6 @@ export class authService {
 
                 const decodedtoken = jwt.verify(new_token, JWT_SECRET)
                 const decodedRefreshToken = jwt.verify(new_refresh_token, REFRESH_JWT_SECRET)
-                // res.status(200).json({ 'access_token': { 'token': new_token, 'username': decodedtoken.username, 'user_id': decodedtoken.user_id, 'role_id': decodedtoken.role_id, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': new_refresh_token, 'username': decodedRefreshToken.username, 'user_id': decodedRefreshToken.user_id, 'role_id': decodedRefreshToken.role_id, 'exp': decodedRefreshToken.exp } });
                 res.cookie('refresh_token', new_refresh_token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'prod',
@@ -101,11 +99,13 @@ export class authService {
                 const refreshToken = this.signRefreshToken(storedUsername, storedUserID, storedRoleID);
                 const decodedtoken = jwt.verify(token, JWT_SECRET)
                 const decodedRefreshToken = jwt.verify(refreshToken, REFRESH_JWT_SECRET)
-                //console.log('decodedtoken', decodedtoken)
-                //console.log('decodedRefreshToken', decodedRefreshToken)
-                //console.log( { 'access_token': { 'token': token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': refreshToken, 'exp': decodedRefreshToken.exp } } )
-                //res.status(200).json({ 'access_token': { token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID }, 'refresh_token': {refreshToken } } );
-                res.status(200).json( { 'access_token': { 'token': token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID, 'exp': decodedtoken.exp }, 'refresh_token': { 'token': refreshToken, 'exp': decodedRefreshToken.exp } } );
+                res.cookie('refresh_token', refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'prod',
+                    sameSite: 'Strict',
+                    maxAge: 7 * 24 * 60 * 60 * 1000
+                });
+                res.status(200).json( { 'access_token': { 'token': token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID, 'exp': decodedtoken.exp } } );
             } else {
                 res.status(401).json({ message: 'Invalid username or password' });
             }
