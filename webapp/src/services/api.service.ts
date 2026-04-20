@@ -97,7 +97,7 @@ const apiService = {
                 })
                 return false
             } else {
-                localStorage.setItem('refreshToken', response.data.refresh_token.token)
+                //localStorage.setItem('refreshToken', response.data.refresh_token.token)
                 localStorage.setItem('token', response.data.access_token.token)
                 authStore.dispatch({
                     type: 'TOKEN_VERIFIED',
