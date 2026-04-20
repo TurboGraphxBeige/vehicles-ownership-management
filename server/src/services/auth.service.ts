@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 import {sequelize, User, Role} from '../models/index.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import ms from "ms";
 
 const JWT_SECRET: string = process.env.JWT_SECRET || '' ;
 const REFRESH_JWT_SECRET: string = process.env.REFRESH_JWT_SECRET || '';
@@ -60,7 +61,7 @@ export class authService {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'prod',
                     sameSite: 'Strict',
-                    maxAge: 7 * 24 * 60 * 60 * 1000
+                    maxAge: ms(REFRESH_JWT_EXP)
                 });
                 res.status(200).json({ 'access_token': { 'token': new_token, 'username': decodedtoken.username, 'user_id': decodedtoken.user_id, 'role_id': decodedtoken.role_id, 'exp': decodedtoken.exp } });
 
@@ -103,7 +104,7 @@ export class authService {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'prod',
                     sameSite: 'Strict',
-                    maxAge: 7 * 24 * 60 * 60 * 1000
+                    maxAge: ms(REFRESH_JWT_EXP)
                 });
                 res.status(200).json( { 'access_token': { 'token': token, 'username': storedUsername, 'user_id': storedUserID, 'role_id': storedRoleID, 'exp': decodedtoken.exp } } );
             } else {
