@@ -44,6 +44,9 @@ import type { AxiosResponse } from 'axios';
 import type { Vehicle } from "../types/Vehicle";
 import ServiceDialog from "./ServiceDialog.tsx";
 import type {Service} from "../types/Service.ts";
+import type {Maintenance} from "../types/Maintenance.ts"
+import MaintenancesList from "./MaintenancesList.tsx";
+import ObservationsList from "./ObservationsList.tsx";
 
 interface VehicleDialogProps {
     selectedVehicle: Vehicle;
@@ -82,7 +85,11 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [pricePaid, setPricePaid] = React.useState('');
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const [isServiceDialogOpened, setIsServiceDialogOpened] = React.useState(false);
+    const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
     const [selectedService, setSelectedService] = React.useState<Service | null>( null );
+    const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
+    const [selectedMaintenance, setSelectedMaintenance] = React.useState<Maintenance | null>( null );
+    const [selectedObservation, setSelectedObservation] = React.useState<Maintenance | null>( null );
 
     useEffect(() => {
         if (selectedVehicle) {
@@ -250,6 +257,16 @@ function VehicleDialog(props: VehicleDialogProps) {
         setSelectedService(null);
     }
 
+    const closeMaintenanceDialog = () => {
+        setIsMaintenanceDialogOpened(false);
+        setSelectedMaintenance(null);
+    }
+
+    const closeObservationDialog = () => {
+        setIsMaintenanceDialogOpened(false);
+        setSelectedObservation(null);
+    }
+
     return (
 
             isVehicleDialogOpened && (
@@ -333,7 +350,7 @@ function VehicleDialog(props: VehicleDialogProps) {
 
                         </Grid>
 
-                        <Grid size={12}>
+                        <Grid size={6}>
 
                         </Grid>
                         <Grid size={6}>
@@ -383,7 +400,7 @@ function VehicleDialog(props: VehicleDialogProps) {
 
                         {/* Tab Panels */}
                         {selectedTab === 'Photos' && (
-                            <Box sx={{ width: '100%', height: 500 }}>
+                            <Box sx={{ width: '100%', paddingTop: 2, height: 500 }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                                     {/* File Upload Button */}
                                     <Button
@@ -482,14 +499,17 @@ function VehicleDialog(props: VehicleDialogProps) {
                             </Box>
                         )}
                         {selectedTab === 'Observations' && (
-                            <Box sx={{ width: '100%', height: 500 }}>
-                                <Typography>**Content for Tab 3**</Typography>
-
+                            <Box sx={{ width: '100%', paddingTop: 2, height: 500 }}>
+                                <Box sx={{ width: '100%', height: 500 }}>
+                                    <ObservationsList selectedObservation={selectedObservation} setSelectedObservation={ setSelectedObservation } isObservationDialogOpened={isObservationDialogOpened} selectedVehicle={selectedVehicle} setIsObservationDialogOpened={setIsObservationDialogOpened} onClose={ closeObservationDialog } />
+                                </Box>
                             </Box>
                         )}
                         {selectedTab === 'Maintenances' && (
-                            <Box sx={{ width: '100%', height: 500 }}>
-                                <Typography>Maintenances</Typography>
+                            <Box sx={{ width: '100%', paddingTop: 2, height: 500 }}>
+                                <Box sx={{ width: '100%', height: 500 }}>
+                                    <MaintenancesList selectedMaintenance={selectedMaintenance} setSelectedMaintenance={ setSelectedMaintenance } isMaintenanceDialogOpened={isMaintenanceDialogOpened} selectedVehicle={selectedVehicle} setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened} onClose={ closeMaintenanceDialog } />
+                                </Box>
                             </Box>
                         )}
                     </Box>

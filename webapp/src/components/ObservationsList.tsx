@@ -11,53 +11,53 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import * as React from "react";
 import ServiceDialog from "./ServiceDialog.tsx";
 import type {Service} from "../types/Service.ts";
-import type {Maintenance} from "../types/Maintenance.ts";
+import type {Observation} from "../types/Observation.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
 
-interface selectedMaintenanceProps {
+interface selectedObservationProps {
     selectedService: Service;
-    closeMaintenanceDialog: () => void;
-    setIsMaintennaceDialogOpened: ()=> void;
-    isMaintenanceDialogOpened: boolean;
-    setSelectedMaintenance: () => void;
-    selectedMaintenance: Maintenance;
+    closeObservationDialog: () => void;
+    setIsObservationDialogOpened: ()=> void;
+    isObservationDialogOpened: boolean;
+    setSelectedObservation: () => void;
+    selectedObservation: Observation;
     selectedVehicle: Vehicle;
 
 }
 
-function MaintenancesList(props: selectedMaintenanceProps) {
+function ObservationsList(props: selectedObservationProps) {
     const {
         selectedService,
-        closeMaintenanceDialog,
-        setIsMaintennaceDialogOpened,
-        isMaintenanceDialogOpened,
-        setSelectedMaintenance,
-        selectedMaintenance,
+        closeObservationDialog,
+        setIsObservationDialogOpened,
+        isObservationDialogOpened,
+        setSelectedObservation,
+        selectedObservation,
         selectedVehicle,
 
     } = props;
 
-    const firstMaintenance: Maintenance = selectedVehicle.maintenances?.[0];
-    const headers: (keyof Maintenance)[] = firstMaintenance ? (Object.keys(firstMaintenance) as (keyof Maintenance)[]) : ([] as (keyof Maintenance)[]);
+    const firstObservation: Observation = selectedVehicle.observations?.[0];
+    const headers: (keyof Observation)[] = firstObservation ? (Object.keys(firstObservation) as (keyof Observation)[]) : ([] as (keyof Observation)[]);
 
     const formatHeader = (header: string) => {
         return header.split('_').join(' ');
     };
 
-    const handleButtonClick = (row: Maintenance) => {
+    const handleButtonClick = (row: Observation) => {
         console.log('row', row)
-        setSelectedMaintenance(row);
-        setIsMaintennaceDialogOpened(true);
+        setSelectedObservation(row);
+        setIsObservationDialogOpened(true);
     }
 
-    let filteredMaintenances: Maintenance[] = [];
+    let filteredObservations: Observation[] = [];
     if (selectedService) {
-        filteredMaintenances = selectedVehicle.maintenances.filter(maintenance => maintenance.service_id === selectedService.service_id);
+        filteredObservations = selectedVehicle.observations.filter(observation => observation.service_id === selectedService.service_id);
     }
 
-    if (filteredMaintenances.length === 0) { filteredMaintenances = selectedVehicle.maintenances }
+    if (filteredObservations.length === 0) { filteredObservations = selectedVehicle.observations }
 
-    console.log('filteredMaintenances', filteredMaintenances);
+    console.log('filteredObservations', filteredObservations);
     return (
         <>
             <TableContainer component={Paper}>
@@ -78,7 +78,7 @@ function MaintenancesList(props: selectedMaintenanceProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredMaintenances ? filteredMaintenances.map((row: Service) => (
+                        {filteredObservations ? filteredObservations.map((row: Service) => (
                             <TableRow key={row.service_id}>
                                 <TableCell>
                                     <IconButton
@@ -90,7 +90,7 @@ function MaintenancesList(props: selectedMaintenanceProps) {
                                     </IconButton>
                                 </TableCell>
                                 {headers.map((header: string) => (
-                                    header.includes('id') ? null : (<TableCell align={"center"} key={header}>{row[header as keyof Maintenance]}</TableCell>)
+                                    header.includes('id') ? null : (<TableCell align={"center"} key={header}>{row[header as keyof Observation]}</TableCell>)
                                 ))}
 
                             </TableRow>
@@ -103,4 +103,4 @@ function MaintenancesList(props: selectedMaintenanceProps) {
     );
 }
 
-export default MaintenancesList
+export default ObservationsList

@@ -1,4 +1,4 @@
-export interface Service {
+export interface Maintenance {
     maintenance_id: string;
     service_id: string;
     vehicle_id: string;
