@@ -57,12 +57,11 @@ function ObservationsList(props: selectedObservationProps) {
         filteredObservations = selectedVehicle.observations
     }
 
-    console.log('filteredObservations', filteredObservations);
     return (
         <>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
+                    <TableHead stickyHeader>
                         <TableRow>
                             <TableCell>
 

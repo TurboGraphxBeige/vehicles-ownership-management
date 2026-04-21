@@ -14,7 +14,7 @@ import {
   schema: 'data',
   timestamps: false,
 })
-export class VehicleComponentSystem extends Model<VehicleComponentSystem> {
+export class VehicleComponentSystem extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column({

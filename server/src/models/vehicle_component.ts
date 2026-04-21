@@ -8,7 +8,7 @@ import {
   ForeignKey,
   Index,
 } from 'sequelize-typescript';
-import { VehicleComponentSystem } from './vehicle_component_system.js'; // adjust path as needed
+import { VehicleComponentSystem } from './vehicle_component_system.js';
 
 @Index( 'idx_vehicle_component_system_id')
 @Index( 'idx_vehicle_component_id')
@@ -17,7 +17,7 @@ import { VehicleComponentSystem } from './vehicle_component_system.js'; // adjus
   schema: 'data',
   timestamps: false,
 })
-export class VehicleComponent extends Model<VehicleComponent> {
+export class VehicleComponent extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column({

@@ -49,7 +49,7 @@ export class Observation extends Model<Observation> {
 
   @AllowNull(true)
   @Column({ type: DataType.DATEONLY, allowNull: true })
-  declare service_date?: string | null;
+  declare observation_date?: string | null;
 
   @AllowNull(true)
   @Column({ type: DataType.TEXT, allowNull: true })

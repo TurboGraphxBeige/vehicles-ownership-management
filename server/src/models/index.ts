@@ -9,12 +9,15 @@ import { Observation } from './observation.js';
 import { User } from './user.js';
 import { Service } from './service.js';
 import { OdometerReading } from "./odometer_reading.js";
+import { MaintenanceTask } from "./maintenance_task.js";
+import { VehicleComponent } from "./vehicle_component.js";
+import { VehicleComponentSystem } from "./vehicle_component_system.js";
 import { initAssociations } from './models-associations.js';
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import {MaintenanceTask} from "./maintenance_task";
+
 
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -46,7 +49,7 @@ export const sequelize = new Sequelize({
     password: DB_PWD,
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
-    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask],
+    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask, VehicleComponent, VehicleComponentSystem],
     logging: false
 });
 

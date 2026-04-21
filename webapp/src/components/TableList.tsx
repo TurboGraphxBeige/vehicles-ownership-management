@@ -50,8 +50,8 @@ function TableList(props: selectedVehicleProps) {
 
     return (
         <>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
                     <TableHead>
                         <TableRow>
                             <TableCell>
