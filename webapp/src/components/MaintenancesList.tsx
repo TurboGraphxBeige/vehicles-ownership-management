@@ -53,9 +53,9 @@ function MaintenancesList(props: selectedMaintenanceProps) {
     let filteredMaintenances: Maintenance[] = [];
     if (selectedService) {
         filteredMaintenances = selectedVehicle.maintenances.filter(maintenance => maintenance.service_id === selectedService.service_id);
+    } else {
+        filteredMaintenances = selectedVehicle.maintenances
     }
-
-    if (filteredMaintenances.length === 0) { filteredMaintenances = selectedVehicle.maintenances }
 
     console.log('filteredMaintenances', filteredMaintenances);
     return (
@@ -78,8 +78,8 @@ function MaintenancesList(props: selectedMaintenanceProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredMaintenances ? filteredMaintenances.map((row: Service) => (
-                            <TableRow key={row.service_id}>
+                        {filteredMaintenances ? filteredMaintenances.map((row: Maintenance) => (
+                            <TableRow key={row.maintenance_id}>
                                 <TableCell>
                                     <IconButton
 

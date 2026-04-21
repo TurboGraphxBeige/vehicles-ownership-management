@@ -53,9 +53,9 @@ function ObservationsList(props: selectedObservationProps) {
     let filteredObservations: Observation[] = [];
     if (selectedService) {
         filteredObservations = selectedVehicle.observations.filter(observation => observation.service_id === selectedService.service_id);
+    } else {
+        filteredObservations = selectedVehicle.observations
     }
-
-    if (filteredObservations.length === 0) { filteredObservations = selectedVehicle.observations }
 
     console.log('filteredObservations', filteredObservations);
     return (
@@ -78,8 +78,8 @@ function ObservationsList(props: selectedObservationProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredObservations ? filteredObservations.map((row: Service) => (
-                            <TableRow key={row.service_id}>
+                        {filteredObservations ? filteredObservations.map((row: Observation) => (
+                            <TableRow key={row.observation_id}>
                                 <TableCell>
                                     <IconButton
 

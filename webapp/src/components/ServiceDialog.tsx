@@ -25,6 +25,7 @@ import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
 import TableList from "./TableList.tsx";
 import MaintenancesList from "./MaintenancesList.tsx";
+import ObservationsList from "./ObservationsList.tsx";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import {FaPlus} from "react-icons/fa";
@@ -71,6 +72,8 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string>('');
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
     const [selectedMaintenance, setSelectedMaintenance] = React.useState<Service | null>( null );
+    const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
+    const [selectedObservation, setSelectedObservation] = React.useState<Service | null>( null );
 
     useEffect(()=>  {
         setServiceDate(selectedService?.service_date ? dayjs(selectedService.service_date) : dayjs() ); // should default to today's date
@@ -231,8 +234,9 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
                                 {selectedTab === 'Observations' && (
                                     <Box sx={{ width: '100%', height: 500 }}>
-                                        <Typography>**Content for Tab 3**</Typography>
-
+                                        <Box sx={{ width: '100%', height: 500 }}>
+                                            <ObservationsList selectedService={selectedService} selectedObservation={selectedObservation} setSelectedObservation={ setSelectedObservation } isObservationDialogOpened={isObservationDialogOpened} selectedVehicle={selectedVehicle} setIsObservationDialogOpened={setIsObservationDialogOpened} onClose={ closeMaintenanceDialog } />
+                                        </Box>
                                     </Box>
                                 )}
                                 {selectedTab === 'Maintenances' && (
