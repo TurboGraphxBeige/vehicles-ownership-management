@@ -176,11 +176,14 @@ function ObservationDialog(props: ObservationDialogProps ) {
                             </LocalizationProvider>
 
                         </Grid>
-                        <Grid size={6}>
+                        <Grid size={12}>
+                            <FormControl variant="outlined" fullWidth>
+                                <TextField value={description} id="standard-basic" label="Description" variant="standard" onChange={ (event) => setDescription(event.target.value) } />
 
+                            </FormControl>
                         </Grid>
 
-                        <Grid size={12}>
+                        <Grid size={6}>
                             <FormControl variant="outlined" fullWidth>
                                 <TextField value={estimatedCost} id="standard-basic" label="Estimated Costs" variant="standard" onChange={ (event) => setEstimatedCost(event.target.value) } />
 
@@ -191,7 +194,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
                                 <TextField value={priority} id="standard-basic" label="Priority" variant="standard" onChange={ (event) => setPriority(event.target.value) } />
                             </FormControl>
                         </Grid>
-                        <Grid size={12}>
+                        <Grid size={6}>
                             <FormControl variant="outlined" fullWidth>
                                 <TextField value={status} id="standard-basic" label="Status" variant="standard" onChange={ (event) => setStatus(event.target.value) } />
 
