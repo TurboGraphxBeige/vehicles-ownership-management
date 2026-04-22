@@ -43,8 +43,10 @@ import type {Contact} from "../types/Contact.ts";
 import type { AxiosResponse } from 'axios';
 import type { Vehicle } from "../types/Vehicle";
 import ServiceDialog from "./ServiceDialog.tsx";
-import type {Service} from "../types/Service.ts";
-import type {Maintenance} from "../types/Maintenance.ts"
+import ObservationDialog from "./ObservationDialog.tsx";
+import type { Service } from "../types/Service.ts";
+import type { Maintenance } from "../types/Maintenance.ts"
+import type { Observation } from "../types/Observation.ts"
 import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
 
@@ -87,9 +89,11 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [isServiceDialogOpened, setIsServiceDialogOpened] = React.useState(false);
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
     const [selectedService, setSelectedService] = React.useState<Service | null>( null );
+    const [selectedObservation, setSelectedObservation] = React.useState<Observation | null>( null );
+
     const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
     const [selectedMaintenance, setSelectedMaintenance] = React.useState<Maintenance | null>( null );
-    const [selectedObservation, setSelectedObservation] = React.useState<Maintenance | null>( null );
+
 
     useEffect(() => {
         if (selectedVehicle) {
@@ -101,8 +105,8 @@ function VehicleDialog(props: VehicleDialogProps) {
             setSelectedUser(selectedVehicle.user_id);
             setSelectedContact(selectedVehicle.contact_id);
         }
-        console.log('State changed to:', users);
-    }, [selectedVehicle, isServiceDialogOpened]);
+        console.log('isObservationDialogOpened', isObservationDialogOpened);
+    }, [selectedVehicle, isServiceDialogOpened, isObservationDialogOpened]);
 
 
     const VisuallyHiddenInput = styled('input')({
@@ -263,7 +267,7 @@ function VehicleDialog(props: VehicleDialogProps) {
     }
 
     const closeObservationDialog = () => {
-        setIsMaintenanceDialogOpened(false);
+        setIsObservationDialogOpened(false);
         setSelectedObservation(null);
     }
 
@@ -546,7 +550,13 @@ function VehicleDialog(props: VehicleDialogProps) {
                 setSelectedService={() => setSelectedService}
                 isServiceDialogOpened={isServiceDialogOpened}
                 onClose={closeServiceDialog}/>
-            <ConfirmDelete
+            <ObservationDialog
+                selectedVehicle={selectedVehicle}
+                selectedObservation={selectedObservation}
+                setSelectedObservation={() => setSelectedObservation}
+                isObservationDialogOpened={isObservationDialogOpened}
+                onClose={closeObservationDialog}/>
+                <ConfirmDelete
                 isConfirmDeleteOpened={isConfirmDeleteOpened}
                 handleCancelConfirmDelete={handleCancelConfirmDelete}
                 dialogMessage={'This will delete the vehicle entry and all its associated data?'}

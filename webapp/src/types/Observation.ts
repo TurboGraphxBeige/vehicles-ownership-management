@@ -3,7 +3,7 @@ export interface Observation {
     description: string;
     estimated_cost: number;
     priority: string;
-    service_date: string;
+    observation_date: string;
     service_id: string;
     status: string;
     vehicle_component_id: string;
