@@ -44,6 +44,7 @@ import type { AxiosResponse } from 'axios';
 import type { Vehicle } from "../types/Vehicle";
 import ServiceDialog from "./ServiceDialog.tsx";
 import ObservationDialog from "./ObservationDialog.tsx";
+import MaintenanceDialog from "./MaintenanceDialog.tsx";
 import type { Service } from "../types/Service.ts";
 import type { Maintenance } from "../types/Maintenance.ts"
 import type { Observation } from "../types/Observation.ts"
@@ -90,7 +91,6 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
     const [selectedService, setSelectedService] = React.useState<Service | null>( null );
     const [selectedObservation, setSelectedObservation] = React.useState<Observation | null>( null );
-
     const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
     const [selectedMaintenance, setSelectedMaintenance] = React.useState<Maintenance | null>( null );
 
@@ -556,7 +556,13 @@ function VehicleDialog(props: VehicleDialogProps) {
                 setSelectedObservation={() => setSelectedObservation}
                 isObservationDialogOpened={isObservationDialogOpened}
                 onClose={closeObservationDialog}/>
-                <ConfirmDelete
+            <MaintenanceDialog
+                selectedVehicle={selectedVehicle}
+                selectedMaintenance={selectedMaintenance}
+                setSelectedMaintenance={() => setSelectedMaintenance}
+                isMaintenanceDialogOpened={isMaintenanceDialogOpened}
+                onClose={closeMaintenanceDialog}/>
+            <ConfirmDelete
                 isConfirmDeleteOpened={isConfirmDeleteOpened}
                 handleCancelConfirmDelete={handleCancelConfirmDelete}
                 dialogMessage={'This will delete the vehicle entry and all its associated data?'}

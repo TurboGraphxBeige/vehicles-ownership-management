@@ -17,7 +17,7 @@ import type {Vehicle} from "../types/Vehicle.ts";
 interface selectedMaintenanceProps {
     selectedService: Service;
     closeMaintenanceDialog: () => void;
-    setIsMaintennaceDialogOpened: ()=> void;
+    setIsMaintenanceDialogOpened: ()=> void;
     isMaintenanceDialogOpened: boolean;
     setSelectedMaintenance: () => void;
     selectedMaintenance: Maintenance;
@@ -29,7 +29,7 @@ function MaintenancesList(props: selectedMaintenanceProps) {
     const {
         selectedService,
         closeMaintenanceDialog,
-        setIsMaintennaceDialogOpened,
+        setIsMaintenanceDialogOpened,
         isMaintenanceDialogOpened,
         setSelectedMaintenance,
         selectedMaintenance,
@@ -47,7 +47,7 @@ function MaintenancesList(props: selectedMaintenanceProps) {
     const handleButtonClick = (row: Maintenance) => {
         console.log('row', row)
         setSelectedMaintenance(row);
-        setIsMaintennaceDialogOpened(true);
+        setIsMaintenanceDialogOpened(true);
     }
 
     let filteredMaintenances: Maintenance[] = [];
