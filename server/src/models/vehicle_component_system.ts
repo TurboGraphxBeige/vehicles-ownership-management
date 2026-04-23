@@ -24,6 +24,7 @@ export class VehicleComponentSystem extends Model {
   })
   vehicleComponentSystemId!: string;
 
+
   @Column({
     type: DataType.STRING(255),
     allowNull: false,

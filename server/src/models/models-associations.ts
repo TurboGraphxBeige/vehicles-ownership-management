@@ -7,6 +7,8 @@ import { MaintenanceTask } from "./maintenance_task.js"
 import { Service } from './service.js';
 import { User } from './user.js';
 import { OdometerReading } from "./odometer_reading.js";
+import { VehicleComponent } from "./vehicle_component";
+import { VehicleComponentSystem } from "./vehicle_component_system";
 
 export function initAssociations() {
     Vehicle.belongsTo(VehicleModel, { foreignKey: 'model_id', as: 'model' });
@@ -21,7 +23,7 @@ export function initAssociations() {
     Vehicle.hasMany(VehiclePhoto, { foreignKey: 'vehicle_id', as: 'photos' });
     VehiclePhoto.belongsTo(Vehicle, { foreignKey: 'vehicle_id', as: 'vehicle' });
 
-    Vehicle.hasMany(Service, { foreignKey: 'vehicle_id', as: 'services' });
+    Vehicle.hasMany(Service, { foreignKey: 'vehicle_id', as: 'services'});
     Service.belongsTo(Vehicle, { foreignKey: 'vehicle_id', as: 'vehicle' });
 
     Vehicle.hasMany(Observation, { foreignKey: 'vehicle_id', as: 'observations' });
@@ -32,4 +34,8 @@ export function initAssociations() {
 
     Vehicle.hasMany(OdometerReading, { foreignKey: 'vehicle_id', as: 'odometer_readings' });
     OdometerReading.hasOne(Vehicle, { foreignKey: 'vehicle_id', as: 'odometer_readings' });
+
+    //VehicleComponentSystem.hasMany(VehicleComponent, { foreignKey: 'vehicle_component_system_id', as: 'components' });
+    //VehicleComponent.belongsTo(VehicleComponentSystem, { foreignKey: 'vehicle_component_system_id', as: 'system' });
+
 }

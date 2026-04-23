@@ -23,7 +23,7 @@ import MenuItem from "@mui/material/MenuItem";
 import type {User} from "../types/User.ts";
 import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
-import TableList from "./TableList.tsx";
+import ServicesList from "./ServicesList.tsx";
 import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
 import Tabs from "@mui/material/Tabs";

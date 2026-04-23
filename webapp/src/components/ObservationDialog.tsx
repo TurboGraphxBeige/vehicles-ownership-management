@@ -25,7 +25,7 @@ import type { VehicleComponent } from "../types/VehicleComponent.ts";
 import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
 import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
-import TableList from "./TableList.tsx";
+import ServicesList from "./ServicesList.tsx";
 import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
 import Tabs from "@mui/material/Tabs";
@@ -150,21 +150,20 @@ function ObservationDialog(props: ObservationDialogProps ) {
                 sx={{
                     '& .MuiDialog-paper': {
                         width: '75%',
-                        maxWidth: 'none', // Important to override default constraints
-                        margin: '0 auto'  // Centers the dialog
+                        maxWidth: 'none',
+                        margin: '0 auto'
                     }
                 }}
             >
 
 
-                    <DialogTitle align={"center"}>{buildDialogTitle()}</DialogTitle>
+                <DialogTitle align={"center"}>Observation</DialogTitle>
 
                 <DialogContent>
                     <Grid sx={{padding:1}} container spacing={2}>
                         <Grid size={6}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DatePicker']}>
-                                    {/*<DateTimePicker label="Purchase Date" onChange={handleDateTimeChange}/>*/}
                                     <DatePicker
                                         label="Observation Date"
                                         value={observationDate}

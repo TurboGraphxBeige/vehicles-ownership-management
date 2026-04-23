@@ -32,7 +32,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import apiService from "../services/api.service.ts";
 import {type SyntheticEvent, useEffect} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
-import TableList from "./TableList.tsx";
+import ServicesList from "./ServicesList.tsx";
 import imageUrl from "../utils/imageUrl.ts";
 
 import type {Photo} from "../types/Photo";
@@ -187,6 +187,14 @@ function VehicleDialog(props: VehicleDialogProps) {
         setIsServiceDialogOpened(true);
     };
 
+    const handleAddObservation = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsObservationDialogOpened(true);
+    };
+
+    const handleAddMaintenance = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsMaintenanceDialogOpened(true);
+    };
+
     const handleFileDelete = () => {
         setSelectedFile(null);
     };
@@ -246,7 +254,7 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
 
-    const tabsList: string[] = ['Photos', 'Services', 'Observations', 'Maintenances']
+    const tabsList: string[] = ['Services', 'Observations', 'Maintenances', 'Photos']
 
     const [selectedTab, setSelectedTab] = React.useState(tabsList[0]);
 
@@ -395,10 +403,11 @@ function VehicleDialog(props: VehicleDialogProps) {
                                 onChange={handleTabChange}
                                 aria-label="basic tabs example"
                             >
-                                        <Tab label='Photos' value='Photos'/>
-                                        <Tab label='Services' value='Services'/>
-                                        <Tab label='Observations' value='Observations'/>
-                                        <Tab label='Maintenances' value='Maintenances'/>
+
+                                <Tab label='Services' value='Services'/>
+                                <Tab label='Observations' value='Observations'/>
+                                <Tab label='Maintenances' value='Maintenances'/>
+                                <Tab label='Photos' value='Photos'/>
                             </Tabs>
                         </Box>
 
@@ -496,24 +505,37 @@ function VehicleDialog(props: VehicleDialogProps) {
                                     onClick={handleAddService}
                                 >
                                     <Typography>Add</Typography>
-
                                 </Button>
-                                {/* Services table for a selected vehicle*/}
-                                <TableList contacts={contacts} selectedService={selectedService} setSelectedService={ setSelectedService} isServiceDialogOpened={isServiceDialogOpened} selectedVehicle={selectedVehicle} setIsServiceDialogOpened={setIsServiceDialogOpened} onClose={ closeServiceDialog } />
+                                <ServicesList contacts={contacts} selectedService={selectedService} setSelectedService={ setSelectedService} isServiceDialogOpened={isServiceDialogOpened} selectedVehicle={selectedVehicle} setIsServiceDialogOpened={setIsServiceDialogOpened} onClose={ closeServiceDialog } />
                             </Box>
                         )}
                         {selectedTab === 'Observations' && (
                             <Box sx={{ width: '100%', paddingTop: 2, height: 500 }}>
-                                <Box sx={{ width: '100%', height: 500 }}>
+                                <Button
+                                    sx={{marginTop: 1}}
+                                    component="label"
+                                    variant="contained"
+                                    startIcon={<FaPlus  />}
+                                    onClick={handleAddObservation}
+                                >
+                                    <Typography>Add</Typography>
+                                </Button>
                                     <ObservationsList selectedObservation={selectedObservation} setSelectedObservation={ setSelectedObservation } isObservationDialogOpened={isObservationDialogOpened} selectedVehicle={selectedVehicle} setIsObservationDialogOpened={setIsObservationDialogOpened} onClose={ closeObservationDialog } />
-                                </Box>
+
                             </Box>
                         )}
                         {selectedTab === 'Maintenances' && (
                             <Box sx={{ width: '100%', paddingTop: 2, height: 500 }}>
-                                <Box sx={{ width: '100%', height: 500 }}>
+                                <Button
+                                    sx={{marginTop: 1}}
+                                    component="label"
+                                    variant="contained"
+                                    startIcon={<FaPlus  />}
+                                    onClick={handleAddMaintenance}
+                                >
+                                    <Typography>Add</Typography>
+                                </Button>
                                     <MaintenancesList selectedMaintenance={selectedMaintenance} setSelectedMaintenance={ setSelectedMaintenance } isMaintenanceDialogOpened={isMaintenanceDialogOpened} selectedVehicle={selectedVehicle} setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened} onClose={ closeMaintenanceDialog } />
-                                </Box>
                             </Box>
                         )}
                     </Box>

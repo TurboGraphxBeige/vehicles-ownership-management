@@ -25,7 +25,7 @@ import type { VehicleComponent } from "../types/VehicleComponent.ts";
 import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
 import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
-import TableList from "./TableList.tsx";
+import ServicesList from "./ServicesList.tsx";
 import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
 import Tabs from "@mui/material/Tabs";
@@ -157,7 +157,7 @@ function MaintenanceDialog(props: MaintenanceDialogProps ) {
             >
 
 
-                    <DialogTitle align={"center"}>{buildDialogTitle()}</DialogTitle>
+                    <DialogTitle align={"center"}>Maintenance</DialogTitle>
 
                 <DialogContent>
                     <Grid sx={{padding:1}} container spacing={2}>

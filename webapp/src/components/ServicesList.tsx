@@ -23,7 +23,7 @@ interface selectedVehicleProps {
 
 }
 
-function TableList(props: selectedVehicleProps) {
+function ServicesList(props: selectedVehicleProps) {
     const {
         selectedVehicle,
         closeServiceDialog,
@@ -93,4 +93,4 @@ function TableList(props: selectedVehicleProps) {
     );
 }
 
-export default TableList
+export default ServicesList
