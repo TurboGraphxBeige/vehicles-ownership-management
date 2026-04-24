@@ -6,7 +6,7 @@ import {
   PrimaryKey,
   Default,
   ForeignKey,
-  Index,
+  Index, BelongsTo,
 } from 'sequelize-typescript';
 import { VehicleComponentSystem } from './vehicle_component_system.js';
 
@@ -33,7 +33,10 @@ export class VehicleComponent extends Model {
     allowNull: false,
     field: 'vehicle_component_system_id',
   })
-  vehicleComponentSystemId!: string;
+  vehicle_component_system_id!: string;
+
+  @BelongsTo(() => VehicleComponentSystem)
+  vehicle_component_system: VehicleComponentSystem
 
   @Column({
     type: DataType.STRING(255),

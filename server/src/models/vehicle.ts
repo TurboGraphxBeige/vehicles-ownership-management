@@ -7,6 +7,7 @@ import {
   PrimaryKey,
   Default,
   ForeignKey,
+  BelongsTo,
   Index, HasMany
 } from 'sequelize-typescript';
 import { Contact } from './contact.js';
@@ -16,6 +17,7 @@ import {VehiclePhoto} from "./vehicle_photo.js"; // if you have a model table na
 import { Observation } from "./observation.js";
 import { Service} from "./service.js";
 import {OdometerReading} from "./odometer_reading.js";
+import {MaintenanceTask} from "./maintenance_task.js";
 
 @Table({
   tableName: 'vehicle',
@@ -60,21 +62,37 @@ export class Vehicle extends Model {
   @Column({ type: DataType.UUID, field: 'user_id', allowNull: true })
   declare user_id?: string;
 
+  @BelongsTo(() => User)
+  declare user: User;
+
   @ForeignKey(() => Contact)
   @Index('idx_vehicle_contact_id')
   @Column({ type: DataType.UUID, field: 'contact_id', allowNull: true })
   declare contact_id?: string;
 
+  @BelongsTo(() => Contact)
+  declare contact: Contact;
+
   @ForeignKey(() => VehicleModel)
   @Index('idx_vehicle_model_id')
-  @Column({ type: DataType.UUID, field: 'model_id', allowNull: true })
+  @Column({ type: DataType.UUID, field: 'model_id', allowNull: true})
   declare model_id?: string;
 
-  declare photos: VehiclePhoto[];
-  declare services: Service[];
-  declare observations: Observation[];
-  declare odometer_readings: OdometerReading[];
-  declare model: VehicleModel;
-  declare user: User;
+  @BelongsTo(() => VehicleModel)
+  declare model: Model;
 
+  @HasMany(() => VehiclePhoto)
+  declare photos: VehiclePhoto[];
+
+  @HasMany(() => Service)
+  declare services: Service[];
+
+  @HasMany(() => Observation)
+  declare observations: Observation[];
+
+  @HasMany(() => OdometerReading)
+  declare odometer_readings: OdometerReading[];
+
+  @HasMany(() => MaintenanceTask)
+  declare maintenances: MaintenanceTask[];
 }

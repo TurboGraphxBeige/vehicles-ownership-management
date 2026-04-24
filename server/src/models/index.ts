@@ -12,7 +12,6 @@ import { OdometerReading } from "./odometer_reading.js";
 import { MaintenanceTask } from "./maintenance_task.js";
 import { VehicleComponent } from "./vehicle_component.js";
 import { VehicleComponentSystem } from "./vehicle_component_system.js";
-import { initAssociations } from './models-associations.js';
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
@@ -63,6 +62,7 @@ async function initialize() {
         await sequelize.createSchema('data',{})
         await sequelize.sync({
             schema: 'data',
+            force: false,
             alter: true
         });
 
@@ -75,13 +75,5 @@ async function initialize() {
 }
 
 await initialize();
-
-await sequelize.sync({
-    force: false, // Set to true to drop and recreate tables
-    alter: true   // Safely alter existing tables
-});
-
-
-initAssociations();
 
 export { Brand, Role, Contact, Service, VehiclePhoto, VehicleModel, Observation, User, OdometerReading, Vehicle };

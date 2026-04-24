@@ -28,6 +28,7 @@ export class VehicleModel extends Model<VehicleModel> {
   @Column({ type: DataType.UUID, field: 'brand_id', allowNull: true })
   declare brand_id?: string;
 
+  @BelongsTo(() => Brand)
   declare brand: Brand;
 
   @AllowNull(false)

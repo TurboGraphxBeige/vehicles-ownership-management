@@ -1,4 +1,5 @@
-import {Table, Column, Model, DataType, Index, PrimaryKey, Default} from 'sequelize-typescript';
+import {Table, Column, Model, DataType, Index, PrimaryKey, Default, ForeignKey} from 'sequelize-typescript';
+import { Vehicle } from './vehicle.js';
 
 @Index('idx_maintenance_task_service_id')
 @Index('idx_maintenance_task_vehicle_id')
@@ -22,6 +23,7 @@ export class MaintenanceTask extends Model {
   })
   service_id?: string;
 
+  @ForeignKey(() => Vehicle)
   @Column({
     type: DataType.UUID,
     allowNull: true,
