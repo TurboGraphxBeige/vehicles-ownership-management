@@ -8,7 +8,7 @@ import {
   Default,
   ForeignKey,
   Index,
-  Unique,
+  Unique, BelongsTo,
 } from 'sequelize-typescript';
 import { Role } from './role.js';
 import { Vehicle } from "./vehicle.js";
@@ -51,6 +51,8 @@ export class User extends Model {
   @Index('idx_user_role_id')
   @Column({ type: DataType.UUID, field: 'role_id', allowNull: true })
   declare role_id?: string;
+  @BelongsTo(() => Role)
+  declare role: Role;
 
   declare vehicle: Vehicle;
 }

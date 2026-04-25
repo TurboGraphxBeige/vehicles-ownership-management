@@ -45,9 +45,11 @@ export class VehiclePhoto extends Model {
     field: 'vehicle_id',
   })
   declare vehicle_id?: string;
-
-
+  @BelongsTo(() => Vehicle)
   declare vehicle: Vehicle;
+
+
+  //declare vehicle: Vehicle;
 
   @AllowNull(true)
   @Column({

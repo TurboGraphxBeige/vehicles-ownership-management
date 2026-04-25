@@ -7,7 +7,7 @@ import {
   Default,
   ForeignKey,
   AllowNull,
-  Index,
+  Index, BelongsTo,
 } from 'sequelize-typescript';
 import { Contact } from "./contact.js";
 import { Vehicle } from "./vehicle.js";
@@ -30,6 +30,7 @@ export class Service extends Model<Service> {
   @Column({ type: DataType.UUID, allowNull: true })
   declare vehicle_id?: string | null;
 
+  @BelongsTo(() => Vehicle)
   declare vehicle: Vehicle;
 
   @AllowNull(true)
@@ -44,6 +45,8 @@ export class Service extends Model<Service> {
   @AllowNull(true)
   @Column({ type: DataType.UUID, allowNull: true })
   declare contact_id?: string | null;
+  @BelongsTo(() => Contact)
+  declare contact: Contact;
 
   @AllowNull(true)
   @Column({ type: DataType.DECIMAL, allowNull: true })

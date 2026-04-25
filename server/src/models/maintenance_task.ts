@@ -1,5 +1,9 @@
-import {Table, Column, Model, DataType, Index, PrimaryKey, Default, ForeignKey} from 'sequelize-typescript';
+import {Table, Column, Model, DataType, Index, PrimaryKey, Default, ForeignKey, BelongsTo} from 'sequelize-typescript';
 import { Vehicle } from './vehicle.js';
+import {VehicleComponent} from "./vehicle_component";
+import {VehicleComponentSystem} from "./vehicle_component_system";
+import {Brand} from "./brand";
+import {Service} from "./service";
 
 @Index('idx_maintenance_task_service_id')
 @Index('idx_maintenance_task_vehicle_id')
@@ -16,12 +20,16 @@ export class MaintenanceTask extends Model {
   @Column({ type: DataType.UUID, allowNull: false })
   declare maintenance_task_id?: string;
 
+  @ForeignKey(() => Service)
   @Column({
     type: DataType.UUID,
     allowNull: true,
     field: 'service_id',
   })
   service_id?: string;
+
+  @BelongsTo(() => Service)
+  declare service: Service;
 
   @ForeignKey(() => Vehicle)
   @Column({
@@ -31,6 +39,10 @@ export class MaintenanceTask extends Model {
   })
   vehicle_id?: string;
 
+  @BelongsTo(() => Vehicle)
+  declare vehicle: Vehicle;
+
+  @ForeignKey(() => VehicleComponent)
   @Column({
     type: DataType.UUID,
     allowNull: true,
@@ -38,12 +50,18 @@ export class MaintenanceTask extends Model {
   })
   vehicle_component_id?: string;
 
+  @BelongsTo(() => VehicleComponent)
+  declare vehicle_component: VehicleComponent;
+
+  @ForeignKey(() => VehicleComponentSystem)
   @Column({
     type: DataType.UUID,
     allowNull: true,
     field: 'vehicle_component_system_id',
   })
   vehicle_component_system_id?: string;
+  @BelongsTo(() => VehicleComponentSystem)
+  declare vehicle_component_system: VehicleComponentSystem;
 
   @Column({
     type: DataType.TEXT,

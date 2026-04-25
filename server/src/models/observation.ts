@@ -7,7 +7,7 @@ import {
   Default,
   ForeignKey,
   AllowNull,
-  Index,
+  Index, BelongsTo,
 } from 'sequelize-typescript';
 import {Vehicle} from "./vehicle.js";
 import {VehicleComponent} from "./vehicle_component.js";
@@ -30,6 +30,9 @@ export class Observation extends Model<Observation> {
   @Column({ type: DataType.UUID, allowNull: false })
   declare service_id: string;
 
+  @BelongsTo(() => Service)
+  declare service?: Service
+
   @ForeignKey(() => Vehicle) // replace with actual Vehicle model class when available
   @AllowNull(true)
   @Column({ type: DataType.UUID, allowNull: true })
@@ -41,11 +44,15 @@ export class Observation extends Model<Observation> {
   @AllowNull(true)
   @Column({ type: DataType.UUID, allowNull: true })
   declare vehicle_component_id?: string | null;
+  @BelongsTo(() => VehicleComponent)
+  declare vehicle_component: VehicleComponent;
 
   @ForeignKey(() => VehicleComponentSystem) // replace with actual VehicleComponentSystem model class when available
   @AllowNull(true)
   @Column({ type: DataType.UUID, allowNull: true })
   declare vehicle_component_system_id?: string | null;
+  @BelongsTo(() => VehicleComponentSystem)
+  declare vehicle_component_system: VehicleComponentSystem;
 
   @AllowNull(true)
   @Column({ type: DataType.DATEONLY, allowNull: true })
