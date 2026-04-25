@@ -21,6 +21,10 @@ export const updateVehicle =  async (req: Request, res: Response, next: NextFunc
     vehicleService.updateVehicle(req, res, next)
 };
 
+export const updateObservation =  async (req: Request, res: Response, next: NextFunction) => {
+    vehicleService.updateObservation(req, res, next)
+};
+
 export const newVehicle =  async (req: Request, res: Response, next: NextFunction) => {
     vehicleService.newVehicle(req, res, next)
 };

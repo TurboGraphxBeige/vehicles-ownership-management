@@ -575,6 +575,7 @@ function VehicleDialog(props: VehicleDialogProps) {
             <ObservationDialog
                 selectedVehicle={selectedVehicle}
                 selectedObservation={selectedObservation}
+                fetchVehiclesFromAPI={fetchVehiclesFromAPI}
                 setSelectedObservation={() => setSelectedObservation}
                 isObservationDialogOpened={isObservationDialogOpened}
                 onClose={closeObservationDialog}/>

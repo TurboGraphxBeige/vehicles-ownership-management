@@ -183,6 +183,20 @@ const apiService = {
         return response
     },
 
+    async updateObservation (vehicle_id: string, observation_id: string, data: FormData) {
+        if (!localStorage.token) {
+            throw new Error('Invalid token')
+        }
+        const response = await axios.put(`${getAPIUrl()}/vehicles/${encodeURIComponent(vehicle_id)}/observations/${encodeURIComponent(observation_id)}`,
+            data,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.token,
+                },
+            })
+        return response
+    },
+
     async deleteVehicle (vehicle_id: string) {
         if (!localStorage.token) {
             throw new Error('Invalid token')

@@ -128,6 +128,57 @@ export class vehicleService {
     }
 
 
+    static async updateObservation (req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log("updateObservation", req.body);
+            let observationId: string | undefined;
+            let serviceId: string | undefined;
+            let vehicleId: string | undefined;
+            let vehicleComponentId: string | undefined;
+            let vehicleComponentSystemId: string | undefined;
+            let description: string | undefined;
+            let estimatedCost: number | undefined;
+            let priority: string | undefined;
+            let status: string | undefined;
+            let observationDate: string | undefined;
+
+            if (req.body?.observation_id) { observationId = req.body.observation_id ? String(req.body.observation_id) : undefined }
+            if (req.body?.service_id) { serviceId = req.body.service_id ? String(req.body.service_id) : undefined }
+            if (req.body?.contact_id) { vehicleId = req.body.contact_id ? String(req.body.contact_id) : undefined }
+            if (req.body?.vehicle_component_id) { vehicleComponentId = req.body.vehicle_component_id ? String(req.body.vehicle_component_id) : undefined }
+            if (req.body?.vehicle_component_system_id) { vehicleComponentSystemId = req.body.vehicle_component_system_id ? String(req.body.vehicle_component_system_id) : undefined }
+            if (req.body?.description) { description = req.body.description ? String(req.body.description) : undefined }
+            if (req.body?.estimated_cost) { estimatedCost = req.body.estimated_cost ? Number(req.body.estimated_cost) : undefined }
+            if (req.body?.priority) { priority = req.body.priority ? String(req.body.priority) : undefined }
+            if (req.body?.status) { status = req.body.status ? String(req.body.status) : undefined }
+            if (req.body?.observation_date) { observationDate = req.body.observation_date ? String(req.body.observation_date) : undefined }
+
+            const transaction = await sequelize.transaction();
+
+            const updates: any = {};
+            if (observationId) updates.observation_id = observationId;
+            if (serviceId !== undefined) updates.service_id = serviceId;
+            if (vehicleId) updates.contact_id = vehicleId;
+            if (vehicleComponentId !== undefined) updates.vehicle_component_id = vehicleComponentId;
+            if (vehicleComponentSystemId) updates.vehicle_component_system_id = vehicleComponentSystemId;
+            if (description) updates.description = description;
+            if (estimatedCost !== undefined) updates.estimated_cost = estimatedCost;
+            if (priority) updates.priority = priority;
+            if (status) updates.status = status;
+            if (observationDate) updates.observation_date = observationDate;
+
+            const observation: Observation | null = await Observation.findOne({ where: { observation_id: req.params.observation_id }, transaction });
+            await observation?.update(updates, { transaction });
+
+            await transaction.commit();
+            res.status(201).json(observation);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
     static async updateVehicle (req: Request, res: Response, next: NextFunction) {
         try {
             console.log(req.body);

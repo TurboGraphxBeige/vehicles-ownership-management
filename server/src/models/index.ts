@@ -49,7 +49,7 @@ export const sequelize = new Sequelize({
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
     models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask, VehicleComponent, VehicleComponentSystem],
-    logging: true
+    logging: false
 });
 
 async function initialize() {

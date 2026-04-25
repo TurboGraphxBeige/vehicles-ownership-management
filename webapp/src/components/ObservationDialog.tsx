@@ -38,6 +38,8 @@ import ImageList from "@mui/material/ImageList";
 import type {Photo} from "../types/Photo.ts";
 import DeleteIcon from "@mui/icons-material/Delete";
 import imageUrl from "../utils/imageUrl.ts";
+import authStore from "../stores/components.store.ts";
+import { useSelector } from 'react-redux';
 
 //selectedVehicle={selectedVehicle} selectedObservation={selectedObservation} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
@@ -47,6 +49,7 @@ interface ObservationDialogProps {
     setSelectedObservation: (observation: Observation) => void;
     isObservationDialogOpened: boolean;
     onClose: () => void;
+    fetchVehiclesFromAPI: () => Promise<void> | void;
 
 }
 
@@ -60,19 +63,26 @@ function ObservationDialog(props: ObservationDialogProps ) {
         setSelectedObservation,
         isObservationDialogOpened,
         onClose,
+        fetchVehiclesFromAPI
     } = props;
+
+    const selectedObservation2 = useSelector(state => state.counter.value);
 
     console.log('selectedObservation', selectedObservation);
     console.log('observationDialog', props)
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
+
     const [observationDate, setObservationDate] = React.useState<Dayjs>();
+    const [observation, setObservation] = React.useState<string | null>(null);
+    const [service, setService] = React.useState<string | null>(null);
     const [vehicleComponent, setVehicleComponent] = React.useState<VehicleComponent | null>(null);
     const [vehicleComponentSystem, setVehicleComponentSystem] = React.useState<VehicleComponentSystem | null>(null);
     const [description, setDescription] = React.useState<string | null>(null);
     const [estimatedCost, setEstimatedCost] = React.useState<number | null>(null);
     const [priority, setPriority] = React.useState<string | null>(null);
     const [status, setStatus] = React.useState<string | null>(null);
+    const [vehicle, setVehicle] = React.useState<string | null>(null);
 
 
     useEffect(()=>  {
@@ -117,6 +127,35 @@ function ObservationDialog(props: ObservationDialogProps ) {
         const service_date = selectedObservation?.service_date || undefined
         return service_date
     }
+
+
+    const handleUpdateObservation = async () => {
+        console.log('handleUpdateObservation', selectedVehicle, selectedObservation)
+        const data: any = {}
+        if (observation) { data.observation_id = observation }
+        if (service !== undefined) { data.service_id = service }
+        if (vehicle) { data.vehicle_id = vehicle }         // contact_id can come from vehicleId if needed
+        if (vehicleComponent !== undefined) { data.vehicle_component_id = vehicleComponent }
+        if (vehicleComponentSystem) { data.vehicle_component_system_id = vehicleComponentSystem }
+        if (description) { data.description = description }
+        if (estimatedCost !== undefined) { data.estimated_cost = estimatedCost }
+        if (priority) { data.priority = priority }
+        if (status) { data.status = status }
+        if (observationDate) { data.observation_date = observationDate }
+        const res = await apiService.updateObservation(selectedVehicle.vehicle_id, selectedObservation.observation_id, data)
+        console.log('updateObservation res', res)
+        if (res.status === 201) {
+            setSelectedObservation(res.data);
+            authStore.dispatch({
+                type: "SELECTED_OBSERVATION_UPDATED",
+                payload: { selectedObservation: res.data }
+            });
+            fetchVehiclesFromAPI()
+            onClose()
+        }
+
+    }
+
 
     const handleAddButon = async () => {
         const fd = new FormData();
@@ -233,6 +272,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
                                 variant="contained"
                                 color="primary"
                                 disabled={false}
+                                onClick={handleUpdateObservation}
                             >
                                 Update
                             </Button>

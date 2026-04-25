@@ -7,10 +7,11 @@ export interface AuthState {
     cars: string[];
     brands: string[];
     models: string[];
+    selectedObservation: object;
 }
 
 // Define the initial state
-const initialState: AuthState = { currentUser: '', cars: [], brands: [], models: []};
+const initialState: AuthState = { currentUser: '', cars: [], brands: [], models: [], selectedObservation: {}};
 
 // Define action types
 const USER_LOGGED_IN = 'USER_LOGGED_IN';
@@ -18,6 +19,7 @@ const TOKEN_VERIFIED = 'TOKEN_VERIFIED';
 const CARS_UPDATED = 'CARS_UPDATED';
 const BRANDS_UPDATED = 'BRANDS_UPDATED';
 const MODELS_UPDATED = 'MODELS_UPDATED';
+const SELECTED_OBSERVATION_UPDATED = 'SELECTED_OBSERVATION_UPDATED';
 
 // Define action interfaces
 interface UserLoginAction {
@@ -55,8 +57,15 @@ interface ModelsUpdatedAction {
     }
 }
 
+interface SelectedObservationsUpdatedAction {
+    type: typeof SELECTED_OBSERVATION_UPDATED;
+    payload: {
+        selectedObservation: string[];
+    }
+}
+
 // Combine action types
-type CounterActionTypes = UserLoginAction | TokenVerifiedAction | CarsUpdatedAction | BrandsUpdatedAction | ModelsUpdatedAction;
+type CounterActionTypes = UserLoginAction | TokenVerifiedAction | CarsUpdatedAction | BrandsUpdatedAction | ModelsUpdatedAction | SelectedObservationsUpdatedAction;
 
 // Create a reducer function
 const counterReducer = (state = initialState, action: CounterActionTypes): AuthState => {
@@ -67,6 +76,8 @@ const counterReducer = (state = initialState, action: CounterActionTypes): AuthS
             return { ...state, currentUser: action.payload.username }
         case CARS_UPDATED:
             return { ...state, cars: action.payload.cars }
+        case SELECTED_OBSERVATION_UPDATED:
+            return { ...state, selectedObservation: action.payload.selectedObservation }
         default:
             return state;
     }
