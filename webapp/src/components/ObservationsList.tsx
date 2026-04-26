@@ -13,6 +13,9 @@ import ServiceDialog from "./ServiceDialog.tsx";
 import type {Service} from "../types/Service.ts";
 import type {Observation} from "../types/Observation.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
+import authStore from "../stores/components.store.ts";
+import { useSelector } from 'react-redux';
+import type { AuthState } from '../stores/components.store.ts';
 
 interface selectedObservationProps {
     selectedService: Service;
@@ -36,6 +39,10 @@ function ObservationsList(props: selectedObservationProps) {
         selectedVehicle,
 
     } = props;
+
+    // select the whole selectedObservation
+    const selectedObservationtest = useSelector((state: AuthState) => state.selectedObservation);
+    console.log('selectedObservationtest' , selectedObservationtest)
 
     const firstObservation: Observation = selectedVehicle.observations?.[0];
     const headers: (keyof Observation)[] = firstObservation ? (Object.keys(firstObservation) as (keyof Observation)[]) : ([] as (keyof Observation)[]);

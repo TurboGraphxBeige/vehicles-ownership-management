@@ -40,8 +40,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import imageUrl from "../utils/imageUrl.ts";
 import authStore from "../stores/components.store.ts";
 import { useSelector } from 'react-redux';
+import type { AuthState } from '../stores/components.store.ts';
 
-//selectedVehicle={selectedVehicle} selectedObservation={selectedObservation} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
 interface ObservationDialogProps {
     selectedVehicle: Vehicle;
@@ -66,7 +66,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
         fetchVehiclesFromAPI
     } = props;
 
-    const selectedObservation2 = useSelector(state => state.counter.value);
+    //const selectedObservation2 = useSelector(state => state.counter.value);
 
     console.log('selectedObservation', selectedObservation);
     console.log('observationDialog', props)
@@ -84,6 +84,9 @@ function ObservationDialog(props: ObservationDialogProps ) {
     const [status, setStatus] = React.useState<string | null>(null);
     const [vehicle, setVehicle] = React.useState<string | null>(null);
 
+// select the whole selectedObservation
+    const selectedObservationtest = useSelector((state: AuthState) => state.selectedObservation);
+    console.log('selectedObservationtest' , selectedObservationtest)
 
     useEffect(()=>  {
         setObservationDate(selectedObservation?.observation_date ? dayjs(selectedObservation.observation_date) : dayjs() );
@@ -91,7 +94,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
         setVehicleComponent(selectedObservation?.vehicle_component_id)
         setVehicleComponentSystem(selectedObservation?.vehicle_component_system_id)
         setDescription(selectedObservation?.description)
-        setEstimatedCost(selectedObservation?.estimated_cost)
+        setEstimatedCost(selectedObservationtest?.estimated_cost)
         setPriority(selectedObservation?.priority)
         setStatus(selectedObservation?.status)
 

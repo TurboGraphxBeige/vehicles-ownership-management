@@ -87,3 +87,4 @@ const enhancer = (window as any).__REDUX_DEVTOOLS_EXTENSION__?.()
 const authStore = createStore(counterReducer, enhancer);
 
 export default authStore;
+export type RootState = AuthState; // or ReturnType<typeof authStore.getState>
