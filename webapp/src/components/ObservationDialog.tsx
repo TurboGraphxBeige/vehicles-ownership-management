@@ -59,7 +59,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
 
     const {
         selectedVehicle,
-        selectedObservation,
+        //selectedObservation,
         setSelectedObservation,
         isObservationDialogOpened,
         onClose,
@@ -68,8 +68,8 @@ function ObservationDialog(props: ObservationDialogProps ) {
 
     //const selectedObservation2 = useSelector(state => state.counter.value);
 
-    console.log('selectedObservation', selectedObservation);
-    console.log('observationDialog', props)
+    //console.log('selectedObservation', selectedObservation);
+    //console.log('observationDialog', props)
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
 
@@ -85,8 +85,8 @@ function ObservationDialog(props: ObservationDialogProps ) {
     const [vehicle, setVehicle] = React.useState<string | null>(null);
 
 // select the whole selectedObservation
-    const selectedObservationtest = useSelector((state: AuthState) => state.selectedObservation);
-    console.log('selectedObservationtest' , selectedObservationtest)
+    const selectedObservation = useSelector((state: AuthState) => state.selectedObservation);
+    console.log('selectedObservationtest' , selectedObservation)
 
     useEffect(()=>  {
         setObservationDate(selectedObservation?.observation_date ? dayjs(selectedObservation.observation_date) : dayjs() );
@@ -94,7 +94,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
         setVehicleComponent(selectedObservation?.vehicle_component_id)
         setVehicleComponentSystem(selectedObservation?.vehicle_component_system_id)
         setDescription(selectedObservation?.description)
-        setEstimatedCost(selectedObservationtest?.estimated_cost)
+        setEstimatedCost(selectedObservation?.estimated_cost)
         setPriority(selectedObservation?.priority)
         setStatus(selectedObservation?.status)
 

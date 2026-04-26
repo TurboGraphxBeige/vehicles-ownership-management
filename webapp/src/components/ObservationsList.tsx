@@ -54,6 +54,12 @@ function ObservationsList(props: selectedObservationProps) {
     const handleButtonClick = (row: Observation) => {
         console.log('row', row)
         setSelectedObservation(row);
+
+        authStore.dispatch({
+            type: "SELECTED_OBSERVATION_UPDATED",
+            payload: { selectedObservation: row }
+        });
+
         setIsObservationDialogOpened(true);
     }
 
