@@ -84,7 +84,6 @@ function ObservationDialog(props: ObservationDialogProps ) {
     const [status, setStatus] = React.useState<string | null>(null);
     const [vehicle, setVehicle] = React.useState<string | null>(null);
 
-// select the whole selectedObservation
     const selectedObservation = useSelector((state: AuthState) => state.selectedObservation);
     console.log('selectedObservationtest' , selectedObservation)
 

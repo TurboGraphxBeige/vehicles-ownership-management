@@ -29,7 +29,6 @@ function Main() {
     useEffect(() => {
         const fetchVehicles = async () => {
             await fetchVehiclesFromAPI();
-
         };
 
         const fetchBrands = async () => {
@@ -102,6 +101,7 @@ function Main() {
                     brands={brands}
                     models={models}
                     selectedVehicle={selectedVehicle}
+                    setSelectedVehicle={setSelectedVehicle}
                     deleteVehicle={deleteVehicle}
                     isVehicleDialogOpened={isVehicleDialogOpened}
                     onClose={ () => setIsVehicleDialogOpened(false) }

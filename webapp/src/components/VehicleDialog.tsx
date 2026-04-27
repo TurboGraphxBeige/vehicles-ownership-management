@@ -56,6 +56,7 @@ interface VehicleDialogProps {
     brands: Brand[];
     models: Model[];
     isVehicleDialogOpened: boolean;
+    setSelectedVehicle: () => void;
     onClose: () => void;
     deleteVehicle: (id: string) => Promise<void> | void;
     fetchVehiclesFromAPI: () => Promise<void> | void;
@@ -69,6 +70,7 @@ function VehicleDialog(props: VehicleDialogProps) {
         selectedVehicle,
         brands,
         models,
+        setSelectedVehicle,
         isVehicleDialogOpened,
         onClose,
         deleteVehicle,
@@ -506,7 +508,16 @@ function VehicleDialog(props: VehicleDialogProps) {
                                 >
                                     <Typography>Add</Typography>
                                 </Button>
-                                <ServicesList contacts={contacts} selectedService={selectedService} setSelectedService={ setSelectedService} isServiceDialogOpened={isServiceDialogOpened} selectedVehicle={selectedVehicle} setIsServiceDialogOpened={setIsServiceDialogOpened} onClose={ closeServiceDialog } />
+                                <ServicesList
+                                    contacts={contacts}
+                                    selectedService={selectedService}
+                                    setSelectedService={ setSelectedService}
+                                    isServiceDialogOpened={isServiceDialogOpened}
+                                    selectedVehicle={selectedVehicle}
+                                    setSelectedVehicle={setSelectedVehicle}
+                                    setIsServiceDialogOpened={setIsServiceDialogOpened}
+                                    onClose={ closeServiceDialog }
+                                />
                             </Box>
                         )}
                         {selectedTab === 'Observations' && (
@@ -520,7 +531,14 @@ function VehicleDialog(props: VehicleDialogProps) {
                                 >
                                     <Typography>Add</Typography>
                                 </Button>
-                                    <ObservationsList selectedObservation={selectedObservation} setSelectedObservation={ setSelectedObservation } isObservationDialogOpened={isObservationDialogOpened} selectedVehicle={selectedVehicle} setIsObservationDialogOpened={setIsObservationDialogOpened} onClose={ closeObservationDialog } />
+                                    <ObservationsList
+                                        selectedObservation={selectedObservation}
+                                        setSelectedObservation={ setSelectedObservation }
+                                        isObservationDialogOpened={isObservationDialogOpened}
+                                        selectedVehicle={selectedVehicle}
+                                        setIsObservationDialogOpened={setIsObservationDialogOpened}
+                                        onClose={ closeObservationDialog }
+                                    />
 
                             </Box>
                         )}
