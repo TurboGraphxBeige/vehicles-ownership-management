@@ -46,7 +46,7 @@ export class VehiclePhoto extends Model {
   })
   declare vehicle_id?: string;
   @BelongsTo(() => Vehicle)
-  declare vehicle: Vehicle;
+  declare vehicle: () => Vehicle;
 
 
   //declare vehicle: Vehicle;

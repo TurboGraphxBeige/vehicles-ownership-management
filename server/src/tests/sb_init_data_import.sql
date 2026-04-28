@@ -6,7 +6,7 @@
 --BEGIN;
 CREATE SCHEMA IF NOT EXISTS data;
 create extension if not exists pgcrypto;
-INSERT INTO data.role (role_id, role_name) VALUES (uuidv4(), 'admin');
+INSERT INTO data.role (role_id, role_name) VALUES ('33d10df8-0c11-45d0-a823-6999e1d7f6a4'::uuid, 'admin');
 
 
 INSERT INTO "data"."user" (user_id,first_name,last_name,username,"password",role_id) VALUES

@@ -15,7 +15,7 @@ import { VehicleModel } from './model.js'
     schema: 'data'
 })
 
-export class Brand extends Model<Brand> {
+export class Brand extends Model {
     @PrimaryKey
     @Default(DataType.UUIDV4)
     @Column({
@@ -32,5 +32,6 @@ export class Brand extends Model<Brand> {
     })
     declare brand_name: string;
 
-
+    @HasMany(() => VehicleModel)
+    declare models: VehicleModel[];
 }

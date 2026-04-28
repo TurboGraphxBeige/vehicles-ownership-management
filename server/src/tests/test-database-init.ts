@@ -14,6 +14,10 @@ import { VehicleModel } from '../models/model.js';
 import { Observation } from '../models/observation.js';
 import { User } from '../models/user.js';
 import { Service } from '../models/service.js';
+import {OdometerReading} from "../models/odometer_reading.js";
+import {MaintenanceTask} from "../models/maintenance_task.js";
+import {VehicleComponent} from "../models/vehicle_component.js";
+import {VehicleComponentSystem} from "../models/vehicle_component_system.js";
 
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -38,7 +42,7 @@ export const sequelize = new Sequelize({
     password: DB_PWD,
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
-    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User],
+    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask, VehicleComponent, VehicleComponentSystem],
     logging: false
 });
 

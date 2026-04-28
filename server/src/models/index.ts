@@ -16,6 +16,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import {modelAssociations} from "./model_associations.js";
 
 
 export const __filename = fileURLToPath(import.meta.url);
@@ -76,5 +77,7 @@ async function initialize() {
 }
 
 await initialize();
+
+modelAssociations();
 
 export { Brand, Role, Contact, Service, VehiclePhoto, VehicleModel, Observation, User, OdometerReading, Vehicle };

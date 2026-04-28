@@ -31,7 +31,7 @@ export class Service extends Model<Service> {
   declare vehicle_id?: string | null;
 
   @BelongsTo(() => Vehicle)
-  declare vehicle: Vehicle;
+  declare vehicle: () => Vehicle;
 
   @AllowNull(true)
   @Column({ type: DataType.DATEONLY, allowNull: true })
@@ -46,7 +46,7 @@ export class Service extends Model<Service> {
   @Column({ type: DataType.UUID, allowNull: true })
   declare contact_id?: string | null;
   @BelongsTo(() => Contact)
-  declare contact: Contact;
+  declare contact: () => Contact;
 
   @AllowNull(true)
   @Column({ type: DataType.DECIMAL, allowNull: true })

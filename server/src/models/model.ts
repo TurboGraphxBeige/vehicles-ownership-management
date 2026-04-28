@@ -29,7 +29,7 @@ export class VehicleModel extends Model<VehicleModel> {
   declare brand_id?: string;
 
   @BelongsTo(() => Brand)
-  declare brand: Brand;
+  declare brand: () => Brand;
 
   @AllowNull(false)
   @Column({ type: DataType.STRING(255), field: 'model_name' })

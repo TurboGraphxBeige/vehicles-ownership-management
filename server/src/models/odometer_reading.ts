@@ -39,5 +39,5 @@ export class OdometerReading extends Model {
     @Column({ type: DataType.UUID, allowNull: true })
     declare vehicle_id?: string | null;
 
-    declare vehicle: Vehicle;
+    declare vehicle: () => Vehicle;
 }

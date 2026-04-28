@@ -29,7 +29,7 @@ export class MaintenanceTask extends Model {
   service_id?: string;
 
   @BelongsTo(() => Service)
-  declare service: Service;
+  declare service: () => Service;
 
   @ForeignKey(() => Vehicle)
   @Column({
@@ -40,7 +40,7 @@ export class MaintenanceTask extends Model {
   vehicle_id?: string;
 
   @BelongsTo(() => Vehicle)
-  declare vehicle: Vehicle;
+  declare vehicle: () =>  Vehicle;
 
   @ForeignKey(() => VehicleComponent)
   @Column({
@@ -51,7 +51,7 @@ export class MaintenanceTask extends Model {
   vehicle_component_id?: string;
 
   @BelongsTo(() => VehicleComponent)
-  declare vehicle_component: VehicleComponent;
+  declare vehicle_component: () =>  VehicleComponent;
 
   @ForeignKey(() => VehicleComponentSystem)
   @Column({
@@ -61,7 +61,7 @@ export class MaintenanceTask extends Model {
   })
   vehicle_component_system_id?: string;
   @BelongsTo(() => VehicleComponentSystem)
-  declare vehicle_component_system: VehicleComponentSystem;
+  declare vehicle_component_system: () => VehicleComponentSystem;
 
   @Column({
     type: DataType.TEXT,

@@ -24,17 +24,17 @@ interface LoginResponse {
 let token: string = '';
 
 describe('POST /login', () => {
-    before('return status 200 and a token', async () => {
+    it('return status 200 and a token', async () => {
         const response = await request(app)
-            .post('/v1/login') // Adjust as necessary
+            .post('/v1/login')
             .send({
                 username: process.env.API_USERNAME,
                 password: process.env.API_PASSWORD
             })
             .expect(200)
             .expect('Content-Type', /json/);
-
-        token = response.body.token;
+        console.log(response);
+        token = response.body.access_token.token;
         expect(token).to.not.be.null; // Optional assertion to check token was received
     });
 
@@ -46,7 +46,6 @@ describe('POST /login', () => {
             .expect('Content-Type', /json/)
 
         expect(Array.isArray(res.body))
-        //console.log(res.body.vehicles)
 
     });
 
@@ -73,16 +72,16 @@ describe('POST /login', () => {
         console.log(res.body)
     });
 
-    // it('return an array of models object', async () => {
-    //     const res = await request(app)
-    //         .get('/v1/models')
-    //         .set('Authorization', 'Bearer ' + token)
-    //         .expect(200)
-    //         .expect('Content-Type', /json/)
-    //
-    //     expect(Array.isArray(res.body))
-    //     console.log(res.body)
-    // });
+    it('return an array of models object', async () => {
+        const res = await request(app)
+            .get('/v1/models')
+            .set('Authorization', 'Bearer ' + token)
+            .expect(200)
+            .expect('Content-Type', /json/)
+
+        expect(Array.isArray(res.body))
+        console.log(res.body)
+    });
 
 });
 
