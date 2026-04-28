@@ -177,7 +177,6 @@ function VehicleDialog(props: VehicleDialogProps) {
             fetchVehiclesFromAPI()
             onClose()
         }
-
     }
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -536,6 +535,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                                         setSelectedObservation={ setSelectedObservation }
                                         isObservationDialogOpened={isObservationDialogOpened}
                                         selectedVehicle={selectedVehicle}
+                                        setSelectedVehicle={setSelectedVehicle}
                                         setIsObservationDialogOpened={setIsObservationDialogOpened}
                                         onClose={ closeObservationDialog }
                                     />
@@ -553,7 +553,15 @@ function VehicleDialog(props: VehicleDialogProps) {
                                 >
                                     <Typography>Add</Typography>
                                 </Button>
-                                    <MaintenancesList selectedMaintenance={selectedMaintenance} setSelectedMaintenance={ setSelectedMaintenance } isMaintenanceDialogOpened={isMaintenanceDialogOpened} selectedVehicle={selectedVehicle} setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened} onClose={ closeMaintenanceDialog } />
+                                    <MaintenancesList
+                                        selectedMaintenance={selectedMaintenance}
+                                        setSelectedMaintenance={ setSelectedMaintenance }
+                                        isMaintenanceDialogOpened={isMaintenanceDialogOpened}
+                                        selectedVehicle={selectedVehicle}
+                                        setSelectedVehicle={setSelectedVehicle}
+                                        setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened}
+                                        onClose={ closeMaintenanceDialog }
+                                    />
                             </Box>
                         )}
                     </Box>
@@ -585,6 +593,7 @@ function VehicleDialog(props: VehicleDialogProps) {
             </Dialog>
             <ServiceDialog
                 selectedVehicle={selectedVehicle}
+                setSelectedVehicle={setSelectedVehicle}
                 contacts={contacts}
                 selectedService={selectedService}
                 setSelectedService={() => setSelectedService}
@@ -592,6 +601,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                 onClose={closeServiceDialog}/>
             <ObservationDialog
                 selectedVehicle={selectedVehicle}
+                setSelectedVehicle={setSelectedVehicle}
                 //selectedObservation={selectedObservation}
                 fetchVehiclesFromAPI={fetchVehiclesFromAPI}
                 setSelectedObservation={() => setSelectedObservation}
@@ -599,6 +609,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                 onClose={closeObservationDialog}/>
             <MaintenanceDialog
                 selectedVehicle={selectedVehicle}
+                setSelectedVehicle={setSelectedVehicle}
                 selectedMaintenance={selectedMaintenance}
                 setSelectedMaintenance={() => setSelectedMaintenance}
                 isMaintenanceDialogOpened={isMaintenanceDialogOpened}

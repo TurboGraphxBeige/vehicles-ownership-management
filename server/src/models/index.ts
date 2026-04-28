@@ -48,9 +48,10 @@ export const sequelize = new Sequelize({
     password: DB_PWD,
     database: DB_NAME,
     port: Number(process.env.DB_PORT) || 5432,
-    models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask, VehicleComponent, VehicleComponentSystem],
+    //models: [Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask, VehicleComponent, VehicleComponentSystem],
     logging: false
 });
+sequelize.addModels([Role, Brand, Contact, Vehicle, VehiclePhoto, VehicleModel, Observation, Service, User, OdometerReading, MaintenanceTask, VehicleComponent, VehicleComponentSystem]);
 
 async function initialize() {
     try {

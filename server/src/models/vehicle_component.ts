@@ -36,7 +36,7 @@ export class VehicleComponent extends Model {
   vehicle_component_system_id!: string;
 
   @BelongsTo(() => VehicleComponentSystem)
-  vehicle_component_system: VehicleComponentSystem
+  declare vehicle_component_system: VehicleComponentSystem
 
   @Column({
     type: DataType.STRING(255),

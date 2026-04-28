@@ -7,7 +7,7 @@ import {
     Default,
     Unique, HasOne, HasMany, ForeignKey
 } from 'sequelize-typescript';
-import { VehicleModel } from './model'
+import { VehicleModel } from './model.js'
 
 @Table({
     tableName: 'brand',
@@ -32,6 +32,5 @@ export class Brand extends Model<Brand> {
     })
     declare brand_name: string;
 
-    @HasMany(() => VehicleModel)
-    declare models: VehicleModel[];
+
 }

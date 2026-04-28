@@ -1,9 +1,9 @@
 import {Table, Column, Model, DataType, Index, PrimaryKey, Default, ForeignKey, BelongsTo} from 'sequelize-typescript';
 import { Vehicle } from './vehicle.js';
-import {VehicleComponent} from "./vehicle_component";
-import {VehicleComponentSystem} from "./vehicle_component_system";
-import {Brand} from "./brand";
-import {Service} from "./service";
+import {VehicleComponent} from "./vehicle_component.js";
+import {VehicleComponentSystem} from "./vehicle_component_system.js";
+import {Brand} from "./brand.js";
+import {Service} from "./service.js";
 
 @Index('idx_maintenance_task_service_id')
 @Index('idx_maintenance_task_vehicle_id')

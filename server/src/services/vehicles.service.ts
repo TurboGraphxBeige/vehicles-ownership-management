@@ -280,15 +280,13 @@ export class vehicleService {
 
     static async newService(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("service req.body", req.body);
-            const service: Service = await Service.create({
+            const service = await (Service as any).create({
                 vehicle_id: req.body.vehicle_id,
                 service_date: req.body.service_date,
                 total_cost: req.body.total_cost,
                 contact_id: req.body.contact_id,
                 service_request_description: req.body.service_request_description,
                 notes: req.body.notes,
-                //invoice: req.body.invoice,
             })
             res.status(201).json(service.dataValues);
         }
