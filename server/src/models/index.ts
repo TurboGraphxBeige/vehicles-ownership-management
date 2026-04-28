@@ -77,6 +77,5 @@ async function initialize() {
 
 await initialize();
 
-modelAssociations();
 
 export { Brand, Role, Contact, Service, VehiclePhoto, VehicleModel, Observation, User, OdometerReading, Vehicle };
