@@ -1,7 +1,8 @@
-import type {Model} from "./Model";
-import type {Service} from "./Service";
-import type {Photo} from "./Photo";
-import type {Observation} from "./Observation";
+import type { Model } from "./Model";
+import type { Service } from "./Service";
+import type { Photo } from "./Photo";
+import type { Observation } from "./Observation";
+import type { Maintenance } from "./Maintenance";
 
 export interface Vehicle {
     vehicle_id: string;

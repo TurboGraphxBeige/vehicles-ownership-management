@@ -69,7 +69,7 @@ const apiService = {
                 return true
             }
         } catch (error) {
-            const res = error?.response;
+            const res= error?.response;
             if (res?.status === 401 && res.data?.expired === true) {
                 this.refreshToken();
             }
@@ -81,7 +81,7 @@ const apiService = {
     async refreshToken () {
         console.log('refreshToken called')
         try {
-            const token = localStorage.getItem('refreshToken');
+            //const token = localStorage.getItem('refreshToken');
             const response = await axios.post(
                 getAPIUrl() + '/refreshtoken',
                 {},
@@ -296,7 +296,10 @@ const apiService = {
         if (!localStorage.token) {
             throw new Error('Invalid token')
         }
-        const response = await axios.post(`${getAPIUrl()}/vehicles/${encodeURIComponent(data.vehicle_id)}/services`,
+
+        const vehicle_id: string = data.get('vehicle_id') as string
+        if (!vehicle_id) { throw new Error('vehicle_id is required') }
+        const response = await axios.post(`${getAPIUrl()}/vehicles/${encodeURIComponent(vehicle_id)}/services`,
             data,
             {
                 headers: {
