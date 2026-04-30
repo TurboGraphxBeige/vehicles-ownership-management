@@ -45,7 +45,7 @@ import type { AuthState } from '../stores/components.store.ts';
 
 interface ObservationDialogProps {
     selectedVehicle: Vehicle;
-    selectedObservation: Observation;
+    //selectedObservation: Observation;
     setSelectedObservation: (observation: Observation) => void;
     isObservationDialogOpened: boolean;
     onClose: () => void;
