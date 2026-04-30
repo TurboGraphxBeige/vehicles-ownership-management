@@ -48,9 +48,9 @@ const apiService = {
                 })
 
             if (response.status !== 200) {
-                if (refreshToken) {
-                    return true;
-                }
+                // if (refreshToken) {
+                //     return true;
+                // }
 
                 localStorage.removeItem('token')
                 authStore.dispatch({

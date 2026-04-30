@@ -38,13 +38,14 @@ import ImageList from "@mui/material/ImageList";
 import type {Photo} from "../types/Photo.ts";
 import DeleteIcon from "@mui/icons-material/Delete";
 import imageUrl from "../utils/imageUrl.ts";
+import type { Maintenance } from "../types/Maintenance.ts";
 
 //selectedVehicle={selectedVehicle} selectedMaintenance={selectedMaintenance} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
 interface MaintenanceDialogProps {
-    selectedVehicle: Vehicle;
-    selectedMaintenance: Observation;
-    setSelectedMaintenance: (observation: Observation) => void;
+    selectedVehicle: Vehicle | null;
+    selectedMaintenance: Maintenance | null;
+    setSelectedMaintenance: (maintenance: Maintenance | null) => void;
     isMaintenanceDialogOpened: boolean;
     onClose: () => void;
 
