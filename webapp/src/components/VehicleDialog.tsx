@@ -56,7 +56,6 @@ interface VehicleDialogProps {
     brands: Brand[];
     models: Model[];
     isVehicleDialogOpened: boolean;
-    setSelectedVehicle: () => void;
     onClose: () => void;
     deleteVehicle: (id: string) => Promise<void> | void;
     fetchVehiclesFromAPI: () => Promise<void> | void;
@@ -70,7 +69,6 @@ function VehicleDialog(props: VehicleDialogProps) {
         selectedVehicle,
         brands,
         models,
-        setSelectedVehicle,
         isVehicleDialogOpened,
         onClose,
         deleteVehicle,
@@ -165,7 +163,7 @@ function VehicleDialog(props: VehicleDialogProps) {
 
     const handleUpdateVehicle = async () => {
         const data: any = {}
-        if (selectedModel) { data.model_id = selectedModel.model_id }
+        if (selectedModel) { data.model_id = selectedModel }
         if (makingYear) { data.making_year = makingYear }
         if (purchaseDate) { data.purchase_date = purchaseDate }
         if (pricePaid) { data.price_paid = pricePaid }
@@ -178,6 +176,22 @@ function VehicleDialog(props: VehicleDialogProps) {
             onClose()
         }
     }
+
+    const handlePricePaidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = event.target.value;
+
+        // Allow only numbers and one decimal point
+        const numericValue = inputValue.replace(/[^0-9.]/g, '');
+
+        // Prevent multiple decimal points
+        const parts = numericValue.split('.');
+        const filtered = parts.length > 2
+            ? parts[0] + '.' + parts.slice(1).join('')
+            : numericValue;
+
+        setPricePaid(filtered);
+
+    };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file: File | null = event.target.files?.[0] ?? null;
@@ -343,7 +357,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                         </Grid>
                         <Grid size={6}>
                             <FormControl variant="outlined" fullWidth>
-                                <TextField value={pricePaid} id="standard-basic" label="Price Paid" variant="standard" onChange={ (event) => setPricePaid(event.target.value) } />
+                                <TextField type="number" inputProps={{step: 'any',min: '0'}} value={pricePaid} id="standard-basic" label="Price Paid" variant="standard" onChange={ handlePricePaidChange } />
                             </FormControl>
                         </Grid>
                         <Grid size={6}>
