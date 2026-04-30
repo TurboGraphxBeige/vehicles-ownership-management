@@ -18,12 +18,12 @@ import { useSelector } from 'react-redux';
 import type { AuthState } from '../stores/components.store.ts';
 
 interface selectedObservationProps {
-    selectedService: Service;
+    selectedService: Service | null;
     closeObservationDialog: () => void;
-    setIsObservationDialogOpened: ()=> void;
+    setIsObservationDialogOpened: (value: boolean) => void;
     isObservationDialogOpened: boolean;
-    setSelectedObservation: () => void;
-    selectedObservation: Observation;
+    setSelectedObservation: (observation: Observation) => void;
+    selectedObservation: Observation | null;
     selectedVehicle: Vehicle;
 
 }

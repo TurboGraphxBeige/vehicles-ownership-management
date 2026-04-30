@@ -12,14 +12,16 @@ import * as React from "react";
 import ServiceDialog from "./ServiceDialog.tsx";
 import type {Service} from "../types/Service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
+import type { Contact } from "../types/Contact.ts";
 
 interface selectedVehicleProps {
-    selectedVehicle: Vehicle;
+    contacts: Contact[];
+    selectedVehicle: Vehicle | null;
     closeServiceDialog: () => void;
-    setIsServiceDialogOpened: ()=> void;
+    setIsServiceDialogOpened: (value: boolean)=> void;
     isServiceDialogOpened: boolean;
-    setSelectedService: () => void;
-    selectedService: Service;
+    setSelectedService: (service: Service) => void;
+    selectedService: Service | null;
 
 }
 

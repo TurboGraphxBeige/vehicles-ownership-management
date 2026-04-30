@@ -133,7 +133,7 @@ function VehicleDialog(props: VehicleDialogProps) {
     const handleConfirmDelete = () => {
         deleteVehicle(selectedVehicle.vehicle_id)
     }
-    const handleChange = (mytype:string) => (event: SelectChangeEvent) => {
+    const handleChange = (mytype:string) => (event: SelectChangeEvent<string | null>) => {
         switch (mytype) {
             case 'brand':
                 setSelectedBrand(event.target.value as string);
@@ -184,11 +184,11 @@ function VehicleDialog(props: VehicleDialogProps) {
         setSelectedFile(file);
     };
 
-    const handleAddService = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAddService = () => {
         setIsServiceDialogOpened(true);
     };
 
-    const handleAddObservation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAddObservation = () => {
         setIsObservationDialogOpened(true);
     };
 
@@ -513,9 +513,8 @@ function VehicleDialog(props: VehicleDialogProps) {
                                     setSelectedService={ setSelectedService}
                                     isServiceDialogOpened={isServiceDialogOpened}
                                     selectedVehicle={selectedVehicle}
-                                    setSelectedVehicle={setSelectedVehicle}
                                     setIsServiceDialogOpened={setIsServiceDialogOpened}
-                                    onClose={ closeServiceDialog }
+                                    closeServiceDialog={ closeServiceDialog }
                                 />
                             </Box>
                         )}
@@ -532,12 +531,12 @@ function VehicleDialog(props: VehicleDialogProps) {
                                 </Button>
                                     <ObservationsList
                                         selectedObservation={selectedObservation}
+                                        selectedService={selectedService}
                                         setSelectedObservation={ setSelectedObservation }
                                         isObservationDialogOpened={isObservationDialogOpened}
                                         selectedVehicle={selectedVehicle}
-                                        setSelectedVehicle={setSelectedVehicle}
                                         setIsObservationDialogOpened={setIsObservationDialogOpened}
-                                        onClose={ closeObservationDialog }
+                                        closeObservationDialog={ closeObservationDialog }
                                     />
 
                             </Box>

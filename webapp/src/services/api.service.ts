@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AxiosError } from 'axios';
 import authStore from "../stores/components.store.ts";
 import startRefreshTimer from "../utils/refreshTokenTimer.ts"; '../utils/refreshTokens.ts';
 
@@ -68,12 +69,14 @@ const apiService = {
                 startRefreshTimer();
                 return true
             }
-        } catch (error) {
-            const res= error?.response;
-            if (res?.status === 401 && res.data?.expired === true) {
-                this.refreshToken();
+        } catch (error: unknown) {
+            if (error instanceof AxiosError) {
+                const res = error.response;
+                if (res?.status === 401 && res.data?.expired === true) {
+                    this.refreshToken();
+                }
             }
-            console.log(error)
+            console.log(error);
         }
     },
 
