@@ -558,7 +558,6 @@ function VehicleDialog(props: VehicleDialogProps) {
                                         setSelectedMaintenance={ setSelectedMaintenance }
                                         isMaintenanceDialogOpened={isMaintenanceDialogOpened}
                                         selectedVehicle={selectedVehicle}
-                                        setSelectedVehicle={setSelectedVehicle}
                                         setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened}
                                         onClose={ closeMaintenanceDialog }
                                     />
