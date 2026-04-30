@@ -41,8 +41,8 @@ import imageUrl from "../utils/imageUrl.ts";
 
 interface ServiceDialogProps {
     selectedVehicle: Vehicle;
-    selectedService: Service;
-    setSelectedService: (service: Service) => void;
+    selectedService: Service | null;
+    setSelectedService: (service: Service | null) => void;
     isServiceDialogOpened: boolean;
     onClose: () => void;
     contacts: Contact[];

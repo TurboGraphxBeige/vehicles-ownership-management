@@ -49,7 +49,6 @@ interface ObservationDialogProps {
     setSelectedObservation: (observation: Observation) => void;
     isObservationDialogOpened: boolean;
     onClose: () => void;
-    setSelectedVehicle: () => void;
     fetchVehiclesFromAPI: () => Promise<void> | void;
 
 }
@@ -62,7 +61,6 @@ function ObservationDialog(props: ObservationDialogProps ) {
         selectedVehicle,
         //selectedObservation,
         setSelectedObservation,
-        setSelectedVehicle,
         isObservationDialogOpened,
         onClose,
         fetchVehiclesFromAPI

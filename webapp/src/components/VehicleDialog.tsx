@@ -593,7 +593,6 @@ function VehicleDialog(props: VehicleDialogProps) {
             </Dialog>
             <ServiceDialog
                 selectedVehicle={selectedVehicle}
-                setSelectedVehicle={setSelectedVehicle}
                 contacts={contacts}
                 selectedService={selectedService}
                 setSelectedService={() => setSelectedService}
@@ -601,7 +600,6 @@ function VehicleDialog(props: VehicleDialogProps) {
                 onClose={closeServiceDialog}/>
             <ObservationDialog
                 selectedVehicle={selectedVehicle}
-                setSelectedVehicle={setSelectedVehicle}
                 //selectedObservation={selectedObservation}
                 fetchVehiclesFromAPI={fetchVehiclesFromAPI}
                 setSelectedObservation={() => setSelectedObservation}
