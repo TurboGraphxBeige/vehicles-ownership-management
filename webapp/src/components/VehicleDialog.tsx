@@ -192,7 +192,7 @@ function VehicleDialog(props: VehicleDialogProps) {
         setIsObservationDialogOpened(true);
     };
 
-    const handleAddMaintenance = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAddMaintenance = () => {
         setIsMaintenanceDialogOpened(true);
     };
 
@@ -555,11 +555,12 @@ function VehicleDialog(props: VehicleDialogProps) {
                                 </Button>
                                     <MaintenancesList
                                         selectedMaintenance={selectedMaintenance}
+                                        selectedService={selectedService}
                                         setSelectedMaintenance={ setSelectedMaintenance }
                                         isMaintenanceDialogOpened={isMaintenanceDialogOpened}
                                         selectedVehicle={selectedVehicle}
                                         setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened}
-                                        onClose={ closeMaintenanceDialog }
+                                        closeMaintenanceDialog={ closeMaintenanceDialog }
                                     />
                             </Box>
                         )}
