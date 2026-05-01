@@ -118,7 +118,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
         if (selectedContact) { fd.append('contact_id', selectedContact) }
         if (serviceRequestDescription) { fd.append('service_request_description', serviceRequestDescription) }
         if (notes) { fd.append('notes', notes) }
-        if (serviceDate) { fd.append('service_date', serviceDate) }
+        if (serviceDate) { fd.append('service_date', serviceDate.toISOString()) }
         // if (odometerReading) {fd.append('odometer_reading', odometerReading) }
         if (totalCost) { fd.append('total_cost', totalCost) }
         // if (selectedFile) fd.append('file', selectedFile)
@@ -131,7 +131,6 @@ function ServiceDialog(props: ServiceDialogProps ) {
         }
     }
 
-    console.log('CONTACTS', contacts)
     return (
 
             isServiceDialogOpened && (
