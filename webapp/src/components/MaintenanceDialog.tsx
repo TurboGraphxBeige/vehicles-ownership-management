@@ -11,39 +11,18 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {type SyntheticEvent, useEffect, useState} from "react";
+import {useEffect} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
-import type {Service} from "../types/Service.ts";
 import FormControl from "@mui/material/FormControl";
-import {IconButton, ImageListItem, TextField} from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import Select, {type SelectChangeEvent} from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import type {User} from "../types/User.ts";
-import type {Observation} from "../types/Observation.ts";
+import {TextField} from "@mui/material";
 import type { VehicleComponent } from "../types/VehicleComponent.ts";
 import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
 import apiService from "../services/api.service.ts";
-import type {Vehicle} from "../types/Vehicle.ts";
-import ServicesList from "./ServicesList.tsx";
-import MaintenancesList from "./MaintenancesList.tsx";
-import ObservationsList from "./ObservationsList.tsx";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import {FaPlus} from "react-icons/fa";
-import Typography from "@mui/material/Typography";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
-import ImageList from "@mui/material/ImageList";
-import type {Photo} from "../types/Photo.ts";
-import DeleteIcon from "@mui/icons-material/Delete";
-import imageUrl from "../utils/imageUrl.ts";
 import type { Maintenance } from "../types/Maintenance.ts";
 
 //selectedVehicle={selectedVehicle} selectedMaintenance={selectedMaintenance} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
 interface MaintenanceDialogProps {
-    selectedVehicle: Vehicle | null;
     selectedMaintenance: Maintenance | null;
     setSelectedMaintenance: (maintenance: Maintenance | null) => void;
     isMaintenanceDialogOpened: boolean;
@@ -56,7 +35,6 @@ interface MaintenanceDialogProps {
 function MaintenanceDialog(props: MaintenanceDialogProps ) {
 
     const {
-        selectedVehicle,
         selectedMaintenance,
         setSelectedMaintenance,
         isMaintenanceDialogOpened,

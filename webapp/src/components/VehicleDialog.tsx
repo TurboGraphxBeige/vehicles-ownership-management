@@ -178,7 +178,7 @@ function VehicleDialog(props: VehicleDialogProps) {
         if (pricePaid) { data.price_paid = pricePaid }
         if (selectedUser) { data.user_id = selectedUser; console.log('selectedUser.user_id', selectedUser) }
         if (selectedContact) { data.contact_id = selectedContact; console.log('selectedContact.contact_id', selectedContact) }
-        const res = await apiService.updateVehicle(selectedVehicle.vehicle_id, data)
+        const res = await apiService.updateVehicle(selectedVehicle.vehicle_id, data as FormData)
 
         if (res.status === 201) {
             fetchVehiclesFromAPI()
@@ -553,7 +553,6 @@ function VehicleDialog(props: VehicleDialogProps) {
                                     <Typography>Add</Typography>
                                 </Button>
                                     <ObservationsList
-                                        selectedObservation={selectedObservation}
                                         selectedService={selectedService}
                                         setSelectedObservation={ setSelectedObservation }
                                         isObservationDialogOpened={isObservationDialogOpened}
@@ -628,7 +627,6 @@ function VehicleDialog(props: VehicleDialogProps) {
                 isObservationDialogOpened={isObservationDialogOpened}
                 onClose={closeObservationDialog}/>
             <MaintenanceDialog
-                selectedVehicle={selectedVehicle}
                 selectedMaintenance={selectedMaintenance}
                 setSelectedMaintenance={() => setSelectedMaintenance}
                 isMaintenanceDialogOpened={isMaintenanceDialogOpened}
