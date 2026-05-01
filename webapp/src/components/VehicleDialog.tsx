@@ -162,7 +162,16 @@ function VehicleDialog(props: VehicleDialogProps) {
     }
 
     const handleUpdateVehicle = async () => {
-        const data: any = {}
+
+        interface vehicleData {
+            model_id?: string;
+            making_year?: string;
+            purchase_date?: string;
+            price_paid?: string;
+            user_id?: string;
+            contact_id?: string;
+        }
+        const data: vehicleData = {}
         if (selectedModel) { data.model_id = selectedModel }
         if (makingYear) { data.making_year = makingYear }
         if (purchaseDate) { data.purchase_date = purchaseDate }
