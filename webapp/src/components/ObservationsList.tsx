@@ -8,8 +8,6 @@ import Paper from '@mui/material/Paper';
 import Typography from "@mui/material/Typography";
 import {IconButton} from "@mui/material";
 import LaunchIcon from '@mui/icons-material/Launch';
-import * as React from "react";
-import ServiceDialog from "./ServiceDialog.tsx";
 import type {Service} from "../types/Service.ts";
 import type {Observation} from "../types/Observation.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
@@ -23,7 +21,6 @@ interface selectedObservationProps {
     setIsObservationDialogOpened: (value: boolean) => void;
     isObservationDialogOpened: boolean;
     setSelectedObservation: (observation: Observation) => void;
-    selectedObservation: Observation | null;
     selectedVehicle: Vehicle;
 
 }
@@ -31,13 +28,9 @@ interface selectedObservationProps {
 function ObservationsList(props: selectedObservationProps) {
     const {
         selectedService,
-        closeObservationDialog,
         setIsObservationDialogOpened,
-        isObservationDialogOpened,
         setSelectedObservation,
-        selectedObservation,
-        selectedVehicle,
-
+        selectedVehicle
     } = props;
 
     // select the whole selectedObservation
@@ -73,8 +66,8 @@ function ObservationsList(props: selectedObservationProps) {
     return (
         <>
             <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead stickyHeader>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
+                    <TableHead>
                         <TableRow>
                             <TableCell>
 

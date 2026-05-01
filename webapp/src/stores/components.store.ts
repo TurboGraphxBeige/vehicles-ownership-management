@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-
+import type { Observation} from "../types/Observation.ts";
 
 // Define the shape of the state
 export interface AuthState {
@@ -60,7 +60,7 @@ interface ModelsUpdatedAction {
 interface SelectedObservationsUpdatedAction {
     type: typeof SELECTED_OBSERVATION_UPDATED;
     payload: {
-        selectedObservation: string[];
+        selectedObservation: Observation;
     }
 }
 
