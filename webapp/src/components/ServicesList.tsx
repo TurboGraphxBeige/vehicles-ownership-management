@@ -8,15 +8,13 @@ import Paper from '@mui/material/Paper';
 import Typography from "@mui/material/Typography";
 import {IconButton} from "@mui/material";
 import LaunchIcon from '@mui/icons-material/Launch';
-import * as React from "react";
-import ServiceDialog from "./ServiceDialog.tsx";
 import type {Service} from "../types/Service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
 import type { Contact } from "../types/Contact.ts";
 
 interface selectedVehicleProps {
     contacts: Contact[];
-    selectedVehicle: Vehicle | null;
+    selectedVehicle: Vehicle;
     closeServiceDialog: () => void;
     setIsServiceDialogOpened: (value: boolean)=> void;
     isServiceDialogOpened: boolean;
@@ -28,12 +26,8 @@ interface selectedVehicleProps {
 function ServicesList(props: selectedVehicleProps) {
     const {
         selectedVehicle,
-        closeServiceDialog,
         setIsServiceDialogOpened,
-        isServiceDialogOpened,
         setSelectedService,
-        selectedService,
-
     } = props;
 
     const firstService: Service = selectedVehicle.services?.[0];

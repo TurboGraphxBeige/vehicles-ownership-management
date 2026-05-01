@@ -11,31 +11,22 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {type SyntheticEvent, useEffect, useState} from "react";
+import {type SyntheticEvent, useEffect} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import type {Service} from "../types/Service.ts";
 import FormControl from "@mui/material/FormControl";
-import {IconButton, ImageListItem, TextField} from "@mui/material";
+import { TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
-import Select, {type SelectChangeEvent} from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import type {Contact} from "../types/Contact.ts";
 import MenuItem from "@mui/material/MenuItem";
-import type {User} from "../types/User.ts";
 import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
-import ServicesList from "./ServicesList.tsx";
 import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import {FaPlus} from "react-icons/fa";
-import Typography from "@mui/material/Typography";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
-import ImageList from "@mui/material/ImageList";
-import type {Photo} from "../types/Photo.ts";
-import DeleteIcon from "@mui/icons-material/Delete";
-import imageUrl from "../utils/imageUrl.ts";
+
 
 //selectedVehicle={selectedVehicle} selectedService={selectedService} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
@@ -66,10 +57,10 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const [serviceDate, setServiceDate] = React.useState<Dayjs>();
-    const [totalCost, setTotalCost] = React.useState<string>('');
-    const [selectedContact, setSelectedContact] = React.useState<string>('');
-    const [notes, setNotes] = React.useState<string>('');
-    const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string>('');
+    const [totalCost, setTotalCost] = React.useState<string | undefined>('');
+    const [selectedContact, setSelectedContact] = React.useState<string | undefined>('');
+    const [notes, setNotes] = React.useState<string | undefined>('');
+    const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string | undefined>('');
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
     const [selectedMaintenance, setSelectedMaintenance] = React.useState<Service | null>( null );
     const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
@@ -78,7 +69,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
     useEffect(()=>  {
         setServiceDate(selectedService?.service_date ? dayjs(selectedService.service_date) : dayjs() ); // should default to today's date
         setSelectedContact(selectedService?.contact_id);
-        setTotalCost(selectedService?.total_cost);
+        setTotalCost((selectedService?.total_cost)?.toString());
         setNotes(selectedService?.notes);
         setServiceRequestDescription(selectedService?.service_request_description);
         setNotes(selectedService?.notes);
@@ -112,18 +103,17 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const handleDateTimeChange = (selectedServiceDate: Dayjs | null) => {
         const date = selectedServiceDate?.toDate();
         const formattedDate = new Intl.DateTimeFormat('en-CA').format(date);
-        setServiceDate(formattedDate);
+        setServiceDate(dayjs(formattedDate));
         console.log('handleDateTimeChange', selectedServiceDate?.toDate(), formattedDate);
     }
 
     const buildDialogTitle = () => {
-        const service_date = selectedService?.service_date || undefined
-        return service_date
+        //const service_date = selectedService?.service_date || undefined
+        return selectedService?.service_date || undefined
     }
 
     const handleAddButon = async () => {
         const fd = new FormData();
-        console.log('selectedContact22222222222222222222', selectedContact);
         if (selectedVehicle) { fd.append('vehicle_id', selectedVehicle.vehicle_id) }
         if (selectedContact) { fd.append('contact_id', selectedContact) }
         if (serviceRequestDescription) { fd.append('service_request_description', serviceRequestDescription) }

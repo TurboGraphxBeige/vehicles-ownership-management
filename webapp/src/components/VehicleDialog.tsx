@@ -101,7 +101,7 @@ function VehicleDialog(props: VehicleDialogProps) {
             setSelectedModel(selectedVehicle.model.model_id);
             setMakingYear(selectedVehicle.making_year);
             setPurchaseDate(selectedVehicle.purchase_date);
-            setPricePaid(selectedVehicle.price_paid);
+            setPricePaid(selectedVehicle.price_paid.toString());
             setSelectedUser(selectedVehicle.user_id);
             setSelectedContact(selectedVehicle.contact_id);
         }
