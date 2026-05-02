@@ -15,17 +15,18 @@ import {useEffect} from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import FormControl from "@mui/material/FormControl";
 import {TextField} from "@mui/material";
-import type { VehicleComponent } from "../types/VehicleComponent.ts";
-import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
+//import type { VehicleComponent } from "../types/VehicleComponent.ts";
+//import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
 import apiService from "../services/api.service.ts";
 import { useSelector } from 'react-redux';
 import type { AuthState } from '../stores/components.store.ts';
+import type {Observation} from "../types/Observation.ts";
 
 //selectedVehicle={selectedVehicle} selectedMaintenance={selectedMaintenance} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
 interface MaintenanceDialogProps {
     //selectedMaintenance: Maintenance | null;
-    setSelectedMaintenance: () => void;
+    //setSelectedMaintenance: () => void;
     isMaintenanceDialogOpened: boolean;
     onClose: () => void;
 
@@ -37,7 +38,7 @@ function MaintenanceDialog(props: MaintenanceDialogProps ) {
 
     const {
         //selectedMaintenance,
-        setSelectedMaintenance,
+        //setSelectedMaintenance,
         isMaintenanceDialogOpened,
         onClose,
     } = props;
@@ -45,35 +46,37 @@ function MaintenanceDialog(props: MaintenanceDialogProps ) {
     //console.log('selectedMaintenance', selectedMaintenance);
     console.log('maintenanceDialog', props)
 
+    const selectedMaintenance: Partial<Observation> = useSelector((state: AuthState) => state.selectedMaintenance);
+
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const [observationDate, setObservationDate] = React.useState<Dayjs>();
-    const [vehicleComponent, setVehicleComponent] = React.useState<VehicleComponent | null>(null);
-    const [vehicleComponentSystem, setVehicleComponentSystem] = React.useState<VehicleComponentSystem | null>(null);
-    const [description, setDescription] = React.useState<string | null>(null);
-    const [cost, setCost] = React.useState<number | null>(null);
-    const [notes, setNotes] = React.useState<string | null>(null);
-    const [status, setStatus] = React.useState<string | null>(null);
+    //const [vehicleComponent, setVehicleComponent] = React.useState<VehicleComponent | undefined>();
+    //const [vehicleComponentSystem, setVehicleComponentSystem] = React.useState<VehicleComponentSystem | undefined>();
+    const [description, setDescription] = React.useState<string | undefined>();
+    const [cost, setCost] = React.useState<number | undefined>();
+    const [notes, setNotes] = React.useState<string | undefined>();
+    const [status, setStatus] = React.useState<string | undefined>();
 
-    const selectedMaintenance = useSelector((state: AuthState) => state.selectedMaintenance);
+    //const selectedMaintenance = useSelector((state: AuthState) => state.selectedMaintenance);
 
     useEffect(()=>  {
         setObservationDate(selectedMaintenance?.observation_date ? dayjs(selectedMaintenance.observation_date) : dayjs() );
         //setSelectedContact(selectedMaintenance?.contact_id);
-        setVehicleComponent(selectedMaintenance?.vehicle_component_id)
-        setVehicleComponentSystem(selectedMaintenance?.vehicle_component_system_id)
+        //setVehicleComponent(selectedMaintenance?.vehicle_component_id)
+        //setVehicleComponentSystem(selectedMaintenance?.vehicle_component_system_id)
         setDescription(selectedMaintenance?.description)
-        setCost(selectedMaintenance?.cost)
-        setNotes(selectedMaintenance?.notes)
+        //setCost(selectedMaintenance?.cost)
+        //setNotes(selectedMaintenance?.notes)
         setStatus(selectedMaintenance?.status)
 
 
         console.log('selectedMaintenance in dialog', selectedMaintenance);
     }, [selectedMaintenance]);
 
-    const closeMaintenanceDialog = () => {
-        setIsMaintenanceDialogOpened(false);
-        setSelectedMaintenance(null);
-    }
+    // const closeMaintenanceDialog = () => {
+    //     setIsMaintenanceDialogOpened(false);
+    //     setSelectedMaintenance(null);
+    // }
 
     const handleCancelConfirmDelete = () => {
         onClose();
@@ -90,14 +93,14 @@ function MaintenanceDialog(props: MaintenanceDialogProps ) {
     const handleDateTimeChange = (selectedMaintenanceDate: Dayjs | null) => {
         const date = selectedMaintenanceDate?.toDate();
         const formattedDate = new Intl.DateTimeFormat('en-CA').format(date);
-        setObservationDate(formattedDate);
+        setObservationDate(dayjs(formattedDate));
         console.log('handleDateTimeChange', selectedMaintenanceDate?.toDate(), formattedDate);
     }
 
-    const buildDialogTitle = () => {
-        const service_date = selectedMaintenance?.service_date || undefined
-        return service_date
-    }
+    // const buildDialogTitle = () => {
+    //     const service_date = selectedMaintenance?.service_date || undefined
+    //     return service_date
+    // }
 
     const handleAddButon = async () => {
         const fd = new FormData();
@@ -166,7 +169,7 @@ function MaintenanceDialog(props: MaintenanceDialogProps ) {
 
                         <Grid size={6}>
                             <FormControl variant="outlined" fullWidth>
-                                <TextField value={cost} id="standard-basic" label="Estimated Costs" variant="standard" onChange={ (event) => setCost(event.target.value) } />
+                                <TextField value={cost} id="standard-basic" label="Estimated Costs" variant="standard" onChange={ (event) => setCost(Number(event.target.value)) } />
 
                             </FormControl>
                         </Grid>

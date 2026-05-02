@@ -647,7 +647,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                 onClose={closeObservationDialog}/>
             <MaintenanceDialog
                 //selectedMaintenance={selectedMaintenance}
-                setSelectedMaintenance={setSelectedMaintenance}
+                //setSelectedMaintenance={setSelectedMaintenance}
                 isMaintenanceDialogOpened={isMaintenanceDialogOpened}
                 onClose={closeMaintenanceDialog}/>
             <ConfirmDelete

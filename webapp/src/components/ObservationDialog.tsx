@@ -15,13 +15,17 @@ import { useEffect } from "react";
 import ConfirmDelete from "./ConfirmDelete.tsx"
 import FormControl from "@mui/material/FormControl";
 import { TextField } from "@mui/material";
-import type { VehicleComponent } from "../types/VehicleComponent.ts";
-import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
+
 import apiService from "../services/api.service.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
 import authStore from "../stores/components.store.ts";
 import { useSelector } from 'react-redux';
 import type { AuthState } from '../stores/components.store.ts';
+import type {Observation} from "../types/Observation.ts";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import type {Service} from "../types/Service.ts";
 
 
 interface ObservationDialogProps {
@@ -51,23 +55,23 @@ function ObservationDialog(props: ObservationDialogProps ) {
     //console.log('observationDialog', props)
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
-
+    const selectedObservation: Partial<Observation> = useSelector((state: AuthState) => state.selectedObservation);
     const [observationDate, setObservationDate] = React.useState<Dayjs>();
-    const [observation, setObservation] = React.useState<string | null>(null);
-    const [service, setService] = React.useState<string | null>(null);
-    const [vehicleComponent, setVehicleComponent] = React.useState<VehicleComponent | null>(null);
-    const [vehicleComponentSystem, setVehicleComponentSystem] = React.useState<VehicleComponentSystem | null>(null);
-    const [description, setDescription] = React.useState<string | null>(null);
-    const [estimatedCost, setEstimatedCost] = React.useState<number | null>(null);
-    const [priority, setPriority] = React.useState<string | null>(null);
-    const [status, setStatus] = React.useState<string | null>(null);
-    const [vehicle, setVehicle] = React.useState<string | null>(null);
+    const [observation] = React.useState<string | undefined>(selectedObservation.observation_id);
+    //const [service, setService] = React.useState<string | undefined>(selectedObservation.service_id);
+    const [vehicleComponent, setVehicleComponent] = React.useState<string | undefined>();
+    const [vehicleComponentSystem, setVehicleComponentSystem] = React.useState<string | undefined>();
+    const [description, setDescription] = React.useState<string | undefined>();
+    const [estimatedCost, setEstimatedCost] = React.useState<number | undefined>();
+    const [priority, setPriority] = React.useState<string | undefined>();
+    const [status, setStatus] = React.useState<string | undefined>();
+    //const [vehicle] = React.useState<string | undefined>();
 
-    const selectedObservation = useSelector((state: AuthState) => state.selectedObservation);
+
     console.log('selectedObservationtest' , selectedObservation)
 
     useEffect(()=>  {
-        setObservationDate(selectedObservation?.observation_date ? dayjs(selectedObservation.observation_date) : dayjs() );
+        //setObservationDate(selectedObservation?.observation_date ? dayjs(selectedObservation.observation_date) : dayjs() );
         //setSelectedContact(selectedObservation?.contact_id);
         setVehicleComponent(selectedObservation?.vehicle_component_id)
         setVehicleComponentSystem(selectedObservation?.vehicle_component_system_id)
@@ -100,22 +104,17 @@ function ObservationDialog(props: ObservationDialogProps ) {
     const handleDateTimeChange = (selectedObservationDate: Dayjs | null) => {
         const date = selectedObservationDate?.toDate();
         const formattedDate = new Intl.DateTimeFormat('en-CA').format(date);
-        setObservationDate(formattedDate);
+        setObservationDate(dayjs(formattedDate));
         console.log('handleDateTimeChange', selectedObservationDate?.toDate(), formattedDate);
     }
-
-    // const buildDialogTitle = () => {
-    //     const service_date = selectedObservation?.service_date || undefined
-    //     return service_date
-    // }
 
 
     const handleUpdateObservation = async () => {
         console.log('handleUpdateObservation', selectedVehicle, selectedObservation)
         const data: any = {}
         if (observation) { data.observation_id = observation }
-        if (service !== undefined) { data.service_id = service }
-        if (vehicle) { data.vehicle_id = vehicle }         // contact_id can come from vehicleId if needed
+        //if (service !== undefined) { data.service_id = service }
+        //if (vehicle) { data.vehicle_id = vehicle }
         if (vehicleComponent !== undefined) { data.vehicle_component_id = vehicleComponent }
         if (vehicleComponentSystem) { data.vehicle_component_system_id = vehicleComponentSystem }
         if (description) { data.description = description }
@@ -123,17 +122,24 @@ function ObservationDialog(props: ObservationDialogProps ) {
         if (priority) { data.priority = priority }
         if (status) { data.status = status }
         if (observationDate) { data.observation_date = observationDate }
-        const res = await apiService.updateObservation(selectedVehicle.vehicle_id, selectedObservation.observation_id, data)
-        console.log('updateObservation res', res)
-        if (res.status === 201) {
-            //setSelectedObservation(res.data);
-            authStore.dispatch({
-                type: "SELECTED_OBSERVATION_UPDATED",
-                payload: { selectedObservation: res.data }
-            });
-            fetchVehiclesFromAPI()
-            onClose()
+
+
+        if (selectedObservation.observation_id) {
+            const res = await apiService.updateObservation(selectedVehicle.vehicle_id, selectedObservation.observation_id, data)
+            console.log('updateObservation res', res)
+            if (res.status === 201) {
+                //setSelectedObservation(res.data);
+                authStore.dispatch({
+                    type: "SELECTED_OBSERVATION_UPDATED",
+                    payload: { selectedObservation: res.data }
+                });
+                fetchVehiclesFromAPI()
+                onClose()
+            }
         }
+
+
+
 
     }
 
@@ -157,7 +163,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
             onClose()
         }
     }
-    
+
     return (
 
             isObservationDialogOpened && (
@@ -195,6 +201,19 @@ function ObservationDialog(props: ObservationDialogProps ) {
                             </LocalizationProvider>
 
                         </Grid>
+                        <Grid size={6}>
+                            <FormControl variant="outlined"  fullWidth>
+                                <InputLabel id="first-select-label">Service</InputLabel>
+                                <Select
+                                    labelId="first-select-label"
+                                    label="Service"
+                                >
+                                    {(selectedVehicle.services).map((service: Service) => (
+                                        <MenuItem key={service.service_id} value={service.service_id}> {service.service_date ?? service.service_id}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
                         <Grid size={12}>
                             <FormControl variant="outlined" fullWidth>
                                 <TextField value={description} id="standard-basic" label="Description" variant="standard" onChange={ (event) => setDescription(event.target.value) } />
@@ -204,7 +223,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
 
                         <Grid size={6}>
                             <FormControl variant="outlined" fullWidth>
-                                <TextField value={estimatedCost} id="standard-basic" label="Estimated Costs" variant="standard" onChange={ (event) => setEstimatedCost(event.target.value) } />
+                                <TextField value={estimatedCost} id="standard-basic" label="Estimated Costs" variant="standard" onChange={ (event) => setEstimatedCost(Number(event.target.value)) } />
 
                             </FormControl>
                         </Grid>

@@ -26,9 +26,9 @@ interface selectedMaintenanceProps {
 function MaintenancesList(props: selectedMaintenanceProps) {
     const {
         selectedService,
-        closeMaintenanceDialog,
+        //closeMaintenanceDialog,
         setIsMaintenanceDialogOpened,
-        isMaintenanceDialogOpened,
+        //isMaintenanceDialogOpened,
         setSelectedMaintenance,
         //selectedMaintenance,
         selectedVehicle,
