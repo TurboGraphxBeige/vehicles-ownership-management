@@ -15,7 +15,6 @@ import authStore from "../stores/components.store.ts";
 
 interface selectedObservationProps {
     selectedService: Service | null;
-    closeObservationDialog: () => void;
     setIsObservationDialogOpened: (value: boolean) => void;
     isObservationDialogOpened: boolean;
     setSelectedObservation: (observation: Observation) => void;

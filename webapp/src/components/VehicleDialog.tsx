@@ -92,13 +92,13 @@ function VehicleDialog(props: VehicleDialogProps) {
 
     console.log('selectedVehicle', selectedVehicle);
 
-    const [selectedBrand, setSelectedBrand] = React.useState('');
-    const [selectedModel, setSelectedModel] = React.useState('');
-    const [makingYear, setMakingYear] = React.useState('');
-    const [selectedUser, setSelectedUser] = React.useState<string | null>('');
-    const [selectedContact, setSelectedContact] = React.useState<string | null>('');
-    const [purchaseDate, setPurchaseDate] = React.useState('');
-    const [pricePaid, setPricePaid] = React.useState('');
+    const [selectedBrand, setSelectedBrand] = React.useState(selectedVehicle.model.brand.brand_id);
+    const [selectedModel, setSelectedModel] = React.useState(selectedVehicle.model.model_id);
+    const [makingYear, setMakingYear] = React.useState(selectedVehicle.making_year);
+    const [selectedUser, setSelectedUser] = React.useState<string | null>(selectedVehicle.user_id);
+    const [selectedContact, setSelectedContact] = React.useState<string | null>(selectedVehicle.contact_id);
+    const [purchaseDate, setPurchaseDate] = React.useState(selectedVehicle.purchase_date);
+    const [pricePaid, setPricePaid] = React.useState(selectedVehicle.price_paid.toString());
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const [isServiceDialogOpened, setIsServiceDialogOpened] = React.useState(false);
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
@@ -110,13 +110,13 @@ function VehicleDialog(props: VehicleDialogProps) {
 
     useEffect(() => {
         if (selectedVehicle) {
-            setSelectedBrand(selectedVehicle.model.brand.brand_id);
-            setSelectedModel(selectedVehicle.model.model_id);
-            setMakingYear(selectedVehicle.making_year);
-            setPurchaseDate(selectedVehicle.purchase_date);
-            setPricePaid(selectedVehicle.price_paid.toString());
-            setSelectedUser(selectedVehicle.user_id);
-            setSelectedContact(selectedVehicle.contact_id);
+            // setSelectedBrand(selectedVehicle.model.brand.brand_id);
+            // setSelectedModel(selectedVehicle.model.model_id);
+            // setMakingYear(selectedVehicle.making_year);
+            // setPurchaseDate(selectedVehicle.purchase_date);
+            // setPricePaid(selectedVehicle.price_paid.toString());
+            // setSelectedUser(selectedVehicle.user_id);
+            // setSelectedContact(selectedVehicle.contact_id);
         }
     }, [selectedVehicle]);
 
@@ -569,7 +569,6 @@ function VehicleDialog(props: VehicleDialogProps) {
                                         isObservationDialogOpened={isObservationDialogOpened}
                                         selectedVehicle={selectedVehicle}
                                         setIsObservationDialogOpened={setIsObservationDialogOpened}
-                                        closeObservationDialog={ closeObservationDialog }
                                     />
 
                             </Box>
@@ -627,6 +626,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                 selectedVehicle={selectedVehicle}
                 contacts={contacts}
                 selectedService={selectedService}
+                setSelectedObservation={setSelectedObservation}
                 setSelectedService={() => setSelectedService}
                 isServiceDialogOpened={isServiceDialogOpened}
                 onClose={closeServiceDialog}/>
