@@ -636,6 +636,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                 contacts={contacts}
                 selectedService={selectedService}
                 setSelectedObservation={setSelectedObservation}
+                setSelectedMaintenance={setSelectedMaintenance}
                 setSelectedService={() => setSelectedService}
                 isServiceDialogOpened={isServiceDialogOpened}
                 onClose={closeServiceDialog}/>

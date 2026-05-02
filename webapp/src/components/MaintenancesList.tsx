@@ -8,8 +8,6 @@ import Paper from '@mui/material/Paper';
 import Typography from "@mui/material/Typography";
 import {IconButton} from "@mui/material";
 import LaunchIcon from '@mui/icons-material/Launch';
-import * as React from "react";
-import ServiceDialog from "./ServiceDialog.tsx";
 import type {Service} from "../types/Service.ts";
 import type {Maintenance} from "../types/Maintenance.ts";
 import type {Vehicle} from "../types/Vehicle.ts";

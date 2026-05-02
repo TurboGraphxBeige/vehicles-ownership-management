@@ -18,7 +18,6 @@ import {TextField} from "@mui/material";
 import type { VehicleComponent } from "../types/VehicleComponent.ts";
 import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
 import apiService from "../services/api.service.ts";
-import type { Maintenance } from "../types/Maintenance.ts";
 import { useSelector } from 'react-redux';
 import type { AuthState } from '../stores/components.store.ts';
 

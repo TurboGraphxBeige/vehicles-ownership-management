@@ -34,6 +34,7 @@ interface ServiceDialogProps {
     selectedVehicle: Vehicle;
     selectedService: Service | null;
     setSelectedObservation: () => void;
+    setSelectedMaintenance: () => void;
     setSelectedService: (service: Service | null) => void;
     isServiceDialogOpened: boolean;
     onClose: () => void;
@@ -49,6 +50,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
         selectedVehicle,
         selectedService,
         setSelectedObservation,
+        setSelectedMaintenance,
         isServiceDialogOpened,
         onClose,
         contacts,
@@ -64,7 +66,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const [notes, setNotes] = React.useState<string | undefined>('');
     const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string | undefined>('');
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
-    const [selectedMaintenance, setSelectedMaintenance] = React.useState<Service | null>( null );
+   // const [selectedMaintenance, setSelectedMaintenance] = React.useState<Service | null>( null );
     const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
     //const [selectedObservation, setSelectedObservation] = React.useState<Service | null>( null );
 
@@ -84,7 +86,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
     const closeMaintenanceDialog = () => {
         setIsMaintenanceDialogOpened(false);
-        setSelectedMaintenance(null);
+        setSelectedMaintenance();
     }
 
     const handleTabChange = (_event: SyntheticEvent , newValue: string) => {
@@ -242,12 +244,11 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                     <Box sx={{ width: '100%', height: 500 }}>
                                         <MaintenancesList
                                             selectedService={selectedService}
-                                            selectedMaintenance={selectedMaintenance}
                                             setSelectedMaintenance={ setSelectedMaintenance }
                                             isMaintenanceDialogOpened={isMaintenanceDialogOpened}
                                             selectedVehicle={selectedVehicle}
                                             setIsMaintenanceDialogOpened={setIsMaintenanceDialogOpened}
-                                            onClose={ closeMaintenanceDialog }
+                                            closeMaintenanceDialog={ closeMaintenanceDialog }
                                         />
                                     </Box>
                                 )}

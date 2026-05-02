@@ -11,7 +11,6 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import type {Service} from "../types/Service.ts";
 import type {Observation} from "../types/Observation.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
-import authStore from "../stores/components.store.ts";
 
 interface selectedObservationProps {
     selectedService: Service | null;
