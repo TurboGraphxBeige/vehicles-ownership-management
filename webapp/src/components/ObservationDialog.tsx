@@ -46,7 +46,6 @@ import type { AuthState } from '../stores/components.store.ts';
 interface ObservationDialogProps {
     selectedVehicle: Vehicle;
     //selectedObservation: Observation;
-    setSelectedObservation: (observation: Observation) => void;
     isObservationDialogOpened: boolean;
     onClose: () => void;
     fetchVehiclesFromAPI: () => Promise<void> | void;
@@ -60,7 +59,6 @@ function ObservationDialog(props: ObservationDialogProps ) {
     const {
         selectedVehicle,
         //selectedObservation,
-        setSelectedObservation,
         isObservationDialogOpened,
         onClose,
         fetchVehiclesFromAPI
@@ -101,10 +99,10 @@ function ObservationDialog(props: ObservationDialogProps ) {
         console.log('selectedObservation in dialog', selectedObservation);
     }, [selectedObservation]);
 
-    const closeObservationDialog = () => {
-        setIsObservationDialogOpened(false);
-        setSelectedObservation(null);
-    }
+    // const closeObservationDialog = () => {
+    //     setIsObservationDialogOpened(false);
+    //     setSelectedObservation(null);
+    // }
 
     const handleCancelConfirmDelete = () => {
         onClose();
@@ -125,10 +123,10 @@ function ObservationDialog(props: ObservationDialogProps ) {
         console.log('handleDateTimeChange', selectedObservationDate?.toDate(), formattedDate);
     }
 
-    const buildDialogTitle = () => {
-        const service_date = selectedObservation?.service_date || undefined
-        return service_date
-    }
+    // const buildDialogTitle = () => {
+    //     const service_date = selectedObservation?.service_date || undefined
+    //     return service_date
+    // }
 
 
     const handleUpdateObservation = async () => {
@@ -147,7 +145,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
         const res = await apiService.updateObservation(selectedVehicle.vehicle_id, selectedObservation.observation_id, data)
         console.log('updateObservation res', res)
         if (res.status === 201) {
-            setSelectedObservation(res.data);
+            //setSelectedObservation(res.data);
             authStore.dispatch({
                 type: "SELECTED_OBSERVATION_UPDATED",
                 payload: { selectedObservation: res.data }

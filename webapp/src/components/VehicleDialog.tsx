@@ -50,6 +50,7 @@ import type { Maintenance } from "../types/Maintenance.ts"
 import type { Observation } from "../types/Observation.ts"
 import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
+import authStore from "../stores/components.store.ts";
 
 interface VehicleDialogProps {
     selectedVehicle: Vehicle;
@@ -62,6 +63,18 @@ interface VehicleDialogProps {
     users: User[];
     contacts: Contact[];
 }
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 
 
 function VehicleDialog(props: VehicleDialogProps) {
@@ -90,7 +103,7 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [isServiceDialogOpened, setIsServiceDialogOpened] = React.useState(false);
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
     const [selectedService, setSelectedService] = React.useState<Service | null>( null );
-    const [selectedObservation, setSelectedObservation] = React.useState<Observation | null>( null );
+    //const [selectedObservation, setSelectedObservation] = React.useState<Observation | null>( null );
     const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
     const [selectedMaintenance, setSelectedMaintenance] = React.useState<Maintenance | null>( null );
 
@@ -105,21 +118,9 @@ function VehicleDialog(props: VehicleDialogProps) {
             setSelectedUser(selectedVehicle.user_id);
             setSelectedContact(selectedVehicle.contact_id);
         }
-        console.log('isObservationDialogOpened', isObservationDialogOpened);
-    }, [selectedVehicle, isServiceDialogOpened, isObservationDialogOpened]);
+    }, [selectedVehicle]);
 
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
 
     const handleCancelConfirmDelete = () => {
         setIsConfirmDeleteOpened(false);
@@ -237,7 +238,7 @@ function VehicleDialog(props: VehicleDialogProps) {
         if (res.status === 201) {
             fetchVehiclesFromAPI()
             setSelectedFile(null);
-            onClose
+            onClose();
             console.log('selectedVehicle.photos', res.data)
             console.log(selectedVehicle.photos, selectedVehicle.photos)
             selectedVehicle!.photos!.push(res.data)
@@ -257,7 +258,7 @@ function VehicleDialog(props: VehicleDialogProps) {
         if (res.status === 201 && res.data > 0) {
             fetchVehiclesFromAPI()
             setSelectedFile(null);
-            onClose
+            onClose()
             selectedVehicle!.photos!.forEach((photo: Photo, index: number) => {
                 if (photo_id === photo.vehicle_photo_id) {
                     selectedVehicle!.photos!.splice(index, 1)
@@ -298,9 +299,19 @@ function VehicleDialog(props: VehicleDialogProps) {
         setSelectedMaintenance(null);
     }
 
+    const setSelectedObservation = (observation: Observation | Partial<Observation> = {} ) => {
+        let payload = observation;
+        if (!observation) { payload = {} }
+        authStore.dispatch({
+            type: "SELECTED_OBSERVATION_UPDATED",
+            payload: { selectedObservation: payload }
+        });
+    }
+
     const closeObservationDialog = () => {
         setIsObservationDialogOpened(false);
-        setSelectedObservation(null);
+        setSelectedObservation();
+
     }
 
     return (
@@ -621,9 +632,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                 onClose={closeServiceDialog}/>
             <ObservationDialog
                 selectedVehicle={selectedVehicle}
-                //selectedObservation={selectedObservation}
                 fetchVehiclesFromAPI={fetchVehiclesFromAPI}
-                setSelectedObservation={() => setSelectedObservation}
                 isObservationDialogOpened={isObservationDialogOpened}
                 onClose={closeObservationDialog}/>
             <MaintenanceDialog

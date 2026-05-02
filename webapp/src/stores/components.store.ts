@@ -60,7 +60,7 @@ interface ModelsUpdatedAction {
 interface SelectedObservationsUpdatedAction {
     type: typeof SELECTED_OBSERVATION_UPDATED;
     payload: {
-        selectedObservation: Observation;
+        selectedObservation: Observation | Partial<Observation>;
     }
 }
 
