@@ -1,5 +1,6 @@
 import { createStore } from 'redux';
 import type { Observation} from "../types/Observation.ts";
+import type { Maintenance } from "../types/Maintenance.ts";
 
 // Define the shape of the state
 export interface AuthState {
@@ -8,10 +9,11 @@ export interface AuthState {
     brands: string[];
     models: string[];
     selectedObservation: object;
+    selectedMaintenance: object;
 }
 
 // Define the initial state
-const initialState: AuthState = { currentUser: '', cars: [], brands: [], models: [], selectedObservation: {}};
+const initialState: AuthState = { currentUser: '', cars: [], brands: [], models: [], selectedObservation: {}, selectedMaintenance: {}};
 
 // Define action types
 const USER_LOGGED_IN = 'USER_LOGGED_IN';
@@ -20,6 +22,7 @@ const CARS_UPDATED = 'CARS_UPDATED';
 const BRANDS_UPDATED = 'BRANDS_UPDATED';
 const MODELS_UPDATED = 'MODELS_UPDATED';
 const SELECTED_OBSERVATION_UPDATED = 'SELECTED_OBSERVATION_UPDATED';
+const SELECTED_MAINTENANCE_UPDATED = 'SELECTED_MAINTENANCE_UPDATED';
 
 // Define action interfaces
 interface UserLoginAction {
@@ -64,8 +67,15 @@ interface SelectedObservationsUpdatedAction {
     }
 }
 
+interface SelectedMaintenanceUpdatedAction {
+    type: typeof SELECTED_MAINTENANCE_UPDATED;
+    payload: {
+        selectedMaintenance: Maintenance | Partial<Maintenance>;
+    }
+}
+
 // Combine action types
-type CounterActionTypes = UserLoginAction | TokenVerifiedAction | CarsUpdatedAction | BrandsUpdatedAction | ModelsUpdatedAction | SelectedObservationsUpdatedAction;
+type CounterActionTypes = UserLoginAction | TokenVerifiedAction | CarsUpdatedAction | BrandsUpdatedAction | ModelsUpdatedAction | SelectedObservationsUpdatedAction | SelectedMaintenanceUpdatedAction;
 
 // Create a reducer function
 const counterReducer = (state = initialState, action: CounterActionTypes): AuthState => {
@@ -78,6 +88,8 @@ const counterReducer = (state = initialState, action: CounterActionTypes): AuthS
             return { ...state, cars: action.payload.cars }
         case SELECTED_OBSERVATION_UPDATED:
             return { ...state, selectedObservation: action.payload.selectedObservation }
+        case SELECTED_MAINTENANCE_UPDATED:
+            return { ...state, selectedMaintenance: action.payload.selectedMaintenance }
         default:
             return state;
     }

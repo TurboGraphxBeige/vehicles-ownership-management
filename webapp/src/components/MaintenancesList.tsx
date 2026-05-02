@@ -20,7 +20,7 @@ interface selectedMaintenanceProps {
     setIsMaintenanceDialogOpened: (value: boolean)=> void;
     isMaintenanceDialogOpened: boolean;
     setSelectedMaintenance: (maintenance: Maintenance) => void;
-    selectedMaintenance: Maintenance | null;
+    //selectedMaintenance: Maintenance | null;
     selectedVehicle: Vehicle;
 
 }
@@ -32,7 +32,7 @@ function MaintenancesList(props: selectedMaintenanceProps) {
         setIsMaintenanceDialogOpened,
         isMaintenanceDialogOpened,
         setSelectedMaintenance,
-        selectedMaintenance,
+        //selectedMaintenance,
         selectedVehicle,
 
     } = props;

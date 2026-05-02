@@ -19,12 +19,14 @@ import type { VehicleComponent } from "../types/VehicleComponent.ts";
 import type { VehicleComponentSystem } from "../types/VehicleComponentSystem.ts";
 import apiService from "../services/api.service.ts";
 import type { Maintenance } from "../types/Maintenance.ts";
+import { useSelector } from 'react-redux';
+import type { AuthState } from '../stores/components.store.ts';
 
 //selectedVehicle={selectedVehicle} selectedMaintenance={selectedMaintenance} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
 
 interface MaintenanceDialogProps {
-    selectedMaintenance: Maintenance | null;
-    setSelectedMaintenance: (maintenance: Maintenance | null) => void;
+    //selectedMaintenance: Maintenance | null;
+    setSelectedMaintenance: () => void;
     isMaintenanceDialogOpened: boolean;
     onClose: () => void;
 
@@ -35,13 +37,13 @@ interface MaintenanceDialogProps {
 function MaintenanceDialog(props: MaintenanceDialogProps ) {
 
     const {
-        selectedMaintenance,
+        //selectedMaintenance,
         setSelectedMaintenance,
         isMaintenanceDialogOpened,
         onClose,
     } = props;
 
-    console.log('selectedMaintenance', selectedMaintenance);
+    //console.log('selectedMaintenance', selectedMaintenance);
     console.log('maintenanceDialog', props)
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
@@ -53,6 +55,7 @@ function MaintenanceDialog(props: MaintenanceDialogProps ) {
     const [notes, setNotes] = React.useState<string | null>(null);
     const [status, setStatus] = React.useState<string | null>(null);
 
+    const selectedMaintenance = useSelector((state: AuthState) => state.selectedMaintenance);
 
     useEffect(()=>  {
         setObservationDate(selectedMaintenance?.observation_date ? dayjs(selectedMaintenance.observation_date) : dayjs() );

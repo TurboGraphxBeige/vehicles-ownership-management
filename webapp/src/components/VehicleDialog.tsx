@@ -105,7 +105,7 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [selectedService, setSelectedService] = React.useState<Service | null>( null );
     //const [selectedObservation, setSelectedObservation] = React.useState<Observation | null>( null );
     const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
-    const [selectedMaintenance, setSelectedMaintenance] = React.useState<Maintenance | null>( null );
+    //const [selectedMaintenance, setSelectedMaintenance] = React.useState<Maintenance | null>( null );
 
 
     useEffect(() => {
@@ -296,7 +296,7 @@ function VehicleDialog(props: VehicleDialogProps) {
 
     const closeMaintenanceDialog = () => {
         setIsMaintenanceDialogOpened(false);
-        setSelectedMaintenance(null);
+        setSelectedMaintenance();
     }
 
     const setSelectedObservation = (observation: Observation | Partial<Observation> = {} ) => {
@@ -305,6 +305,15 @@ function VehicleDialog(props: VehicleDialogProps) {
         authStore.dispatch({
             type: "SELECTED_OBSERVATION_UPDATED",
             payload: { selectedObservation: payload }
+        });
+    }
+
+    const setSelectedMaintenance = (maintenance: Maintenance | Partial<Maintenance> = {} ) => {
+        let payload = maintenance;
+        if (!maintenance) { payload = {} }
+        authStore.dispatch({
+            type: "SELECTED_MAINTENANCE_UPDATED",
+            payload: { selectedMaintenance: payload }
         });
     }
 
@@ -585,7 +594,7 @@ function VehicleDialog(props: VehicleDialogProps) {
                                     <Typography>Add</Typography>
                                 </Button>
                                     <MaintenancesList
-                                        selectedMaintenance={selectedMaintenance}
+                                        //selectedMaintenance={selectedMaintenance}
                                         selectedService={selectedService}
                                         setSelectedMaintenance={ setSelectedMaintenance }
                                         isMaintenanceDialogOpened={isMaintenanceDialogOpened}
@@ -636,8 +645,8 @@ function VehicleDialog(props: VehicleDialogProps) {
                 isObservationDialogOpened={isObservationDialogOpened}
                 onClose={closeObservationDialog}/>
             <MaintenanceDialog
-                selectedMaintenance={selectedMaintenance}
-                setSelectedMaintenance={() => setSelectedMaintenance}
+                //selectedMaintenance={selectedMaintenance}
+                setSelectedMaintenance={setSelectedMaintenance}
                 isMaintenanceDialogOpened={isMaintenanceDialogOpened}
                 onClose={closeMaintenanceDialog}/>
             <ConfirmDelete
