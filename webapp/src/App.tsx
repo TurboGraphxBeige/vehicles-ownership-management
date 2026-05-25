@@ -12,7 +12,7 @@ import type { AuthState } from "./stores/components.store.ts";
 
 function App() {
     const currentUser = useSelector((state: AuthState) => state.currentUser)
-    const [initializing, setInitializing] = useState(true); // Step 1: Initializing state
+    const [initializing, setInitializing] = useState(true);
     const token: string | null = localStorage.getItem('token')
     //const refreshToken: string | null = localStorage.getItem('refreshToken')
 

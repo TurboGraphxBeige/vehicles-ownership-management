@@ -39,7 +39,6 @@ interface ServiceDialogProps {
     isServiceDialogOpened: boolean;
     onClose: () => void;
     contacts: Contact[];
-
 }
 
 
@@ -148,6 +147,9 @@ function ServiceDialog(props: ServiceDialogProps ) {
                 sx={{
                     '& .MuiDialog-paper': {
                         width: '75%',
+                        transform: 'translate(40px, 60px)',
+                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+                        elevation: 8,
                         maxWidth: 'none', // Important to override default constraints
                         margin: '0 auto'  // Centers the dialog
                     }

@@ -449,8 +449,8 @@ function VehicleDialog(props: VehicleDialogProps) {
                             >
 
                                 <Tab label='Services' value='Services'/>
-                                <Tab label='Observations' value='Observations'/>
-                                <Tab label='Maintenances' value='Maintenances'/>
+                                 {/*<Tab label='Observations' value='Observations'/>*/}
+                                {/*<Tab label='Maintenances' value='Maintenances'/>*/}
                                 <Tab label='Photos' value='Photos'/>
                             </Tabs>
                         </Box>
