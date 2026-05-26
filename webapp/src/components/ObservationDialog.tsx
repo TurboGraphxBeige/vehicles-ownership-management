@@ -145,10 +145,10 @@ function ObservationDialog(props: ObservationDialogProps ) {
 
         if (selectedVehicle) { fd.append('vehicle_id', selectedVehicle.vehicle_id as string) }
         if (selectedService) { fd.append('service_id', selectedService.service_id as string) }
-        if (estimatedCost !== undefined) { fd.append('estimated_cost', estimatedCost) }
+        if (estimatedCost !== undefined) { fd.append('estimated_cost', estimatedCost.toString()) }
         if (description) { fd.append('description', description) }
         if (priority) { fd.append('priority', priority) }
-        if (observationDate) { fd.append('observation_date', observationDate) }
+        if (observationDate) { fd.append('observation_date', observationDate.toString()) }
         if (status) {fd.append('status', status) }
         // if (selectedFile) fd.append('file', selectedFile)
 
