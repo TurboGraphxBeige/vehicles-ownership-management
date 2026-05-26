@@ -13,7 +13,7 @@ import type {Observation} from "../types/Observation.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
 
 interface selectedObservationProps {
-    selectedService: Service | null;
+    selectedService: Partial<Service | null>;
     setIsObservationDialogOpened: (value: boolean) => void;
     isObservationDialogOpened: boolean;
     setSelectedObservation: (observation: Observation) => void;

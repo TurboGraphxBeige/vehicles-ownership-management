@@ -13,7 +13,7 @@ import type {Maintenance} from "../types/Maintenance.ts";
 import type {Vehicle} from "../types/Vehicle.ts";
 
 interface selectedMaintenanceProps {
-    selectedService: Service | null;
+    selectedService: Partial<Service | null>;
     closeMaintenanceDialog: () => void;
     setIsMaintenanceDialogOpened: (value: boolean)=> void;
     isMaintenanceDialogOpened: boolean;

@@ -1,6 +1,7 @@
 import { createStore } from 'redux';
 import type { Observation} from "../types/Observation.ts";
 import type { Maintenance } from "../types/Maintenance.ts";
+import type { Service } from "../types/Service.ts";
 
 // Define the shape of the state
 export interface AuthState {
@@ -10,10 +11,11 @@ export interface AuthState {
     models: string[];
     selectedObservation: object;
     selectedMaintenance: object;
+    selectedService: object;
 }
 
 // Define the initial state
-const initialState: AuthState = { currentUser: '', cars: [], brands: [], models: [], selectedObservation: {}, selectedMaintenance: {}};
+const initialState: AuthState = { currentUser: '', cars: [], brands: [], models: [], selectedObservation: {}, selectedMaintenance: {}, selectedService: {}};
 
 // Define action types
 const USER_LOGGED_IN = 'USER_LOGGED_IN';
@@ -23,6 +25,7 @@ const BRANDS_UPDATED = 'BRANDS_UPDATED';
 const MODELS_UPDATED = 'MODELS_UPDATED';
 const SELECTED_OBSERVATION_UPDATED = 'SELECTED_OBSERVATION_UPDATED';
 const SELECTED_MAINTENANCE_UPDATED = 'SELECTED_MAINTENANCE_UPDATED';
+const SELECTED_SERVICE_UPDATED = 'SELECTED_SERVICE_UPDATED';
 
 // Define action interfaces
 interface UserLoginAction {
@@ -74,8 +77,15 @@ interface SelectedMaintenanceUpdatedAction {
     }
 }
 
+interface SelectedServiceUpdatedAction {
+    type: typeof SELECTED_SERVICE_UPDATED;
+    payload: {
+        selectedService: Service | Partial<Service>;
+    }
+}
+
 // Combine action types
-type CounterActionTypes = UserLoginAction | TokenVerifiedAction | CarsUpdatedAction | BrandsUpdatedAction | ModelsUpdatedAction | SelectedObservationsUpdatedAction | SelectedMaintenanceUpdatedAction;
+type CounterActionTypes = UserLoginAction | TokenVerifiedAction | CarsUpdatedAction | BrandsUpdatedAction | ModelsUpdatedAction | SelectedObservationsUpdatedAction | SelectedMaintenanceUpdatedAction | SelectedServiceUpdatedAction;
 
 // Create a reducer function
 const counterReducer = (state = initialState, action: CounterActionTypes): AuthState => {
@@ -90,6 +100,8 @@ const counterReducer = (state = initialState, action: CounterActionTypes): AuthS
             return { ...state, selectedObservation: action.payload.selectedObservation }
         case SELECTED_MAINTENANCE_UPDATED:
             return { ...state, selectedMaintenance: action.payload.selectedMaintenance }
+        case SELECTED_SERVICE_UPDATED:
+            return { ...state, selectedService: action.payload.selectedService }
         default:
             return state;
     }

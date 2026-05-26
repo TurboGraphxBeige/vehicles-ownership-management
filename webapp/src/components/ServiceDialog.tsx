@@ -34,14 +34,14 @@ import Typography from "@mui/material/Typography";
 
 interface ServiceDialogProps {
     selectedVehicle: Vehicle;
-    selectedService: Service | null;
+    selectedService: Partial<Service> | null;
     setSelectedObservation: () => void;
     setSelectedMaintenance: () => void;
-    setIsObservationDialogOpened: () => void;
+    setIsObservationDialogOpened: (value: boolean) => void;
     isObservationDialogOpened: boolean;
-    setIsMaintenanceDialogOpened: () => void;
+    setIsMaintenanceDialogOpened: (value: boolean) => void;
     isMaintenanceDialogOpened: boolean;
-    setSelectedService: (service: Service | null) => void;
+    setSelectedService: (service: Partial<Service> | undefined) => void;
     isServiceDialogOpened: boolean;
     onClose: () => void;
     contacts: Contact[];

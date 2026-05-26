@@ -19,7 +19,7 @@ interface selectedVehicleProps {
     setIsServiceDialogOpened: (value: boolean)=> void;
     isServiceDialogOpened: boolean;
     setSelectedService: (service: Service) => void;
-    selectedService: Service | null;
+    selectedService: Partial<Service | null>;
 
 }
 

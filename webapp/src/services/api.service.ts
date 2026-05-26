@@ -313,7 +313,23 @@ const apiService = {
         return response
     },
 
+    async newObservation (data: FormData) {
+        if (!localStorage.token) {
+            throw new Error('Invalid token')
+        }
 
+        const vehicle_id: string = data.get('vehicle_id') as string
+        if (!vehicle_id) { throw new Error('vehicle_id is required') }
+        const response = await axios.post(`${getAPIUrl()}/vehicles/${encodeURIComponent(vehicle_id)}/observations`,
+            data,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + localStorage.token,
+                },
+            })
+        return response
+    },
 }
 
 export default apiService;

@@ -56,6 +56,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
 
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const selectedObservation: Partial<Observation> = useSelector((state: AuthState) => state.selectedObservation);
+    const selectedService: Partial<Service> = useSelector((state: AuthState) => state.selectedService);
     const [observationDate, setObservationDate] = React.useState<Dayjs>();
     const [observation] = React.useState<string | undefined>(selectedObservation.observation_id);
     //const [service, setService] = React.useState<string | undefined>(selectedObservation.service_id);
@@ -68,7 +69,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
     //const [vehicle] = React.useState<string | undefined>();
 
 
-    console.log('selectedObservationtest' , selectedObservation)
+    console.log('selectedServicetest' , selectedService)
 
     useEffect(()=>  {
         //setObservationDate(selectedObservation?.observation_date ? dayjs(selectedObservation.observation_date) : dayjs() );
@@ -123,7 +124,6 @@ function ObservationDialog(props: ObservationDialogProps ) {
         if (status) { data.status = status }
         if (observationDate) { data.observation_date = observationDate }
 
-
         if (selectedObservation.observation_id) {
             const res = await apiService.updateObservation(selectedVehicle.vehicle_id, selectedObservation.observation_id, data)
             console.log('updateObservation res', res)
@@ -137,26 +137,22 @@ function ObservationDialog(props: ObservationDialogProps ) {
                 onClose()
             }
         }
-
-
-
-
     }
 
 
     const handleAddButon = async () => {
         const fd = new FormData();
 
-        // if (selectedVehicle) { fd.append('vehicle_id', selectedVehicle.vehicle_id) }
-        // if (selectedContact) { fd.append('contact_id', selectedContact) }
-        // if (serviceRequestDescription) { fd.append('service_request_description', serviceRequestDescription) }
-        // if (notes) { fd.append('notes', notes) }
-        // if (serviceDate) { fd.append('service_date', serviceDate) }
-        // // if (odometerReading) {fd.append('odometer_reading', odometerReading) }
-        // if (totalCost) { fd.append('total_cost', totalCost) }
+        if (selectedVehicle) { fd.append('vehicle_id', selectedVehicle.vehicle_id as string) }
+        if (selectedService) { fd.append('service_id', selectedService.service_id as string) }
+        if (estimatedCost !== undefined) { fd.append('estimated_cost', estimatedCost) }
+        if (description) { fd.append('description', description) }
+        if (priority) { fd.append('priority', priority) }
+        if (observationDate) { fd.append('observation_date', observationDate) }
+        if (status) {fd.append('status', status) }
         // if (selectedFile) fd.append('file', selectedFile)
 
-        const res = await apiService.newService(fd)
+        const res = await apiService.newObservation(fd)
 
         if (res.status === 201) {
             //fetchVehiclesFromAPI()
@@ -249,7 +245,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
 
                     </Box>
                     <DialogActions>
-                        {selectedObservation !== null ? (
+                        {Object.keys(selectedObservation).length > 0  ? (
                             <Button
                                 color="error"
                                 sx={{mr: 'auto'}}
@@ -267,7 +263,7 @@ function ObservationDialog(props: ObservationDialogProps ) {
                             Cancel
                         </Button>
 
-                        {selectedObservation !== null ? (
+                        {Object.keys(selectedObservation).length > 0 ? (
                             <Button
                                 variant="contained"
                                 color="primary"

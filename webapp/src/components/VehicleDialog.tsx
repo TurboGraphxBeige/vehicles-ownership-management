@@ -51,6 +51,8 @@ import type { Observation } from "../types/Observation.ts"
 import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
 import authStore from "../stores/components.store.ts";
+import { useSelector } from 'react-redux';
+import type { AuthState } from '../stores/components.store.ts';
 
 interface VehicleDialogProps {
     selectedVehicle: Vehicle;
@@ -102,7 +104,8 @@ function VehicleDialog(props: VehicleDialogProps) {
     const [isConfirmDeleteOpened, setIsConfirmDeleteOpened] = React.useState(false);
     const [isServiceDialogOpened, setIsServiceDialogOpened] = React.useState(false);
     const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
-    const [selectedService, setSelectedService] = React.useState<Service | null>( null );
+    const selectedService: Partial<Service> = useSelector((state: AuthState) => state.selectedService);
+    //const [selectedService, setSelectedService] = React.useState<Service | null>( null );
     //const [selectedObservation, setSelectedObservation] = React.useState<Observation | null>( null );
     const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
     //const [selectedMaintenance, setSelectedMaintenance] = React.useState<Maintenance | null>( null );
@@ -291,7 +294,7 @@ function VehicleDialog(props: VehicleDialogProps) {
 
     const closeServiceDialog = () => {
         setIsServiceDialogOpened(false);
-        setSelectedService(null);
+        setSelectedService(undefined);
     }
 
     const closeMaintenanceDialog = () => {
@@ -314,6 +317,15 @@ function VehicleDialog(props: VehicleDialogProps) {
         authStore.dispatch({
             type: "SELECTED_MAINTENANCE_UPDATED",
             payload: { selectedMaintenance: payload }
+        });
+    }
+
+    const setSelectedService = (service: Service | Partial<Service> = {} ) => {
+        let payload = service;
+        if (!service) { payload = {} }
+        authStore.dispatch({
+            type: "SELECTED_SERVICE_UPDATED",
+            payload: { selectedService: payload }
         });
     }
 
@@ -635,9 +647,9 @@ function VehicleDialog(props: VehicleDialogProps) {
                 selectedVehicle={selectedVehicle}
                 contacts={contacts}
                 selectedService={selectedService}
-                setSelectedObservation={setSelectedObservation}
+                setSelectedObservation={ setSelectedObservation }
                 setSelectedMaintenance={setSelectedMaintenance}
-                setSelectedService={() => setSelectedService}
+                setSelectedService={setSelectedService}
                 isServiceDialogOpened={isServiceDialogOpened}
                 setIsObservationDialogOpened={setIsObservationDialogOpened}
                 isObservationDialogOpened={isObservationDialogOpened}

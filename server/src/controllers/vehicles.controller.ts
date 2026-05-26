@@ -48,3 +48,7 @@ export const deleteVehicleImage =  async (req: Request, res: Response, next: Nex
 export const newService =  async (req: Request, res: Response, next: NextFunction) => {
     vehicleService.newService(req, res, next)
 };
+
+export const newObservation =  async (req: Request, res: Response, next: NextFunction) => {
+    vehicleService.newObservation(req, res, next)
+};

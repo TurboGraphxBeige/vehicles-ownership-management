@@ -296,6 +296,27 @@ export class vehicleService {
         }
     }
 
+
+    static async newObservation(req: Request, res: Response, next: NextFunction) {
+        try {
+            const observation = await (Observation as any).create({
+                vehicle_id: req.body.vehicle_id,
+                service_id: req.body.service_id,
+                observation_date: req.body.observation_date,
+                estimated_cost: req.body.estimated_cost,
+                contact_id: req.body.contact_id,
+                description: req.body.description,
+                priority: req.body.priority,
+                status: req.body.status,
+            })
+            res.status(201).json(observation.dataValues);
+        }
+        catch (error) {
+            console.error('Error fetching data from database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
 }
 
 
