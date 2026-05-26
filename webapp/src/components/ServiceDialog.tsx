@@ -26,6 +26,8 @@ import MaintenancesList from "./MaintenancesList.tsx";
 import ObservationsList from "./ObservationsList.tsx";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import {FaPlus} from "react-icons/fa";
+import Typography from "@mui/material/Typography";
 
 
 //selectedVehicle={selectedVehicle} selectedService={selectedService} isServiceDialogOpened={isServiceDialogOpened} closeServiceDialog
@@ -110,6 +112,14 @@ function ServiceDialog(props: ServiceDialogProps ) {
         setServiceDate(dayjs(formattedDate));
         console.log('handleDateTimeChange', selectedServiceDate?.toDate(), formattedDate);
     }
+
+    const handleAddObservation = () => {
+        setIsObservationDialogOpened(true);
+    };
+
+    const handleAddMaintenance = () => {
+        setIsMaintenanceDialogOpened(true);
+    };
 
     const buildDialogTitle = () => {
         //const service_date = selectedService?.service_date || undefined
@@ -231,6 +241,15 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                 {selectedTab === 'Observations' && (
                                     <Box sx={{ width: '100%', height: 500 }}>
                                         <Box sx={{ width: '100%', height: 500 }}>
+                                            <Button
+                                                sx={{marginTop: 1}}
+                                                component="label"
+                                                variant="contained"
+                                                startIcon={<FaPlus  />}
+                                                onClick={handleAddObservation}
+                                            >
+                                                <Typography>Add</Typography>
+                                            </Button>
                                             <ObservationsList
                                                 selectedService={selectedService}
                                                 //selectedObservation={selectedObservation}
@@ -244,6 +263,15 @@ function ServiceDialog(props: ServiceDialogProps ) {
                                 )}
                                 {selectedTab === 'Maintenances' && (
                                     <Box sx={{ width: '100%', height: 500 }}>
+                                        <Button
+                                            sx={{marginTop: 1}}
+                                            component="label"
+                                            variant="contained"
+                                            startIcon={<FaPlus  />}
+                                            onClick={handleAddMaintenance}
+                                        >
+                                            <Typography>Add</Typography>
+                                        </Button>
                                         <MaintenancesList
                                             selectedService={selectedService}
                                             setSelectedMaintenance={ setSelectedMaintenance }
