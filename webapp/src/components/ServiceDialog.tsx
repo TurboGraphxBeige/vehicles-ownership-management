@@ -37,6 +37,10 @@ interface ServiceDialogProps {
     selectedService: Service | null;
     setSelectedObservation: () => void;
     setSelectedMaintenance: () => void;
+    setIsObservationDialogOpened: () => void;
+    isObservationDialogOpened: boolean;
+    setIsMaintenanceDialogOpened: () => void;
+    isMaintenanceDialogOpened: boolean;
     setSelectedService: (service: Service | null) => void;
     isServiceDialogOpened: boolean;
     onClose: () => void;
@@ -52,7 +56,11 @@ function ServiceDialog(props: ServiceDialogProps ) {
         selectedService,
         setSelectedObservation,
         setSelectedMaintenance,
+        setIsObservationDialogOpened,
+        setIsMaintenanceDialogOpened,
+        isMaintenanceDialogOpened,
         isServiceDialogOpened,
+        isObservationDialogOpened,
         onClose,
         contacts,
     } = props;
@@ -66,9 +74,9 @@ function ServiceDialog(props: ServiceDialogProps ) {
     const [selectedContact, setSelectedContact] = React.useState<string | undefined>('');
     const [notes, setNotes] = React.useState<string | undefined>('');
     const [serviceRequestDescription, setServiceRequestDescription] = React.useState<string | undefined>('');
-    const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
+    //const [isMaintenanceDialogOpened, setIsMaintenanceDialogOpened] = React.useState(false);
    // const [selectedMaintenance, setSelectedMaintenance] = React.useState<Service | null>( null );
-    const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
+    //const [isObservationDialogOpened, setIsObservationDialogOpened] = React.useState(false);
     //const [selectedObservation, setSelectedObservation] = React.useState<Service | null>( null );
 
     useEffect(()=>  {
@@ -115,6 +123,7 @@ function ServiceDialog(props: ServiceDialogProps ) {
 
     const handleAddObservation = () => {
         setIsObservationDialogOpened(true);
+        console.log('handleAddObservation')
     };
 
     const handleAddMaintenance = () => {
